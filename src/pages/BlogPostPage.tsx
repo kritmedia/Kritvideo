@@ -230,6 +230,50 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
                 </p>
               ))}
 
+              {/* Inline Section Image */}
+              {section.image && (
+                <div className="my-8 rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950 shadow-xl">
+                  <img
+                    src={section.image.url}
+                    alt={section.image.caption}
+                    className="w-full h-64 sm:h-80 md:h-96 object-cover"
+                    loading="lazy"
+                  />
+                  <div className="p-3 text-xs font-mono-tech text-neutral-400 bg-neutral-900/90 border-t border-neutral-800 text-center flex items-center justify-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                    <span>{section.image.caption}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Data / Comparison Table */}
+              {section.table && (
+                <div className="my-8 overflow-x-auto rounded-2xl border border-neutral-800 bg-neutral-950/90 shadow-xl">
+                  <table className="w-full text-left border-collapse text-sm">
+                    <thead className="bg-neutral-900/95 text-xs font-mono-tech uppercase text-amber-400 border-b border-neutral-800">
+                      <tr>
+                        {section.table.headers.map((h, hIdx) => (
+                          <th key={hIdx} className="px-5 py-4 font-semibold tracking-wider">
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-neutral-900 text-neutral-300 font-sans">
+                      {section.table.rows.map((row, rIdx) => (
+                        <tr key={rIdx} className="hover:bg-neutral-900/40 transition-colors">
+                          {row.map((cell, cIdx) => (
+                            <td key={cIdx} className="px-5 py-4 text-xs sm:text-sm leading-relaxed">
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
               {/* Callout Quote */}
               {section.callout && (
                 <blockquote className="my-8 p-6 sm:p-7 rounded-2xl bg-neutral-950 border-l-4 border-amber-400 border-t border-r border-b border-neutral-800/80 shadow-lg">
