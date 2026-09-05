@@ -274,6 +274,84 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
                 </div>
               )}
 
+              {/* Custom Studio Infographic */}
+              {section.infographic && (
+                <div className="my-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-neutral-950 via-neutral-900/90 to-neutral-950 border border-amber-500/30 shadow-[0_0_35px_rgba(251,191,36,0.08)] relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-neutral-800">
+                      <div>
+                        <span className="px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-[11px] font-mono-tech text-amber-400 uppercase tracking-widest inline-block mb-2">
+                          {section.infographic.badge}
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                          {section.infographic.title}
+                        </h3>
+                        {section.infographic.description && (
+                          <p className="text-xs sm:text-sm text-neutral-400 mt-1 max-w-xl">
+                            {section.infographic.description}
+                          </p>
+                        )}
+                      </div>
+                      
+                      {section.infographic.summaryMetric && (
+                        <div className="p-3 sm:p-4 rounded-2xl bg-black/70 border border-amber-500/25 text-center shrink-0">
+                          <div className="text-xl sm:text-2xl font-extrabold text-amber-400 font-mono-tech">
+                            {section.infographic.summaryMetric.stat}
+                          </div>
+                          <div className="text-[10px] sm:text-[11px] text-neutral-400 uppercase font-mono-tech tracking-wider">
+                            {section.infographic.summaryMetric.label}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {section.infographic.items.map((item, idx) => (
+                        <div
+                          key={idx}
+                          className={`p-4 sm:p-5 rounded-2xl border transition-all ${
+                            item.highlight
+                              ? 'bg-amber-500/10 border-amber-400/50 shadow-[0_0_20px_rgba(251,191,36,0.15)] ring-1 ring-amber-400/20'
+                              : 'bg-neutral-900/60 border-neutral-800 hover:border-neutral-700'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between gap-2 mb-2">
+                            <span className="text-xs font-mono-tech text-neutral-500">
+                              STEP 0{idx + 1}
+                            </span>
+                            {item.tag && (
+                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono-tech uppercase ${
+                                item.highlight 
+                                  ? 'bg-amber-400 text-black font-bold'
+                                  : 'bg-neutral-800 text-neutral-300'
+                              }`}>
+                                {item.tag}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="text-sm sm:text-base font-bold text-white mb-1">
+                            {item.label}
+                          </div>
+
+                          {item.value && (
+                            <div className="text-xs font-mono-tech text-amber-300 mb-2 font-semibold">
+                              {item.value}
+                            </div>
+                          )}
+
+                          <p className="text-xs text-neutral-400 leading-relaxed">
+                            {item.detail}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Callout Quote */}
               {section.callout && (
                 <blockquote className="my-8 p-6 sm:p-7 rounded-2xl bg-neutral-950 border-l-4 border-amber-400 border-t border-r border-b border-neutral-800/80 shadow-lg">

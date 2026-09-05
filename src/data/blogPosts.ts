@@ -11,6 +11,23 @@ export type BlogCategory =
   | 'Creator Growth' 
   | 'Audio Engineering';
 
+export interface BlogInfographic {
+  title: string;
+  badge: string;
+  description?: string;
+  items: {
+    label: string;
+    value?: string;
+    detail: string;
+    highlight?: boolean;
+    tag?: string;
+  }[];
+  summaryMetric?: {
+    stat: string;
+    label: string;
+  };
+}
+
 export interface BlogSection {
   heading?: string;
   subheading?: string;
@@ -23,6 +40,7 @@ export interface BlogSection {
     headers: string[];
     rows: string[][];
   };
+  infographic?: BlogInfographic;
   callout?: {
     title: string;
     quote: string;
@@ -110,6 +128,38 @@ export const BLOG_POSTS: BlogPost[] = [
           url: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80',
           caption: 'Professional studio timelines feature separate layers for dialogue cleaning, foley sound effects, motion graphics, and color nodes.'
         },
+        infographic: {
+          badge: 'POST-PRODUCTION VALUE HIERARCHY',
+          title: 'The 2026 Video Post-Production Cost & Value Spectrum',
+          description: 'How output quality, workflow reliability, and creator time investment change as you move up the post-production ladder.',
+          summaryMetric: {
+            stat: '10+ Hours',
+            label: 'Saved Per Video'
+          },
+          items: [
+            {
+              label: 'Junior Freelancer',
+              value: '$50 - $150 / video',
+              detail: 'Basic jump cuts and simple text overlays. Creator must act as project manager, audio fixer, and quality checker.',
+              highlight: false,
+              tag: 'Budget Starter'
+            },
+            {
+              label: 'Experienced Solo Editor',
+              value: '$200 - $450 / video',
+              detail: 'Solid visual pacing and basic audio leveling. Vulnerable to single-point failure if the editor falls sick or takes time off.',
+              highlight: false,
+              tag: 'Solo Pro'
+            },
+            {
+              label: 'Dedicated Post Studio (KritVideo)',
+              value: '$450 - $900 / video',
+              detail: 'Full creative pipeline: Lead editor + DaVinci color grading + -14 LUFS sound design + Frame.io review with 48h turnaround.',
+              highlight: true,
+              tag: 'Scale & Growth'
+            }
+          ]
+        },
         table: {
           headers: ['Editing Tier', 'Average Cost Per Video', 'Best For', 'Common Drawbacks'],
           rows: [
@@ -146,7 +196,11 @@ export const BLOG_POSTS: BlogPost[] = [
           'Hourly Billing ($25 to $75/hour): In theory, you only pay for the time worked. In practice, you never know what the final invoice will be until it arrives. If the editor takes 16 hours instead of 8 hours, your bill doubles. Hourly billing also rewards slow work: the longer an editor takes, the more money they make.',
           'Per-Video Fixed Rate ($400 to $800/video): This is our favorite model for creators testing a new partnership. You know the exact cost before work starts. If the editor takes extra time to polish the video, your price does not change.',
           'Dedicated Monthly Retainer ($1,850 to $3,500/month): This is best for channels posting 4 to 8 videos every single month. You lock in a dedicated lead editor on your account. You get priority turnaround, guaranteed 48-hour delivery, and consistent communication without having to negotiate price for every single upload.'
-        ]
+        ],
+        image: {
+          url: 'https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=1200&q=80',
+          caption: 'Planning post-production budgets with predictable per-video or monthly studio retainers prevents unexpected project overruns.'
+        }
       },
       {
         heading: '5. The Hidden Costs Most Creators Forget to Count',
@@ -232,8 +286,8 @@ export const BLOG_POSTS: BlogPost[] = [
           ]
         },
         image: {
-          url: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1200&q=80',
-          caption: 'Monitoring the first 30 seconds of your audience retention curve reveals exactly where viewers get bored or confused.'
+          url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+          caption: 'Monitoring audience retention curves and Average Percentage Viewed (APV) in YouTube Studio highlights critical drop-off points.'
         }
       },
       {
@@ -243,7 +297,46 @@ export const BLOG_POSTS: BlogPost[] = [
           'Zone 1: The 30-Second Cliff (0:00 to 0:30). This is where the steepest cliff happens. Up to 40% of viewers may click away in the first half minute. If you spend 20 seconds saying "Hey guys, welcome back to the channel, don’t forget to subscribe," viewers leave immediately.',
           'Zone 2: The Mid-Video Valley (Minute 3 to Minute 7). Viewers have understood the basic idea of your video. If your pacing slows down or you stay on one camera angle for too long, their attention wanders to the recommended video list on the right.',
           'Zone 3: The Premature Ending Cliff. You say, "In conclusion..." or "That is all for today!" The second you announce that the video is ending, 50% of the remaining audience closes the window before you can tell them to watch your next video.'
-        ]
+        ],
+        infographic: {
+          badge: 'RETENTION CURVE ARCHITECTURE',
+          title: 'The 2026 YouTube Retention Timeline & Drop-Off Zones',
+          description: 'A timeline breakdown of the viewer journey from the initial hook to the seamless outro.',
+          summaryMetric: {
+            stat: '65%+',
+            label: 'Target 30s APV'
+          },
+          items: [
+            {
+              label: 'The Visual Hook',
+              value: '0:00 - 0:05',
+              detail: 'Validate the click immediately. No logo intros or generic welcomes. Show the result or frame high stakes.',
+              highlight: true,
+              tag: 'Critical Gate'
+            },
+            {
+              label: 'Thesis & Outline',
+              value: '0:05 - 0:30',
+              detail: 'Set expectations clearly. Tease the highest-value reveal that happens in the second half of the video.',
+              highlight: false,
+              tag: 'Context Setup'
+            },
+            {
+              label: 'Micro-Pacing Loop',
+              value: '0:30 - 3:00',
+              detail: 'Pattern interrupts every 4 to 6 seconds: camera punches, b-roll overlays, kinetic text, and foley sound effects.',
+              highlight: false,
+              tag: 'Pacing Engine'
+            },
+            {
+              label: 'Seamless Outro',
+              value: 'Ending Seconds',
+              detail: 'Never say goodbye or conclude. Bridge directly into an end-screen recommendation to trigger session watch time.',
+              highlight: true,
+              tag: 'Binge Trigger'
+            }
+          ]
+        }
       },
       {
         heading: '4. Five Editing Fixes to Boost Your Watch Time Immediately',
@@ -281,6 +374,10 @@ export const BLOG_POSTS: BlogPost[] = [
           'Formula #3: The Contrarian Mystery Hook. Say something that contradicts conventional wisdom: "Almost every YouTuber tells you to upload 3 times a week. We cut our uploads to once a month, and our channel views tripled. Here is why."',
           'Formula #4: The Direct Question Hook. Ask a question your target viewer has asked themselves this week: "Have you ever spent 12 hours editing a video, only for it to get 84 views? Here is the single mistake you made."'
         ],
+        image: {
+          url: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80',
+          caption: 'Visual framing, camera transitions, and dynamic pacing capture viewers within the first critical seconds of video playback.'
+        },
         bulletPoints: [
           'Never use animated intro logos: they cost you 15% to 25% of viewers immediately',
           'Keep your opening sentence under 12 words for maximum impact',
@@ -382,6 +479,45 @@ export const BLOG_POSTS: BlogPost[] = [
             ['Vertical Micro-Shorts', '12 - 16 Shorts', 'YouTube Shorts, Instagram, TikTok', 'Expands top-of-funnel reach to new viewers'],
             ['Executive Quote Cards', '6 - 8 Graphics', 'Twitter / X, LinkedIn Carousel', 'Maintains daily brand presence with zero effort']
           ]
+        },
+        infographic: {
+          badge: 'FOUNDER MULTI-PLATFORM ENGINE',
+          title: 'The 1-Hour to 30-Day Video Transformation Engine',
+          description: 'How a single 60-minute executive recording session systematically branches into 22+ high-performing assets.',
+          summaryMetric: {
+            stat: '22+ Assets',
+            label: 'From 1 Raw Hour'
+          },
+          items: [
+            {
+              label: 'Raw 60-Min Ingest',
+              value: 'Stage 01',
+              detail: 'Founder answers 3 customer questions in one calendar block. Uploads raw video to cloud drive with zero self-editing.',
+              highlight: false,
+              tag: 'Executive Input'
+            },
+            {
+              label: 'Cornerstone YouTube Episode',
+              value: 'Stage 02',
+              detail: '15-20 min high-retention authority cut. Multi-cam sync, -14 LUFS dialogue cleaning, and DaVinci color grade.',
+              highlight: true,
+              tag: 'Long-Form Core'
+            },
+            {
+              label: '8x LinkedIn Thought Leadership',
+              value: 'Stage 03',
+              detail: '60-90s contextual video cuts formatted in 4:5 / 16:9 with bespoke enterprise branding and high-contrast subtitles.',
+              highlight: false,
+              tag: 'B2B Inbound'
+            },
+            {
+              label: '12x Vertical Shorts & Reels',
+              value: 'Stage 04',
+              detail: 'Punchy 30-45s vertical extracts with kinetic captions and pattern interrupts for YouTube Shorts, Reels, and TikTok.',
+              highlight: false,
+              tag: 'Viral Reach'
+            }
+          ]
         }
       },
       {
@@ -420,6 +556,10 @@ export const BLOG_POSTS: BlogPost[] = [
           'Item 2: One Key Light at a 45-Degree Angle ($50 to $80). Place a small softbox or LED light panel slightly to the left or right of your computer screen, angled down at your face. This creates flattering depth and removes dark shadows under your eyes.',
           'Item 3: Elevate Your Camera to Eye Level ($0). Never film looking down at your laptop screen—it creates an unflattering angle and shows your ceiling. Stack three books under your laptop or webcam so the lens is level with your pupils.'
         ],
+        image: {
+          url: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
+          caption: 'A clean desk setup with a dedicated dynamic microphone and eye-level camera creates a crisp, distraction-free executive video aesthetic.'
+        },
         bulletPoints: [
           'Dynamic microphone: Samson Q2U or Shure MV7X ($70 - $150)',
           'Soft LED light: Elgato Key Light Air or Neewer 660 ($60 - $90)',
@@ -537,6 +677,38 @@ export const BLOG_POSTS: BlogPost[] = [
             ['Management Friction', 'High (You manage everything)', 'Medium (Account managers)', 'Low (Direct Frame.io workflow)'],
             ['Monthly Investment', '$300 - $1,200', '$5,000 - $15,000', '$1,850 - $3,500']
           ]
+        },
+        infographic: {
+          badge: 'OPERATIONAL SCORECARD',
+          title: 'Post-Production Models: Time Spent & Creative Stress',
+          description: 'A side-by-side comparison of creator workload, review friction, and delivery turnaround across the three models.',
+          summaryMetric: {
+            stat: '48 Hours',
+            label: 'Guaranteed SLA'
+          },
+          items: [
+            {
+              label: 'Solo Freelancer Model',
+              value: '8+ Hours Overhead',
+              detail: 'Creator manages file transfers, fixes audio issues, verifies stock licenses, and risks missing upload windows during emergencies.',
+              highlight: false,
+              tag: 'High Friction'
+            },
+            {
+              label: 'Traditional Agency Model',
+              value: '5+ Hours Bureaucracy',
+              detail: 'Account reps and multiple middlemen. Slow turnaround (7-14 days) with TV-style pacing not optimized for YouTube algorithms.',
+              highlight: false,
+              tag: 'Slow Velocity'
+            },
+            {
+              label: 'Dedicated Studio (KritVideo)',
+              value: '10 Mins / Video',
+              detail: 'Named lead editor, timecoded Frame.io notes, DaVinci ACES color pipeline, and full studio team redundancy with 48h SLA.',
+              highlight: true,
+              tag: 'Maximum Leverage'
+            }
+          ]
         }
       },
       {
@@ -585,7 +757,11 @@ export const BLOG_POSTS: BlogPost[] = [
           'Step 1: Create a Style Folder. Send your editor 3 YouTube videos that represent your ideal visual style. Point out what you love: "Notice how they use sound effects here" or "Notice how clean their text looks."',
           'Step 2: Provide Brand Assets. Share your brand fonts, color hex codes, vector logos, and intro/outro preferences in a shared cloud folder.',
           'Step 3: Establish a Consistent Upload Routine. Agree on a set filming day and delivery day. For example: you upload raw files every Tuesday evening; your editor delivers the polished cut every Thursday afternoon. Consistency removes stress for everyone.'
-        ]
+        ],
+        image: {
+          url: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80',
+          caption: 'Clear creative briefs, reference timelines, and structured onboarding prevent communication friction and guarantee consistent quality.'
+        }
       },
       {
         heading: '9. Ready to Upgrade Your Post-Production?',
@@ -662,6 +838,52 @@ export const BLOG_POSTS: BlogPost[] = [
             ['Foley & Sound Effects', '-16 to -12 dBFS', 'High-Pass + Stereo Pan', 'Emphasizes visual transitions'],
             ['Final Master Output', '-14.0 LUFS (-1.0 dBTP ceiling)', 'Brickwall Limiter', 'Meets YouTube broadcast standard']
           ]
+        },
+        infographic: {
+          badge: 'FAIRLIGHT MASTERING CHAIN',
+          title: 'The 5-Stage Broadcast Audio Signal Chain',
+          description: 'How raw microphone recordings are cleaned, equalized, leveled, and brickwall-limited for YouTube playback.',
+          summaryMetric: {
+            stat: '-14.0 LUFS',
+            label: 'True Peak -1.0 dB'
+          },
+          items: [
+            {
+              label: 'Stage 01: Low Cut (HPF)',
+              value: '80 Hz Filter',
+              detail: 'Removes deep desk vibrations, traffic rumbles, and air conditioning hum before compression kicks in.',
+              highlight: false,
+              tag: 'Cleaning'
+            },
+            {
+              label: 'Stage 02: Surgical Voice EQ',
+              value: 'De-Mud & Air',
+              detail: 'Cuts muddy 300-500 Hz boominess while adding a silky 3.5 kHz sheen for effortless dialogue intelligibility.',
+              highlight: false,
+              tag: 'Clarity'
+            },
+            {
+              label: 'Stage 03: Vocal Compressor',
+              value: '3:1 Ratio',
+              detail: 'Smooths out whispers and shouts into a tight, consistent vocal presence with fast 20ms attack time.',
+              highlight: false,
+              tag: 'Dynamics'
+            },
+            {
+              label: 'Stage 04: Sidechain Auto-Ducker',
+              value: '-3.5 dB Duck',
+              detail: 'Background music automatically ducks whenever dialogue is spoken and rises smoothly during natural pauses.',
+              highlight: false,
+              tag: 'Balance'
+            },
+            {
+              label: 'Stage 05: True Peak Limiter',
+              value: '-1.0 dBTP / -14 LUFS',
+              detail: 'Sets an unbreachable ceiling to eliminate digital clipping and inter-sample peaks across phone and TV speakers.',
+              highlight: true,
+              tag: 'Master Standard'
+            }
+          ]
         }
       },
       {
@@ -695,6 +917,10 @@ export const BLOG_POSTS: BlogPost[] = [
           'Before you spend a single dollar on a new microphone, try the "Clap Test": stand in the middle of your recording room and clap your hands once loudly. If you hear a sharp, metallic "twang" or ringing echo, your room is destroying your sound.',
           'You do not need ugly acoustic foam panels to fix this. You just need soft, porous materials that absorb sound waves before they can bounce back into the microphone.'
         ],
+        image: {
+          url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80',
+          caption: 'Studio headphones and acoustic dampening allow accurate monitoring of subtle background hum, room echo, and vocal dynamics.'
+        },
         bulletPoints: [
           'Place a thick rug or carpet on hard wood or tile floors',
           'Hang a heavy quilt or moving blanket on the wall directly behind your computer',
