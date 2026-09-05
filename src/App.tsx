@@ -1,21 +1,21 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, Suspense } from 'react';
 import { ArrowUpRight, Play } from 'lucide-react';
-import Logo from './components/Logo';
 import Header from './components/Header';
 import VideoCursor from './components/VideoCursor';
 import InteractiveProcessCards from './components/InteractiveProcessCards';
-import ScrollRevealNarrative from './components/ScrollRevealNarrative';
 import SectionServices from './components/SectionServices';
 import SectionWhyUs from './components/SectionWhyUs';
 import SectionOurWork from './components/SectionOurWork';
 import SectionTestimonials from './components/SectionTestimonials';
 import SectionFAQ from './components/SectionFAQ';
 import SectionFinalCTAAndFooter from './components/SectionFinalCTAAndFooter';
-import ServicesPage from './pages/ServicesPage';
-import WorkPage from './pages/WorkPage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
 import ScrollProgressIndicator from './components/ScrollProgressIndicator';
+
+// Code-split subpage bundles with React.lazy
+const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
+const WorkPage = React.lazy(() => import('./pages/WorkPage'));
+const AboutPage = React.lazy(() => import('./pages/AboutPage'));
+const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 
 const TOTAL_HERO_FRAMES = 240;
 const TOTAL_SECOND_FRAMES = 239;
@@ -33,15 +33,12 @@ const getSecondAnimationPath = (index: number) => {
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const heroContainerRef = useRef<HTMLDivElement | null>(null);
-  const heroImagesRef = useRef<HTMLImageElement[]>([]);
-  const secondImagesRef = useRef<HTMLImageElement[]>([]);
+  const heroImagesRef = useRef<(HTMLImageElement | null)[]>(new Array(TOTAL_HERO_FRAMES).fill(null));
+  const secondImagesRef = useRef<(HTMLImageElement | null)[]>(new Array(TOTAL_SECOND_FRAMES).fill(null));
 
   const targetProgressRef = useRef<number>(0);
   const currentProgressRef = useRef<number>(0);
   const animationFrameIdRef = useRef<number | null>(null);
-
-  const [activeNav, setActiveNav] = useState('HOME');
-  const [isScrolled, setIsScrolled] = useState(false);
 
   const [currentPath, setCurrentPath] = useState<string>(() => {
     if (typeof window !== 'undefined') {
@@ -161,8 +158,51 @@ export default function App() {
     }
   };
 
+  // Helper to load an individual hero frame on demand
+  const loadHeroFrame = useCallback((frameNumber: number, highPriority = false) => {
+    const idx = frameNumber - 1;
+    if (idx < 0 || idx >= TOTAL_HERO_FRAMES) return;
+    if (!heroImagesRef.current[idx]) {
+      const img = new Image();
+      if (highPriority) {
+        (img as any).fetchPriority = 'high';
+      }
+      img.src = getHeroFramePath(frameNumber);
+      heroImagesRef.current[idx] = img;
+    }
+  }, []);
+
+  // Helper to load an individual second animation frame on demand
+  const loadSecondFrame = useCallback((frameNumber: number) => {
+    const idx = frameNumber - 1;
+    if (idx < 0 || idx >= TOTAL_SECOND_FRAMES) return;
+    if (!secondImagesRef.current[idx]) {
+      const img = new Image();
+      img.src = getSecondAnimationPath(frameNumber);
+      secondImagesRef.current[idx] = img;
+    }
+  }, []);
+
+  // Helper to prefetch a range of hero frames
+  const prefetchHeroRange = useCallback((start: number, end: number) => {
+    const s = Math.max(1, start);
+    const e = Math.min(TOTAL_HERO_FRAMES, end);
+    for (let i = s; i <= e; i++) {
+      loadHeroFrame(i);
+    }
+  }, [loadHeroFrame]);
+
+  // Helper to prefetch a range of second animation frames
+  const prefetchSecondRange = useCallback((start: number, end: number) => {
+    const s = Math.max(1, start);
+    const e = Math.min(TOTAL_SECOND_FRAMES, end);
+    for (let i = s; i <= e; i++) {
+      loadSecondFrame(i);
+    }
+  }, [loadSecondFrame]);
+
   // Helper to retrieve nearest loaded frame from a sequence
-  const getLoadedImageFrom = useCallback((images: HTMLImageElement[], total: number, index: number): HTMLImageElement | null => {
+  const getLoadedImageFrom = useCallback((images: (HTMLImageElement | null)[], total: number, index: number): HTMLImageElement | null => {
     if (!images || images.length === 0) return null;
     const clampedIndex = Math.max(1, Math.min(total, index)) - 1;
     const direct = images[clampedIndex];
@@ -170,11 +210,11 @@ export default function App() {
 
     for (let offset = 1; offset < total; offset++) {
       const left = clampedIndex - offset;
-      if (left >= 0 && images[left] && images[left].complete && images[left].naturalWidth > 0) {
+      if (left >= 0 && images[left] && images[left]!.complete && images[left]!.naturalWidth > 0) {
         return images[left];
       }
       const right = clampedIndex + offset;
-      if (right < total && images[right] && images[right].complete && images[right].naturalWidth > 0) {
+      if (right < total && images[right] && images[right]!.complete && images[right]!.naturalWidth > 0) {
         return images[right];
       }
     }
@@ -215,12 +255,11 @@ export default function App() {
       ctx.globalAlpha = 1.0;
     };
 
-    // SEQUENCE 1: Hero (Photographer, 240 frames): Progress 0.0 -> 0.48 (Plays across Section 1 & Section 2 till end of 2nd section)
-    // TRANSITION: Crossfade 0.48 -> 0.52 (Seamless dissolve as Section 3 enters)
-    // SEQUENCE 2: 2nd Animation (239 frames): Progress 0.52 -> 1.0 (Plays across Section 3 & Section 4 till end of 4th section)
+    // SEQUENCE 1: Hero (Photographer, 240 frames): Progress 0.0 -> 0.48
+    // TRANSITION: Crossfade 0.48 -> 0.52
+    // SEQUENCE 2: 2nd Animation (239 frames): Progress 0.52 -> 1.0
 
     if (progress <= 0.48) {
-      // Pure 1st Animation (Plays all 240 frames across Sections 1 & 2)
       const heroFrame = Math.min(
         TOTAL_HERO_FRAMES,
         Math.max(1, Math.round((progress / 0.48) * (TOTAL_HERO_FRAMES - 1)) + 1)
@@ -228,7 +267,6 @@ export default function App() {
       const img = getLoadedImageFrom(heroImagesRef.current, TOTAL_HERO_FRAMES, heroFrame);
       if (img) drawCoverImage(img, 1.0);
     } else if (progress > 0.48 && progress < 0.52) {
-      // Seamless Cinematic Crossfade between 1st Animation ending and 2nd Animation starting
       const crossfade = (progress - 0.48) / 0.04;
       const heroImg = getLoadedImageFrom(heroImagesRef.current, TOTAL_HERO_FRAMES, TOTAL_HERO_FRAMES);
       const secondImg = getLoadedImageFrom(secondImagesRef.current, TOTAL_SECOND_FRAMES, 1);
@@ -236,7 +274,6 @@ export default function App() {
       if (heroImg) drawCoverImage(heroImg, 1.0 - crossfade);
       if (secondImg) drawCoverImage(secondImg, crossfade);
     } else {
-      // 2nd Animation (Plays all 239 frames across Section 3 Services & Section 4 Why Us)
       const secondProgress = (progress - 0.52) / (1.0 - 0.52);
       const secondFrame = Math.min(
         TOTAL_SECOND_FRAMES,
@@ -244,54 +281,68 @@ export default function App() {
       );
       const img = getLoadedImageFrom(secondImagesRef.current, TOTAL_SECOND_FRAMES, secondFrame);
       if (img) {
-        // Smoothly crossfade canvas to pure black as Section 4 completes (progress 0.85 -> 0.98)
         const alpha = progress > 0.85 ? Math.max(0, (0.98 - progress) / 0.13) : 1.0;
         drawCoverImage(img, alpha);
       }
     }
   }, [getLoadedImageFrom]);
 
-  // Preload both sequence sets (Hero photographer + 2nd Animation)
+  // Progressive, non-blocking frame preloading strategy
   useEffect(() => {
     let isMounted = true;
 
-    // 1. Preload Hero Frames
-    const heroImgs: HTMLImageElement[] = [];
-    for (let i = 1; i <= TOTAL_HERO_FRAMES; i++) {
-      const img = new Image();
-      img.src = getHeroFramePath(i);
-      heroImgs.push(img);
-    }
-    heroImagesRef.current = heroImgs;
+    // 1. Instantly request Frame 1 with high priority
+    loadHeroFrame(1, true);
 
-    // 2. Preload 2nd Animation Frames
-    const secondImgs: HTMLImageElement[] = [];
-    for (let i = 1; i <= TOTAL_SECOND_FRAMES; i++) {
-      const img = new Image();
-      img.src = getSecondAnimationPath(i);
-      secondImgs.push(img);
-    }
-    secondImagesRef.current = secondImgs;
-
-    // Trigger initial frame draw once canvas is ready
+    const firstImg = heroImagesRef.current[0];
     const handleInitialLoad = () => {
       if (isMounted) drawCompositeFrame(0);
+      // 2. Buffer next 10 frames after Frame 1 has loaded
+      prefetchHeroRange(2, 12);
     };
 
-    if (heroImgs[0]) {
-      if (heroImgs[0].complete) {
+    if (firstImg) {
+      if (firstImg.complete && firstImg.naturalWidth > 0) {
         handleInitialLoad();
       } else {
-        heroImgs[0].onload = handleInitialLoad;
+        firstImg.onload = handleInitialLoad;
       }
     }
 
+    // 3. Progressive idle background preloading: load 4 frames per idle cycle
+    let currentIdleHero = 13;
+    let idleTimer: any = null;
+
+    const loadNextIdleBatch = () => {
+      if (!isMounted) return;
+      if (currentIdleHero <= TOTAL_HERO_FRAMES) {
+        prefetchHeroRange(currentIdleHero, currentIdleHero + 3);
+        currentIdleHero += 4;
+        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+          idleTimer = (window as any).requestIdleCallback(loadNextIdleBatch, { timeout: 1200 });
+        } else {
+          idleTimer = setTimeout(loadNextIdleBatch, 80);
+        }
+      }
+    };
+
+    // Begin idle loading 1.5s after mount so initial paint, hydration, and fonts finish without contention
+    const initialIdleDelay = setTimeout(() => {
+      loadNextIdleBatch();
+    }, 1500);
+
     return () => {
       isMounted = false;
-      heroImagesRef.current = [];
-      secondImagesRef.current = [];
+      clearTimeout(initialIdleDelay);
+      if (idleTimer) {
+        if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+          (window as any).cancelIdleCallback(idleTimer);
+        } else {
+          clearTimeout(idleTimer);
+        }
+      }
     };
-  }, [drawCompositeFrame]);
+  }, [drawCompositeFrame, loadHeroFrame, prefetchHeroRange]);
 
   // Handle window resizing and Retina/4K DPR synchronization
   const resizeCanvas = useCallback(() => {
@@ -327,7 +378,6 @@ export default function App() {
         const progress = totalDistance > 0 ? scrollY / totalDistance : 0;
         targetProgressRef.current = Math.min(1, Math.max(0, progress));
       }
-      setIsScrolled((window.scrollY || window.pageYOffset || 0) > 40);
     };
 
     const handleResize = () => {
@@ -351,6 +401,26 @@ export default function App() {
         currentProgressRef.current = targetProgressRef.current;
       }
 
+      // Scroll-driven adaptive lookahead prefetching
+      const progress = currentProgressRef.current;
+      if (progress <= 0.48) {
+        const heroFrame = Math.min(
+          TOTAL_HERO_FRAMES,
+          Math.max(1, Math.round((progress / 0.48) * (TOTAL_HERO_FRAMES - 1)) + 1)
+        );
+        prefetchHeroRange(heroFrame - 2, heroFrame + 10);
+        if (progress > 0.35) {
+          prefetchSecondRange(1, 15);
+        }
+      } else {
+        const secondProgress = (progress - 0.52) / (1.0 - 0.52);
+        const secondFrame = Math.min(
+          TOTAL_SECOND_FRAMES,
+          Math.max(1, Math.round(secondProgress * (TOTAL_SECOND_FRAMES - 1)) + 1)
+        );
+        prefetchSecondRange(secondFrame - 2, secondFrame + 10);
+      }
+
       animationFrameIdRef.current = requestAnimationFrame(renderLoop);
     };
 
@@ -365,7 +435,7 @@ export default function App() {
         cancelAnimationFrame(animationFrameIdRef.current);
       }
     };
-  }, [drawCompositeFrame, resizeCanvas]);
+  }, [drawCompositeFrame, resizeCanvas, prefetchHeroRange, prefetchSecondRange]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -376,37 +446,45 @@ export default function App() {
 
   if (currentPath === '/services') {
     return (
-      <div className="relative bg-black text-white selection:bg-white selection:text-black">
-        <VideoCursor />
-        <ServicesPage onNavigate={navigateTo} />
-      </div>
+      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <VideoCursor />
+          <ServicesPage onNavigate={navigateTo} />
+        </div>
+      </Suspense>
     );
   }
 
   if (currentPath === '/work') {
     return (
-      <div className="relative bg-black text-white selection:bg-white selection:text-black">
-        <VideoCursor />
-        <WorkPage onNavigate={navigateTo} />
-      </div>
+      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <VideoCursor />
+          <WorkPage onNavigate={navigateTo} />
+        </div>
+      </Suspense>
     );
   }
 
   if (currentPath === '/about') {
     return (
-      <div className="relative bg-black text-white selection:bg-white selection:text-black">
-        <VideoCursor />
-        <AboutPage onNavigate={navigateTo} />
-      </div>
+      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <VideoCursor />
+          <AboutPage onNavigate={navigateTo} />
+        </div>
+      </Suspense>
     );
   }
 
   if (currentPath === '/contact') {
     return (
-      <div className="relative bg-black text-white selection:bg-white selection:text-black">
-        <VideoCursor />
-        <ContactPage onNavigate={navigateTo} />
-      </div>
+      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <VideoCursor />
+          <ContactPage onNavigate={navigateTo} />
+        </div>
+      </Suspense>
     );
   }
 
@@ -547,20 +625,22 @@ export default function App() {
         <div className="absolute -top-36 inset-x-0 h-36 bg-gradient-to-t from-black via-black/90 to-transparent pointer-events-none" />
 
         {/* SECTION 5 — OUR WORK (Video Showcase Gallery) */}
-        <SectionOurWork />
+        <div style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 1000px' }}>
+          <SectionOurWork />
+        </div>
 
         {/* TESTIMONIALS SECTION (Matching 3-Card Carousel Design) */}
-        <div id="testimonials">
+        <div id="testimonials" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
           <SectionTestimonials />
         </div>
 
         {/* FAQ SECTION (Directly above CTA section) */}
-        <div id="faq">
+        <div id="faq" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
           <SectionFAQ />
         </div>
 
         {/* SECTION 6 — FINAL CTA & FOOTER */}
-        <div id="contact">
+        <div id="contact" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
           <SectionFinalCTAAndFooter onNavigate={navigateTo} />
         </div>
       </div>

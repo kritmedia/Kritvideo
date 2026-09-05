@@ -203,6 +203,8 @@ export default function SectionWhyUs() {
                   <img 
                     src="/editor_frames/editor-frame-030.jpg" 
                     alt="Lead Editor Cut"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover filter contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
@@ -368,6 +370,8 @@ export default function SectionWhyUs() {
                   <img 
                     src="/photographer_frames/ezgif-frame-090.jpg" 
                     alt="Custom Color Grading"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover filter contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />

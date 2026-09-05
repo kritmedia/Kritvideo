@@ -170,6 +170,8 @@ export default function SectionTestimonials() {
                           <img
                             src={item.avatar}
                             alt={item.name}
+                            loading="lazy"
+                            decoding="async"
                             referrerPolicy="no-referrer"
                             className="w-full h-full object-cover"
                           />
@@ -238,6 +240,8 @@ export default function SectionTestimonials() {
                         <img
                           src={item.avatar}
                           alt={item.name}
+                          loading="lazy"
+                          decoding="async"
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover"
                         />

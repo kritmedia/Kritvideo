@@ -408,6 +408,8 @@ export default function SectionOurWork() {
                     <img
                       src={item.thumbnail}
                       alt={item.title}
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover transition-transform duration-700 select-none"
                       style={{
@@ -575,6 +577,8 @@ export default function SectionOurWork() {
                 <img
                   src={activeItem.thumbnail}
                   alt={activeItem.title}
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover"
                 />
@@ -718,6 +722,8 @@ export default function SectionOurWork() {
               <img
                 src={activeItem.thumbnail}
                 alt={activeItem.title}
+                loading="lazy"
+                decoding="async"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover filter contrast-105"
               />
