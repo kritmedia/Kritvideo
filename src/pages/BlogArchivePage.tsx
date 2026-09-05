@@ -182,11 +182,13 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
 
                 <div className="pt-6 border-t border-neutral-800/80 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={featuredPost.author.avatar}
-                      alt={featuredPost.author.name}
-                      className="w-8 h-8 rounded-full object-cover border border-neutral-700"
-                    />
+                    <div className="w-8 h-8 rounded-full overflow-hidden border border-neutral-700 bg-neutral-950 shrink-0 p-0.5">
+                      <img
+                        src={featuredPost.author.avatar}
+                        alt={featuredPost.author.name}
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                    </div>
                     <div>
                       <div className="text-xs font-medium text-white">{featuredPost.author.name}</div>
                       <div className="text-[10px] text-neutral-500 font-mono-tech">{featuredPost.author.role}</div>
@@ -273,11 +275,13 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
                   {/* Footer Author & CTA */}
                   <div className="px-6 pb-6 pt-4 border-t border-neutral-900 flex items-center justify-between text-xs font-mono-tech">
                     <div className="flex items-center gap-2">
-                      <img
-                        src={post.author.avatar}
-                        alt={post.author.name}
-                        className="w-6 h-6 rounded-full object-cover"
-                      />
+                      <div className="w-6 h-6 rounded-full overflow-hidden border border-neutral-700 bg-neutral-950 shrink-0 p-0.5">
+                        <img
+                          src={post.author.avatar}
+                          alt={post.author.name}
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      </div>
                       <span className="text-neutral-400 text-[11px] truncate max-w-[130px]">{post.author.name}</span>
                     </div>
 

@@ -40,6 +40,12 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
   'Sound Design'
 ];
 
+export const KRITVIDEO_EDITORIAL_AUTHOR: BlogAuthor = {
+  name: 'KritVideo Editorial Team',
+  role: 'Lead Post-Production & Retention Specialists',
+  avatar: '/kritvideo-logo.png'
+};
+
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'youtube-retention-editing-guide-2026',
@@ -49,11 +55,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Retention & Pacing',
     publishedAt: 'September 5, 2026',
     readTime: '7 min read',
-    author: {
-      name: 'KritVideo Editorial Team',
-      role: 'Lead Post-Production Strategists',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'
-    },
+    author: KRITVIDEO_EDITORIAL_AUTHOR,
     coverImage: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1400&q=85',
     metaTitle: 'YouTube Retention Editing Playbook 2026 — Hook Architecture & Micro-Pacing | KritVideo',
     metaDescription: 'Learn how to boost YouTube Average Percentage Viewed (APV) past 60%. Master hook architecture, pattern interrupts, and narrative pacing from the editors at KritVideo.',
@@ -117,11 +119,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Color Science',
     publishedAt: 'September 2, 2026',
     readTime: '6 min read',
-    author: {
-      name: 'KritVideo Color Suite',
-      role: 'Senior Colorist & Finishing Artist',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
-    },
+    author: KRITVIDEO_EDITORIAL_AUTHOR,
     coverImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1400&q=85',
     metaTitle: 'DaVinci Resolve ACEScg Color Grading vs LUTs — Studio Finishing | KritVideo',
     metaDescription: 'Why top colorists avoid generic LUTs. Learn how ACEScg wide gamut and Kodak 2383 film print emulation yield rich skin tones and high dynamic range in DaVinci Resolve.',
@@ -177,11 +175,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Shorts & Reels',
     publishedAt: 'August 28, 2026',
     readTime: '5 min read',
-    author: {
-      name: 'KritVideo Shorts Lab',
-      role: 'Short-Form Viral Strategist',
-      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80'
-    },
+    author: KRITVIDEO_EDITORIAL_AUTHOR,
     coverImage: 'https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=1400&q=85',
     metaTitle: 'Short-Form Video Repurposing Framework: 10 Viral Shorts from 1 Longform | KritVideo',
     metaDescription: 'Extract 10+ viral YouTube Shorts and Instagram Reels from any 60-minute raw recording. Discover our hook extraction and 9:16 kinetic typography pipeline.',
@@ -236,11 +230,7 @@ export const BLOG_POSTS: BlogPost[] = [
     category: 'Sound Design',
     publishedAt: 'August 22, 2026',
     readTime: '6 min read',
-    author: {
-      name: 'KritVideo Audio Lab',
-      role: 'Lead Sound Designer & Mix Engineer',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80'
-    },
+    author: KRITVIDEO_EDITORIAL_AUTHOR,
     coverImage: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1400&q=85',
     metaTitle: '-14 LUFS Audio Engineering Standard for Video Creators | KritVideo',
     metaDescription: 'How professional audio mixing and spatial sound design double viewer retention. Master LUFS normalization, dialogue clarity, and foley sound design.',

@@ -47,9 +47,9 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
       "datePublished": "2026-09-01T08:00:00+05:30",
       "dateModified": "2026-09-06T10:00:00+05:30",
       "author": {
-        "@type": "Person",
+        "@type": "Organization",
         "name": post.author.name,
-        "jobTitle": post.author.role
+        "url": "https://kritvideo.com"
       },
       "publisher": {
         "@type": "Organization",
@@ -161,11 +161,13 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
 
           {/* Author Badge */}
           <div className="flex items-center gap-3.5 py-4 border-y border-neutral-900">
-            <img
-              src={post.author.avatar}
-              alt={post.author.name}
-              className="w-11 h-11 rounded-full object-cover border border-neutral-700"
-            />
+            <div className="w-11 h-11 rounded-full overflow-hidden border border-neutral-700 bg-neutral-950 shrink-0 p-0.5">
+              <img
+                src={post.author.avatar}
+                alt={post.author.name}
+                className="w-full h-full object-cover rounded-full"
+              />
+            </div>
             <div>
               <div className="text-sm font-semibold text-white">{post.author.name}</div>
               <div className="text-xs text-neutral-400 font-mono-tech">{post.author.role}</div>
@@ -273,11 +275,13 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
 
         {/* AUTHOR SIGNATURE CARD */}
         <section className="mt-16 p-6 sm:p-8 rounded-2xl bg-neutral-950/80 border border-neutral-800 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
-          <img
-            src={post.author.avatar}
-            alt={post.author.name}
-            className="w-16 h-16 rounded-full object-cover border-2 border-amber-400/40"
-          />
+          <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-amber-400/40 bg-neutral-950 shrink-0 p-1">
+            <img
+              src={post.author.avatar}
+              alt={post.author.name}
+              className="w-full h-full object-cover rounded-full"
+            />
+          </div>
           <div>
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
               <h3 className="text-base font-bold text-white">{post.author.name}</h3>
