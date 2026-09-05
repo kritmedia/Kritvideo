@@ -25,6 +25,7 @@ import Logo from '../components/Logo';
 import Header from '../components/Header';
 import SectionFinalCTAAndFooter from '../components/SectionFinalCTAAndFooter';
 import ScrollProgressIndicator from '../components/ScrollProgressIndicator';
+import SEOHead from '../components/SEOHead';
 import { 
   motion, 
   useScroll, 
@@ -176,7 +177,11 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
 
   return (
     <div className="relative bg-black text-white selection:bg-amber-400 selection:text-black select-none min-h-screen font-sans overflow-x-hidden">
-      
+      <SEOHead
+        title="About Us — Story-Driven Video Post-Production Studio | KritVideo"
+        description="Meet the editors, colorists, and sound designers behind KritVideo. Human craft, DaVinci Resolve precision, and retention-focused storytelling for creators and global brands."
+        canonical="https://kritvideo.com/about"
+      />
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
 

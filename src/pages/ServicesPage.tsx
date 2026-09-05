@@ -36,6 +36,7 @@ import Header from '../components/Header';
 import { submitWixLead } from '../lib/wixClient';
 import SectionFinalCTAAndFooter from '../components/SectionFinalCTAAndFooter';
 import ScrollProgressIndicator from '../components/ScrollProgressIndicator';
+import SEOHead from '../components/SEOHead';
 
 interface ServicesPageProps {
   onNavigate: (path: string) => void;
@@ -335,8 +336,12 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
   const activeService = SERVICES_LIST[activeServiceIndex];
 
   return (
-    <div className="relative bg-black text-white selection:bg-white selection:text-black select-none min-h-screen font-sans">
-      
+    <div className="relative min-h-screen bg-black text-white selection:bg-white selection:text-black overflow-x-hidden font-sans">
+      <SEOHead
+        title="Video Editing Services & Retainer Pricing — KritVideo Studio"
+        description="Transparent pricing and dedicated post-production teams. Single cuts from $490, monthly retainers from $1,850/mo. DaVinci color grading, spatial sound design, and 24-48h turnaround."
+        canonical="https://kritvideo.com/services"
+      />
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
 
@@ -389,7 +394,7 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
 
           {/* Centered Subtitle */}
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-neutral-300 max-w-2xl mx-auto leading-relaxed font-normal">
-            You create the moments. We turn them into videos that reach further, look better and make a bigger impact.
+            Dedicated video editors and colorists for YouTube creators, podcasters, and modern brands. High-retention narrative cuts, DaVinci Resolve color science, and guaranteed 48-hour delivery.
           </p>
 
           {/* Centered Action Buttons */}

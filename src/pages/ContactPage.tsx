@@ -16,6 +16,7 @@ import {
 import Header from '../components/Header';
 import SectionFinalCTAAndFooter from '../components/SectionFinalCTAAndFooter';
 import ScrollProgressIndicator from '../components/ScrollProgressIndicator';
+import SEOHead from '../components/SEOHead';
 
 interface ContactPageProps {
   onNavigate: (path: string) => void;
@@ -125,21 +126,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
     setHeroMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
-  // SEO & AEO Meta updates
   useEffect(() => {
-    document.title = "Contact KritVideo | Video Editing & Post-Production Services";
-
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      metaDesc.setAttribute('name', 'description');
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.setAttribute(
-      'content',
-      'Have a video project in mind? Contact KritVideo for video editing and post-production services. Email hello@kritvideo.com or WhatsApp us directly for a quote.'
-    );
-
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
 
@@ -151,7 +138,11 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
 
   return (
     <div className="relative bg-black text-white selection:bg-amber-400 selection:text-black min-h-screen overflow-x-hidden font-sans">
-      
+      <SEOHead
+        title="Book a Project & Get a Video Quote — 48h Turnaround | KritVideo"
+        description="Start your next video project with KritVideo. Direct WhatsApp chat (+91 7002983079), instant quote estimation, or email hello@kritvideo.com. Fast 48-hour first cut guarantee."
+        canonical="https://kritvideo.com/contact"
+      />
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
 

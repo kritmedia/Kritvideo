@@ -10,6 +10,7 @@ import SectionTestimonials from './components/SectionTestimonials';
 import SectionFAQ from './components/SectionFAQ';
 import SectionFinalCTAAndFooter from './components/SectionFinalCTAAndFooter';
 import ScrollProgressIndicator from './components/ScrollProgressIndicator';
+import SEOHead from './components/SEOHead';
 
 // Code-split subpage bundles with React.lazy
 const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
@@ -497,6 +498,11 @@ export default function App() {
 
   return (
     <div className="relative bg-black text-white selection:bg-white selection:text-black">
+      <SEOHead
+        title="KritVideo — High-Retention Video Editing Studio for Creators & Brands"
+        description="Scale your YouTube channel with dedicated lead video editors. We cut high-retention long-form videos, viral Shorts, and commercial ads with guaranteed 48-hour delivery."
+        canonical="https://kritvideo.com/"
+      />
       <VideoCursor />
       
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
@@ -551,7 +557,7 @@ export default function App() {
             {/* RIGHT COLUMN: Concise purpose statement & modern capsule CTA */}
             <div className="w-full lg:w-5/12 max-w-md space-y-5 lg:text-left">
               <p className="text-xs sm:text-sm font-mono-tech uppercase tracking-wider text-neutral-200 leading-relaxed max-w-sm">
-                Professional video editing for creators and brands. Send us your footage and we'll turn it into a finished video that's ready to publish.
+                High-retention video editing studio for YouTube creators, podcasters, and high-growth brands. Send your raw footage and we'll turn it into algorithm-optimized cuts with guaranteed 48-hour delivery.
               </p>
 
               {/* Modern Capsule CTA */}
@@ -583,7 +589,7 @@ export default function App() {
                 {/* Microcopy */}
                 <div className="flex items-center gap-3 text-[11px] font-mono-tech text-neutral-400">
                   <span className="text-neutral-300">
-                    REAL EDITORS • CLEAR PROCESS • FINISHED VIDEOS
+                    48H DELIVERY • DAVINCI COLOR • UNLIMITED REVISIONS
                   </span>
                 </div>
               </div>

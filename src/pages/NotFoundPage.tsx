@@ -3,6 +3,7 @@ import { ArrowUpRight, Home, Film, MessageCircle } from 'lucide-react';
 import Header from '../components/Header';
 import SectionFinalCTAAndFooter from '../components/SectionFinalCTAAndFooter';
 import FloatingWhatsAppButton from '../components/FloatingWhatsAppButton';
+import SEOHead from '../components/SEOHead';
 
 interface NotFoundPageProps {
   onNavigate: (path: string) => void;
@@ -15,6 +16,12 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
 
   return (
     <div className="relative min-h-screen bg-black text-white selection:bg-white selection:text-black flex flex-col justify-between overflow-x-hidden">
+      <SEOHead
+        title="404: Scene Not Found — KritVideo"
+        description="The page or video you are looking for has been trimmed from our timeline. Return to KritVideo homepage."
+        canonical="https://kritvideo.com/404"
+        noindex={true}
+      />
       {/* Header */}
       <Header currentPath="/404" onNavigate={onNavigate} />
 

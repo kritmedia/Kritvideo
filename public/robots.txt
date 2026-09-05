@@ -1,0 +1,27 @@
+# Robots.txt for KritVideo (https://kritvideo.com)
+
+User-agent: *
+Allow: /
+Disallow: /404
+
+# Major Search & AI Discovery Crawlers (AEO / GEO)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Sitemap Location
+Sitemap: https://kritvideo.com/sitemap.xml
