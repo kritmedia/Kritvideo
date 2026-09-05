@@ -380,7 +380,7 @@ export default function SectionServices() {
           {/* Right Indicator */}
           <div className="text-neutral-300 hidden sm:flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>UNLIMITED REVISIONS ON ALL FORMATS</span>
+            <span>FRAME-ACCURATE REVIEW & RAPID REVISIONS</span>
           </div>
 
         </div>

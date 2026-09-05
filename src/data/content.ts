@@ -179,7 +179,7 @@ export const PRICING_PLANS: PricingPlan[] = [
       '8 vertical short-form reels / TikTok cutdowns',
       'Dedicated senior lead editor & colorist',
       'Priority slack channel & 24h turnaround queues',
-      'Unlimited revisions until 100% satisfaction',
+      'Dedicated revision rounds & priority feedback passes',
       'Custom thumbnails & chapter metadata generation',
       'Raw project file archives & DaVinci DRPs included',
     ],

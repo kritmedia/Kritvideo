@@ -589,7 +589,7 @@ export default function App() {
                 {/* Microcopy */}
                 <div className="flex items-center gap-3 text-[11px] font-mono-tech text-neutral-400">
                   <span className="text-neutral-300">
-                    48H DELIVERY • DAVINCI COLOR • UNLIMITED REVISIONS
+                    48H DELIVERY • DAVINCI COLOR • BESPOKE CRAFT
                   </span>
                 </div>
               </div>
