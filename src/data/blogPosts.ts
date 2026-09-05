@@ -41,7 +41,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
 ];
 
 export const KRITVIDEO_EDITORIAL_AUTHOR: BlogAuthor = {
-  name: 'KritVideo Editorial Team',
+  name: 'The KritVideo Editorial Team',
   role: 'Lead Post-Production & Retention Specialists',
   avatar: '/kritvideo-logo.png'
 };

@@ -282,7 +282,7 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
                           className="w-full h-full object-cover rounded-full"
                         />
                       </div>
-                      <span className="text-neutral-400 text-[11px] truncate max-w-[130px]">{post.author.name}</span>
+                      <span className="text-neutral-400 text-[11px] truncate max-w-[190px] sm:max-w-[220px]">{post.author.name}</span>
                     </div>
 
                     <span className="text-amber-400 inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform text-[11px]">
