@@ -16,6 +16,7 @@ const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
 const WorkPage = React.lazy(() => import('./pages/WorkPage'));
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
 const TOTAL_HERO_FRAMES = 240;
 const TOTAL_SECOND_FRAMES = 239;
@@ -30,6 +31,27 @@ const getSecondAnimationPath = (index: number) => {
   return `/second_animation_frames/ezgif-frame-${paddedIndex}.jpg`;
 };
 
+const normalizePath = (pathname: string, hash: string): string => {
+  const p = (pathname || '').toLowerCase().replace(/\/+$/, '') || '/';
+  const h = (hash || '').toLowerCase();
+
+  // Hash-based overrides (e.g. #/services, #/work)
+  if (h.startsWith('#/services')) return '/services';
+  if (h.startsWith('#/work')) return '/work';
+  if (h.startsWith('#/about')) return '/about';
+  if (h.startsWith('#/contact')) return '/contact';
+
+  // Primary path routing
+  if (p === '/' || p === '') return '/';
+  if (p === '/services') return '/services';
+  if (p === '/work') return '/work';
+  if (p === '/about') return '/about';
+  if (p === '/contact') return '/contact';
+
+  // Any other path is 404
+  return '/404';
+};
+
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const heroContainerRef = useRef<HTMLDivElement | null>(null);
@@ -42,39 +64,14 @@ export default function App() {
 
   const [currentPath, setCurrentPath] = useState<string>(() => {
     if (typeof window !== 'undefined') {
-      const p = window.location.pathname.toLowerCase();
-      const h = window.location.hash.toLowerCase();
-      if (p.startsWith('/services') || h.startsWith('#/services')) {
-        return '/services';
-      }
-      if (p.startsWith('/work') || h.startsWith('#/work')) {
-        return '/work';
-      }
-      if (p.startsWith('/about') || h.startsWith('#/about')) {
-        return '/about';
-      }
-      if (p.startsWith('/contact') || h.startsWith('#/contact')) {
-        return '/contact';
-      }
+      return normalizePath(window.location.pathname, window.location.hash);
     }
     return '/';
   });
 
   useEffect(() => {
     const handleLocationChange = () => {
-      const p = window.location.pathname.toLowerCase();
-      const h = window.location.hash.toLowerCase();
-      if (p.startsWith('/services') || h.startsWith('#/services')) {
-        setCurrentPath('/services');
-      } else if (p.startsWith('/work') || h.startsWith('#/work')) {
-        setCurrentPath('/work');
-      } else if (p.startsWith('/about') || h.startsWith('#/about')) {
-        setCurrentPath('/about');
-      } else if (p.startsWith('/contact') || h.startsWith('#/contact')) {
-        setCurrentPath('/contact');
-      } else {
-        setCurrentPath('/');
-      }
+      setCurrentPath(normalizePath(window.location.pathname, window.location.hash));
     };
     window.addEventListener('popstate', handleLocationChange);
     window.addEventListener('hashchange', handleLocationChange);
@@ -85,9 +82,12 @@ export default function App() {
   }, []);
 
   const navigateTo = (path: string) => {
-    if (path.startsWith('/services')) {
-      const hashIndex = path.indexOf('#');
-      const hash = hashIndex !== -1 ? path.substring(hashIndex) : '';
+    const hashIndex = path.indexOf('#');
+    const hash = hashIndex !== -1 ? path.substring(hashIndex) : '';
+    const basePath = hashIndex !== -1 ? path.substring(0, hashIndex) : path;
+    const targetRoute = normalizePath(basePath, hash);
+
+    if (targetRoute === '/services') {
       window.history.pushState({}, '', '/services' + hash);
       setCurrentPath('/services');
       if (hash) {
@@ -99,9 +99,7 @@ export default function App() {
       } else {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
-    } else if (path.startsWith('/work')) {
-      const hashIndex = path.indexOf('#');
-      const hash = hashIndex !== -1 ? path.substring(hashIndex) : '';
+    } else if (targetRoute === '/work') {
       window.history.pushState({}, '', '/work' + hash);
       setCurrentPath('/work');
       if (hash) {
@@ -113,9 +111,7 @@ export default function App() {
       } else {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
-    } else if (path.startsWith('/about')) {
-      const hashIndex = path.indexOf('#');
-      const hash = hashIndex !== -1 ? path.substring(hashIndex) : '';
+    } else if (targetRoute === '/about') {
       window.history.pushState({}, '', '/about' + hash);
       setCurrentPath('/about');
       if (hash) {
@@ -127,9 +123,7 @@ export default function App() {
       } else {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
-    } else if (path.startsWith('/contact')) {
-      const hashIndex = path.indexOf('#');
-      const hash = hashIndex !== -1 ? path.substring(hashIndex) : '';
+    } else if (targetRoute === '/contact') {
       window.history.pushState({}, '', '/contact' + hash);
       setCurrentPath('/contact');
       if (hash) {
@@ -141,9 +135,7 @@ export default function App() {
       } else {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
-    } else {
-      const hashIndex = path.indexOf('#');
-      const hash = hashIndex !== -1 ? path.substring(hashIndex) : '';
+    } else if (targetRoute === '/') {
       window.history.pushState({}, '', '/' + hash);
       setCurrentPath('/');
       if (hash) {
@@ -155,6 +147,10 @@ export default function App() {
       } else {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
+    } else {
+      window.history.pushState({}, '', path);
+      setCurrentPath('/404');
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
   };
 
@@ -483,6 +479,17 @@ export default function App() {
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <ContactPage onNavigate={navigateTo} />
+        </div>
+      </Suspense>
+    );
+  }
+
+  if (currentPath === '/404') {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <VideoCursor />
+          <NotFoundPage onNavigate={navigateTo} />
         </div>
       </Suspense>
     );

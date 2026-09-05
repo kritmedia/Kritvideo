@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404: Scene Not Found — KritVideo</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+        color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        overflow: hidden;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 16px;
+        border-radius: 9999px;
+        background: rgba(23, 23, 23, 0.8);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        color: #fbbf24;
+        font-size: 11px;
+        font-family: monospace;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 24px;
+      }
+      .pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #fbbf24;
+        display: inline-block;
+      }
+      h1 {
+        font-size: clamp(5rem, 15vw, 10rem);
+        margin: 0;
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        background: linear-gradient(180deg, #ffffff 0%, #a3a3a3 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      h2 {
+        font-size: clamp(1.25rem, 3vw, 2rem);
+        margin: 12px 0;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      p {
+        color: #a3a3a3;
+        font-size: 14px;
+        font-family: monospace;
+        max-width: 480px;
+        line-height: 1.6;
+        margin: 0 auto 32px;
+        text-transform: uppercase;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 28px;
+        background-color: #fbbf24;
+        color: #000000;
+        font-weight: 800;
+        font-size: 13px;
+        font-family: monospace;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-radius: 9999px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+      }
+      .btn:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 45px rgba(251, 191, 36, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="badge">
+      <span class="pulse"></span>
+      <span>TIMECODE 00:04:04:00 • CLIP NOT FOUND</span>
+    </div>
+    <h1>404</h1>
+    <h2>This scene was cut in post-production.</h2>
+    <p>The frame you are looking for has been trimmed from our timeline or moved to another reel.</p>
+    <a href="/" class="btn">Return to Timeline</a>
+  </body>
+</html>
