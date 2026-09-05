@@ -51,6 +51,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
     { label: 'SERVICES', path: '/services' },
     { label: 'WORK', path: '/work' },
     { label: 'ABOUT', path: '/about' },
+    { label: 'BLOG', path: '/blog' },
   ];
 
   return (
@@ -155,6 +156,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
                         {item.label === 'SERVICES' && 'Video editing, retention & post-production'}
                         {item.label === 'WORK' && 'Featured showcase & portfolio'}
                         {item.label === 'ABOUT' && 'Our story, craft & mission'}
+                        {item.label === 'BLOG' && 'Retention guides & editing playbooks'}
                       </span>
                     </div>
                     <ChevronRight className={`w-4 h-4 transition-transform group-hover:translate-x-0.5 ${

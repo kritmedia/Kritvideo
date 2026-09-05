@@ -17,6 +17,8 @@ const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
 const WorkPage = React.lazy(() => import('./pages/WorkPage'));
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
+const BlogArchivePage = React.lazy(() => import('./pages/BlogArchivePage'));
+const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
 const TOTAL_HERO_FRAMES = 240;
@@ -36,11 +38,12 @@ const normalizePath = (pathname: string, hash: string): string => {
   const p = (pathname || '').toLowerCase().replace(/\/+$/, '') || '/';
   const h = (hash || '').toLowerCase();
 
-  // Hash-based overrides (e.g. #/services, #/work)
+  // Hash-based overrides (e.g. #/services, #/work, #/blog)
   if (h.startsWith('#/services')) return '/services';
   if (h.startsWith('#/work')) return '/work';
   if (h.startsWith('#/about')) return '/about';
   if (h.startsWith('#/contact')) return '/contact';
+  if (h.startsWith('#/blog')) return h.replace('#', '');
 
   // Primary path routing
   if (p === '/' || p === '') return '/';
@@ -48,6 +51,8 @@ const normalizePath = (pathname: string, hash: string): string => {
   if (p === '/work') return '/work';
   if (p === '/about') return '/about';
   if (p === '/contact') return '/contact';
+  if (p === '/blog') return '/blog';
+  if (p.startsWith('/blog/')) return p;
 
   // Any other path is 404
   return '/404';
@@ -136,6 +141,10 @@ export default function App() {
       } else {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
+    } else if (targetRoute === '/blog' || targetRoute.startsWith('/blog/')) {
+      window.history.pushState({}, '', targetRoute + hash);
+      setCurrentPath(targetRoute);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     } else if (targetRoute === '/') {
       window.history.pushState({}, '', '/' + hash);
       setCurrentPath('/');
@@ -480,6 +489,29 @@ export default function App() {
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <ContactPage onNavigate={navigateTo} />
+        </div>
+      </Suspense>
+    );
+  }
+
+  if (currentPath === '/blog') {
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <VideoCursor />
+          <BlogArchivePage onNavigate={navigateTo} />
+        </div>
+      </Suspense>
+    );
+  }
+
+  if (currentPath.startsWith('/blog/')) {
+    const slug = currentPath.replace('/blog/', '').replace(/\/$/, '');
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <VideoCursor />
+          <BlogPostPage slug={slug} onNavigate={navigateTo} />
         </div>
       </Suspense>
     );

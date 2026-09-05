@@ -271,6 +271,14 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
                 </li>
                 <li>
                   <button
+                    onClick={() => onNavigate ? onNavigate('/blog') : (window.location.href = '/blog')}
+                    className="hover:text-white transition-colors cursor-pointer text-left"
+                  >
+                    BLOG
+                  </button>
+                </li>
+                <li>
+                  <button
                     onClick={() => {
                       if (onNavigate) {
                         onNavigate('/#why-us');
