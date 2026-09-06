@@ -23,7 +23,7 @@ const STAGES: StageNode[] = [
     id: 1,
     numberStr: '01',
     title: 'Send your footage',
-    description: 'Upload your footage, audio, assets and references. Messy folders are allowed. We won\'t judge.',
+    description: 'Upload raw footage, audio, and references via Google Drive, Dropbox, or Frame.io.',
     metric: '01 — SEND',
     icon: FolderArchive,
     xCoord: 150,
@@ -33,7 +33,7 @@ const STAGES: StageNode[] = [
     id: 2,
     numberStr: '02',
     title: 'We build the cut',
-    description: 'We go through the footage, find what matters, cut what doesn\'t and shape everything into a proper story.',
+    description: 'We structure the story, trim the fluff, balance pacing, and add sound design.',
     metric: '02 — EDIT',
     icon: BarChart3,
     xCoord: 450,
@@ -42,8 +42,8 @@ const STAGES: StageNode[] = [
   {
     id: 3,
     numberStr: '03',
-    title: 'You tell us what you think',
-    description: 'You\'ll get the first cut to review. Tell us what works, what doesn\'t and what you\'d like changed.',
+    title: 'Frame-accurate review',
+    description: 'Review your cut with timecoded notes. We refine pacing and transitions promptly.',
     metric: '03 — REVIEW',
     icon: Flame,
     xCoord: 750,
@@ -52,8 +52,8 @@ const STAGES: StageNode[] = [
   {
     id: 4,
     numberStr: '04',
-    title: 'You get the final video',
-    description: 'We make the revisions, finish the details and deliver the final file ready to publish.',
+    title: 'Final delivery',
+    description: 'Get master 4K exports and platform-ready cutdowns ready to upload and distribute.',
     metric: '04 — DELIVER',
     icon: Sparkles,
     xCoord: 1050,
@@ -151,7 +151,7 @@ export default function InteractiveProcessCards() {
           </h2>
 
           <p className="text-xs sm:text-sm text-neutral-400 max-w-xl font-normal leading-relaxed">
-            There's no secret handshake. You don't need to become an editing expert. Here's what happens.
+            Zero complicated workflows. Send raw files — get publication-ready edits back.
           </p>
         </div>
 
@@ -381,7 +381,7 @@ export default function InteractiveProcessCards() {
 
       </div>
 
-      {/* MOBILE VIEW (< lg): Clean Vertical Timeline */}
+      {/* MOBILE VIEW (< lg): High-Contrast Stack */}
       <div className="lg:hidden space-y-3.5">
         {STAGES.map((stage) => {
           const isCurrent = stage.id === effectiveStage;
@@ -393,8 +393,8 @@ export default function InteractiveProcessCards() {
               onClick={() => setActiveStage(stage.id)}
               className={`p-4 rounded-2xl border transition-all cursor-pointer relative overflow-hidden ${
                 isCurrent
-                  ? 'bg-neutral-900/90 border-amber-500/60 shadow-lg'
-                  : 'bg-neutral-950/40 border-white/[0.08]'
+                  ? 'bg-neutral-900 border-amber-400/60 shadow-[0_4px_20px_rgba(245,158,11,0.15)]'
+                  : 'bg-neutral-950/90 border-white/15 hover:border-white/30'
               }`}
             >
               {/* Giant Watermark Number */}
@@ -407,7 +407,7 @@ export default function InteractiveProcessCards() {
                   className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
                     isCurrent
                       ? 'bg-gradient-to-tr from-amber-500 to-orange-500 text-black shadow-md'
-                      : 'bg-white/10 text-white'
+                      : 'bg-white/10 text-amber-400 border border-white/10'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -427,7 +427,7 @@ export default function InteractiveProcessCards() {
                     {stage.title}
                   </h4>
 
-                  <p className="text-xs text-neutral-400 leading-relaxed">
+                  <p className="text-xs text-neutral-300 leading-relaxed">
                     {stage.description}
                   </p>
                 </div>

@@ -235,6 +235,37 @@ export default function SectionOurWork() {
     setCurrentTime(0);
   }, [filteredItems.length]);
 
+  // Mobile viewport detection
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 640 : false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Touch swipe support for mobile
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (diff > 45) {
+      handleNext();
+    } else if (diff < -45) {
+      handlePrev();
+    }
+    setTouchStartX(null);
+  };
+
   // Fullscreen trigger (with fallback if iframe blocks native API)
   const toggleFullScreen = () => {
     setIsFullScreen((prev) => !prev);
@@ -318,13 +349,19 @@ export default function SectionOurWork() {
               </span>
             </h2>
             <p className="text-xs sm:text-sm text-neutral-400 font-normal max-w-2xl">
-              A selection of our video editing and post-production work across YouTube, short-form, podcasts, brand films and commercial content.
+              Recent video edits across YouTube, high-retention shorts, podcasts, and brand campaigns.
             </p>
           </div>
 
           <div className="flex items-center gap-2 text-xs font-mono-tech text-neutral-400">
             <a
-              href="#contact"
+              href="/work"
+              onClick={(e) => {
+                e.preventDefault();
+                window.history.pushState({}, '', '/work');
+                window.dispatchEvent(new PopStateEvent('popstate'));
+                window.scrollTo({ top: 0, behavior: 'instant' });
+              }}
               className="px-5 py-2.5 rounded-full bg-neutral-900 border border-white/15 hover:border-white text-white transition-all font-bold flex items-center gap-2"
             >
               <span>VIEW ALL WORK ↗</span>
@@ -335,7 +372,11 @@ export default function SectionOurWork() {
         {/* ========================================================================= */}
         {/* 3D APPLE COVER FLOW CAROUSEL */}
         {/* ========================================================================= */}
-        <div className="relative w-full h-[460px] sm:h-[540px] md:h-[590px] flex items-center justify-center my-4 perspective-[1400px]">
+        <div 
+          className="relative w-full h-[440px] sm:h-[540px] md:h-[590px] flex items-center justify-center my-4 perspective-[1400px] touch-pan-y"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <div className="relative w-full h-full flex items-center justify-center">
               {filteredItems.map((item, index) => {
                 const offset = index - currentIndex;
@@ -344,7 +385,9 @@ export default function SectionOurWork() {
                 const isRight = offset > 0;
                 const absOffset = Math.abs(offset);
 
-                if (absOffset > 2) return null;
+                // On mobile, only render center card and immediate left/right neighbor to prevent horizontal overflow
+                if (isMobile && absOffset > 1) return null;
+                if (!isMobile && absOffset > 2) return null;
 
                 let translateX = 0;
                 let translateZ = 0;
@@ -353,24 +396,46 @@ export default function SectionOurWork() {
                 let opacity = 1;
                 let zIndex = 30 - absOffset * 10;
 
-                if (isCenter) {
-                  translateX = 0;
-                  translateZ = 70;
-                  rotateY = 0;
-                  scale = 1.08;
-                  opacity = 1;
-                } else if (isLeft) {
-                  translateX = -190 * absOffset - 80;
-                  translateZ = -130 * absOffset;
-                  rotateY = 36;
-                  scale = Math.max(0.76, 1 - absOffset * 0.12);
-                  opacity = Math.max(0.35, 0.9 - absOffset * 0.25);
-                } else if (isRight) {
-                  translateX = 190 * absOffset + 80;
-                  translateZ = -130 * absOffset;
-                  rotateY = -36;
-                  scale = Math.max(0.76, 1 - absOffset * 0.12);
-                  opacity = Math.max(0.35, 0.9 - absOffset * 0.25);
+                if (isMobile) {
+                  if (isCenter) {
+                    translateX = 0;
+                    translateZ = 40;
+                    rotateY = 0;
+                    scale = 1.0;
+                    opacity = 1;
+                  } else if (isLeft) {
+                    translateX = -140;
+                    translateZ = -80;
+                    rotateY = 24;
+                    scale = 0.82;
+                    opacity = 0.38;
+                  } else if (isRight) {
+                    translateX = 140;
+                    translateZ = -80;
+                    rotateY = -24;
+                    scale = 0.82;
+                    opacity = 0.38;
+                  }
+                } else {
+                  if (isCenter) {
+                    translateX = 0;
+                    translateZ = 70;
+                    rotateY = 0;
+                    scale = 1.08;
+                    opacity = 1;
+                  } else if (isLeft) {
+                    translateX = -190 * absOffset - 80;
+                    translateZ = -130 * absOffset;
+                    rotateY = 36;
+                    scale = Math.max(0.76, 1 - absOffset * 0.12);
+                    opacity = Math.max(0.35, 0.9 - absOffset * 0.25);
+                  } else if (isRight) {
+                    translateX = 190 * absOffset + 80;
+                    translateZ = -130 * absOffset;
+                    rotateY = -36;
+                    scale = Math.max(0.76, 1 - absOffset * 0.12);
+                    opacity = Math.max(0.35, 0.9 - absOffset * 0.25);
+                  }
                 }
 
                 // If horizontal video, give it a slightly wider aesthetic proportion
@@ -397,7 +462,7 @@ export default function SectionOurWork() {
                       transition: 'all 0.55s cubic-bezier(0.25, 1, 0.5, 1)',
                     }}
                     className={`absolute ${
-                      isHorizontal ? 'w-[320px] sm:w-[410px] md:w-[460px] aspect-[4/4.8]' : 'w-[290px] sm:w-[370px] md:w-[410px] aspect-[4/5]'
+                      isHorizontal ? 'w-[270px] xs:w-[290px] sm:w-[410px] md:w-[460px] aspect-[4/4.8]' : 'w-[250px] xs:w-[270px] sm:w-[370px] md:w-[410px] aspect-[4/5]'
                     } rounded-[32px] overflow-hidden cursor-pointer shadow-[0_30px_70px_rgba(0,0,0,0.9)] border ${
                       isCenter
                         ? 'border-white/30 ring-1 ring-white/20 shadow-[0_0_60px_rgba(0,0,0,0.95)]'

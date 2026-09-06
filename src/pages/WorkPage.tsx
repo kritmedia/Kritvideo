@@ -219,6 +219,37 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handlePrev, handleNext, selectedVideo]);
 
+  // Mobile detection for responsive 3D video arc
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 640 : false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Touch swipe support for mobile video arc
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (diff > 45) {
+      handleNext();
+    } else if (diff < -45) {
+      handlePrev();
+    }
+    setTouchStartX(null);
+  };
+
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -297,7 +328,7 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
 
           {/* Subtitle */}
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-neutral-300 max-w-2xl mx-auto leading-relaxed font-normal">
-            We turn your raw clips into high-performing Reels, TikToks, and Shorts — designed to grab attention, boost engagement, and grow your audience faster.
+            We turn raw footage into high-retention YouTube videos, podcasts, and viral shorts engineered to hold attention.
           </p>
 
           {/* Centered Action Buttons */}
@@ -344,7 +375,9 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
 
           {/* The 3D Arc Track */}
           <div 
-            className="w-full flex items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 py-6 sm:py-8 overflow-visible"
+            className="w-full flex items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 py-6 sm:py-8 overflow-visible touch-pan-y"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
             style={{
               perspective: '1300px',
               transformStyle: 'preserve-3d',
@@ -359,6 +392,9 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
 
               const absRel = Math.abs(rel);
               const isCenter = rel === 0;
+
+              // On mobile, render only the active card and immediate neighbors to avoid horizontal overflow
+              if (isMobile && absRel > 1) return null;
 
               // Compute Y rotation: outer cards angle inward
               const rotY = rel === 0 ? 0 : rel < 0 ? (24 - (absRel - 1) * 4) : -(24 - (absRel - 1) * 4);
@@ -381,7 +417,7 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
                     zIndex,
                     transformOrigin: rel < 0 ? 'right center' : rel > 0 ? 'left center' : 'center center',
                   }}
-                  className={`relative shrink-0 w-[140px] sm:w-[175px] md:w-[210px] lg:w-[240px] aspect-[9/13.5] rounded-2xl sm:rounded-[24px] overflow-hidden cursor-pointer transition-all duration-700 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.9)] border ${
+                  className={`relative shrink-0 w-[180px] xs:w-[200px] sm:w-[175px] md:w-[210px] lg:w-[240px] aspect-[9/13.5] rounded-2xl sm:rounded-[24px] overflow-hidden cursor-pointer transition-all duration-700 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.9)] border ${
                     isCenter 
                       ? 'border-amber-400 shadow-[0_0_35px_rgba(245,158,11,0.5)] ring-2 ring-amber-400/40' 
                       : 'border-white/15 hover:border-white/40'

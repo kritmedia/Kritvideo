@@ -589,7 +589,7 @@ export default function App() {
             {/* RIGHT COLUMN: Concise purpose statement & modern capsule CTA */}
             <div className="w-full lg:w-5/12 max-w-md space-y-5 lg:text-left">
               <p className="text-xs sm:text-sm font-mono-tech uppercase tracking-wider text-neutral-200 leading-relaxed max-w-sm">
-                High-retention video editing studio for YouTube creators, podcasters, and high-growth brands. Send your raw footage and we'll turn it into algorithm-optimized cuts with guaranteed 48-hour delivery.
+                Dedicated video editing for YouTube creators and brands. Send raw footage — get high-retention cuts delivered in 48 hours.
               </p>
 
               {/* Modern Capsule CTA */}
@@ -634,7 +634,7 @@ export default function App() {
             <div className="p-3 sm:p-3.5 rounded-2xl bg-neutral-950/60 backdrop-blur-2xl border border-white/[0.08] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono-tech text-neutral-300 tracking-wider">
               <div className="flex items-center gap-2 text-white font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block" />
-                <span>Based in India. Working with creators, businesses and brands wherever they are.</span>
+                <span>Global video editing studio • Fast turnaround • Production-ready delivery</span>
               </div>
               <div className="flex items-center gap-6 text-neutral-400 font-mono-tech text-[11px] uppercase tracking-widest shrink-0">
                 <span>YOUTUBE</span>
@@ -650,8 +650,8 @@ export default function App() {
         </section>
 
         {/* SECTION 2: The Undulating Wave Pipeline (Interactive on Scroll) */}
-        <section id="process" className="relative lg:h-[220vh] select-none">
-          <div className="sticky top-0 min-h-screen flex items-center px-6 sm:px-12 md:px-16 lg:px-20 py-16 overflow-hidden">
+        <section id="process" className="relative lg:h-[220vh] select-none py-10 lg:py-0">
+          <div className="lg:sticky lg:top-0 lg:min-h-screen flex items-center px-4 sm:px-12 md:px-16 lg:px-20 py-8 lg:py-16 overflow-hidden">
             <div className="max-w-7xl mx-auto w-full">
               <InteractiveProcessCards />
             </div>

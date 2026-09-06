@@ -29,61 +29,49 @@ const EMAIL_MAILTO = 'mailto:hello@kritvideo.com?subject=Project%20Enquiry%20-%2
 const FAQ_ITEMS = [
   {
     question: "How do we send you large raw footage files?",
-    answer: "You can share files via Google Drive, Dropbox, WeTransfer, Frame.io, or any cloud link. If you have high-volume archives or raw drive footage, we can also provide dedicated cloud bucket access."
+    answer: "Share via Google Drive, Dropbox, WeTransfer, or Frame.io. For high-volume archives, we provide dedicated cloud bucket access."
   },
   {
     question: "What is your typical turnaround time?",
-    answer: "For short-form content (Reels, TikToks, Shorts), first cuts are typically delivered within 24 to 48 hours. For long-form YouTube edits, podcasts, and commercial videos, turnaround is usually 3 to 5 business days depending on footage volume and editing depth."
+    answer: "Short-form reels and shorts are delivered within 24 to 48 hours. Long-form YouTube edits and podcasts are typically ready in 3 to 5 business days."
   },
   {
     question: "How do revisions and feedback work?",
-    answer: "We send every draft through interactive review links where you can leave timestamped, frame-accurate notes directly on the video. Revisions are addressed promptly until the final cut matches your exact vision."
+    answer: "Review drafts via interactive Frame.io links with timecoded notes. We refine pacing and transitions promptly to match your vision."
   },
   {
     question: "Do you work with international clients across time zones?",
-    answer: "Yes, our team collaborates seamlessly with creators and brands worldwide (US, UK, Europe, Australia, and Asia). Our asynchronous workflows and daily status updates make collaboration effortless regardless of your timezone."
+    answer: "Yes. We work asynchronously with creators and brands worldwide (US, UK, Europe, Australia, and Asia) with seamless communication."
   },
   {
     question: "Can I get in touch before I have all my footage ready?",
-    answer: "Yes! If you're still in pre-production or planning a shoot, reaching out early helps us align on shot formats, aspect ratios, and pacing references—saving you time and revisions down the line."
+    answer: "Yes. Reaching out early helps align on shot formats, aspect ratios, and reference pacing before you roll camera."
   }
 ];
 
 const WHAT_TO_SEND_ITEMS = [
   {
     number: "01",
-    title: "WHAT ARE YOU MAKING?",
-    description: "YouTube video? Reel? Podcast? Ad? Something completely different?",
+    title: "PROJECT FORMAT",
+    description: "YouTube video, 9:16 Shorts/Reels, podcast, or commercial ad.",
     icon: Film
   },
   {
     number: "02",
-    title: "HOW MUCH FOOTAGE DO YOU HAVE?",
-    description: "A rough estimate is perfectly fine.",
+    title: "FOOTAGE & DURATION",
+    description: "Rough volume of raw clips and intended final runtime.",
     icon: Clock
   },
   {
     number: "03",
-    title: "HOW LONG SHOULD THE FINAL VIDEO BE?",
-    description: "If you know. If you don't, we'll help you figure it out.",
+    title: "STYLE REFERENCES",
+    description: "1 or 2 reference links whose pacing or editing style you like.",
     icon: Compass
   },
   {
     number: "04",
-    title: "WHERE WILL IT BE PUBLISHED?",
-    description: "YouTube, Instagram, TikTok, website, paid ads, somewhere else?",
-    icon: Globe2
-  },
-  {
-    number: "05",
-    title: "DO YOU HAVE A REFERENCE?",
-    description: "Send us a video you like. It tells us a lot about what you're looking for.",
-    icon: FileQuestion
-  },
-  {
-    number: "06",
-    title: "WHEN DO YOU NEED IT?",
-    description: "Give us your ideal deadline and we'll let you know what's realistic.",
+    title: "TARGET DEADLINE",
+    description: "Your ideal delivery date or regular publishing cadence.",
     icon: Calendar
   }
 ];
@@ -406,22 +394,20 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
         {/* Subtle Ambient Radial Lighting */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-amber-500/[0.05] blur-[160px] pointer-events-none" />
         
-        <div className="max-w-2xl mx-auto text-center space-y-3 mb-14 sm:mb-16 relative z-10">
+        <div className="max-w-2xl mx-auto text-center space-y-3 mb-12 relative z-10">
           <div className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-[0.25em] text-amber-400 font-semibold">
-            <span>● BEFORE YOU HIT SEND</span>
+            <span>● BEFORE YOU REACH OUT</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-            A little context goes a long way.
+            Helpful details to include.
           </h2>
           <p className="text-sm sm:text-base text-neutral-300 leading-relaxed pt-1 font-normal">
-            You don't need a fancy project brief. Seriously.
-            <br />
-            If you have the answers to a few of these, that's more than enough:
+            No fancy brief required. If you know any of these 4 things, send them over:
           </p>
         </div>
 
-        {/* 6 Grid Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 relative z-10">
+        {/* 4 Grid Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 relative z-10">
           {WHAT_TO_SEND_ITEMS.map((item) => {
             const Icon = item.icon;
             return (

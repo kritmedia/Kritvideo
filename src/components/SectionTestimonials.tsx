@@ -81,6 +81,24 @@ export default function SectionTestimonials() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handlePrev]);
 
+  // Touch swipe support for mobile
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (diff > 45) {
+      handleNext();
+    } else if (diff < -45) {
+      handlePrev();
+    }
+    setTouchStartX(null);
+  };
+
   // 5 visible indices relative to currentIndex: -2, -1, 0, +1, +2
   const getIndex = (offset: number) => (currentIndex + offset + total * 2) % total;
 
@@ -228,8 +246,12 @@ export default function SectionTestimonials() {
             })}
           </div>
 
-          {/* Mobile View: Single Focal Center Card */}
-          <div className="flex md:hidden w-full max-w-sm flex-col items-center">
+          {/* Mobile View: Single Focal Center Card with Touch Swipe */}
+          <div 
+            className="flex md:hidden w-full max-w-sm flex-col items-center touch-pan-y"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             {(() => {
               const item = TESTIMONIALS[currentIndex];
               return (

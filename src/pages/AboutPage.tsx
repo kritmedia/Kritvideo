@@ -77,18 +77,30 @@ function AppleScrollWord({
   range: [number, number];
   isAccent?: boolean;
 }) {
-  const opacity = useTransform(progress, range, [0.22, 1]);
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const opacity = useTransform(progress, range, [0.45, 1]);
   const color = useTransform(
     progress, 
     range, 
     isAccent 
-      ? ["rgba(245, 158, 11, 0.3)", "#fde047"] 
-      : ["rgba(255, 255, 255, 0.22)", "rgba(255, 255, 255, 1)"]
+      ? ["rgba(245, 158, 11, 0.6)", "#fde047"] 
+      : ["rgba(255, 255, 255, 0.45)", "rgba(255, 255, 255, 1)"]
   );
 
   return (
     <motion.span 
-      style={{ opacity, color }} 
+      style={isMobile ? { opacity: 1, color: isAccent ? '#fde047' : '#ffffff' } : { opacity, color }} 
       className={`inline-block mr-[0.26em] transition-colors ${isAccent ? 'font-medium' : ''}`}
     >
       {word}
@@ -156,11 +168,24 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
     restDelta: 0.001
   });
 
+  // Mobile detection for guaranteed 100% text visibility on touch devices
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Milestone individual activation triggers driven by timeline scroll
-  const node1Active = useTransform(timelineProgress, [0.04, 0.22], [0.35, 1]);
-  const node2Active = useTransform(timelineProgress, [0.24, 0.45], [0.35, 1]);
-  const node3Active = useTransform(timelineProgress, [0.48, 0.70], [0.35, 1]);
-  const node4Active = useTransform(timelineProgress, [0.72, 0.94], [0.35, 1]);
+  const node1Active = useTransform(timelineProgress, [0.04, 0.22], [0.55, 1]);
+  const node2Active = useTransform(timelineProgress, [0.24, 0.45], [0.55, 1]);
+  const node3Active = useTransform(timelineProgress, [0.48, 0.70], [0.55, 1]);
+  const node4Active = useTransform(timelineProgress, [0.72, 0.94], [0.55, 1]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!heroRef.current) return;
@@ -404,7 +429,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             {/* Milestone 01: The Problem                                     */}
             {/* ------------------------------------------------------------- */}
             <motion.div 
-              style={{ opacity: node1Active }}
+              style={{ opacity: isMobile ? 1 : node1Active }}
               className="relative pl-7 sm:pl-9 md:pl-0 md:grid md:grid-cols-12 md:gap-8 items-center transition-all duration-300"
             >
               <div className="md:hidden absolute left-[-22px] sm:left-[-24px] top-4 w-4 h-4 rounded-full bg-[#050403] border-2 border-amber-400 flex items-center justify-center shadow-[0_0_8px_rgba(245,158,11,0.8)] z-10">
@@ -453,7 +478,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             {/* Milestone 02: How We Help (The Story & The Cut)               */}
             {/* ------------------------------------------------------------- */}
             <motion.div 
-              style={{ opacity: node2Active }}
+              style={{ opacity: isMobile ? 1 : node2Active }}
               className="relative pl-7 sm:pl-9 md:pl-0 md:grid md:grid-cols-12 md:gap-8 items-center transition-all duration-300"
             >
               <div className="md:hidden absolute left-[-22px] sm:left-[-24px] top-4 w-4 h-4 rounded-full bg-[#050403] border-2 border-amber-400 flex items-center justify-center shadow-[0_0_8px_rgba(245,158,11,0.8)] z-10">
@@ -502,7 +527,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             {/* Milestone 03: The Polish (Sound & Picture)                     */}
             {/* ------------------------------------------------------------- */}
             <motion.div 
-              style={{ opacity: node3Active }}
+              style={{ opacity: isMobile ? 1 : node3Active }}
               className="relative pl-7 sm:pl-9 md:pl-0 md:grid md:grid-cols-12 md:gap-8 items-center transition-all duration-300"
             >
               <div className="md:hidden absolute left-[-22px] sm:left-[-24px] top-4 w-4 h-4 rounded-full bg-[#050403] border-2 border-amber-400 flex items-center justify-center shadow-[0_0_8px_rgba(245,158,11,0.8)] z-10">
@@ -551,7 +576,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             {/* Milestone 04: The Result (Publishing)                         */}
             {/* ------------------------------------------------------------- */}
             <motion.div 
-              style={{ opacity: node4Active }}
+              style={{ opacity: isMobile ? 1 : node4Active }}
               className="relative pl-7 sm:pl-9 md:pl-0 md:grid md:grid-cols-12 md:gap-8 items-center transition-all duration-300"
             >
               <div className="md:hidden absolute left-[-22px] sm:left-[-24px] top-4 w-4 h-4 rounded-full bg-[#050403] border-2 border-amber-400 flex items-center justify-center shadow-[0_0_8px_rgba(245,158,11,0.8)] z-10">

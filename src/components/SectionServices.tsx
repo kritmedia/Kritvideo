@@ -27,7 +27,7 @@ const EDIT_FORMATS: EditFormat[] = [
     number: '01',
     title: 'YOUTUBE VIDEO EDITING',
     tagline: '16:9 • LONG-FORM • 4K',
-    statement: 'Talking heads, interviews, documentaries, educational videos and everything in between. We turn your raw footage into a YouTube video that\'s clear, engaging and ready to upload.',
+    statement: 'Talking heads, documentaries, and explainers. We turn your raw footage into sharp, high-retention YouTube cuts ready to publish.',
     format: '16:9 • LONG-FORM • 4K',
     specs: 'EXPLORE YOUTUBE EDITING →',
     turnaround: 'YOUTUBE',
@@ -38,7 +38,7 @@ const EDIT_FORMATS: EditFormat[] = [
     number: '02',
     title: 'SHORTS & REELS',
     tagline: '9:16 • SHORT-FORM • SOCIAL',
-    statement: 'Got a great moment buried inside a longer video? We\'ll find it, tighten it and turn it into a short-form edit made for Reels, Shorts and TikTok.',
+    statement: 'Turn long-form clips or raw takes into punchy, high-retention 9:16 vertical edits tailored for Shorts, Reels, and TikTok.',
     format: '9:16 • SHORT-FORM • SOCIAL',
     specs: 'EXPLORE SHORT-FORM EDITING →',
     turnaround: 'SHORT-FORM',
@@ -49,7 +49,7 @@ const EDIT_FORMATS: EditFormat[] = [
     number: '03',
     title: 'PODCAST EDITING',
     tagline: 'MULTI-CAM • AUDIO • CLIPS',
-    statement: 'We\'ll sync the cameras, clean up the conversation, switch angles naturally and turn the best moments into clips you can share across your channels.',
+    statement: 'Multi-cam camera switching, dialogue de-noising, natural pacing, and viral promotional clips for your social channels.',
     format: 'MULTI-CAM • AUDIO • CLIPS',
     specs: 'EXPLORE PODCAST EDITING →',
     turnaround: 'PODCAST',
@@ -60,7 +60,7 @@ const EDIT_FORMATS: EditFormat[] = [
     number: '04',
     title: 'COMMERCIAL & BRAND VIDEO',
     tagline: 'ADS • BRAND FILMS • SOCIAL',
-    statement: 'Product videos, social ads, launch films and branded content. We take the footage and turn it into something polished, clear and ready to put in front of your audience.',
+    statement: 'Direct-response social ads, product launches, and brand stories engineered to hook viewers in the first 3 seconds.',
     format: 'ADS • BRAND FILMS • SOCIAL',
     specs: 'EXPLORE BRAND VIDEO →',
     turnaround: 'BRAND VIDEO',
@@ -77,8 +77,10 @@ export default function SectionServices() {
   const currentPosRef = useRef<number>(1);
   const [activeIdx, setActiveIdx] = useState<number>(1);
 
-  // Direct GPU Transform Application (Bypasses React VDOM reconciliation for 120 FPS fluid speed)
+  // Direct GPU Transform Application (Bypasses React VDOM reconciliation for 120 FPS fluid speed on desktop)
   const applyTransforms = useCallback((pos: number) => {
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) return;
+
     EDIT_FORMATS.forEach((_, idx) => {
       const el = cardRefs.current[idx];
       if (!el) return;
@@ -133,19 +135,21 @@ export default function SectionServices() {
     const loop = () => {
       if (!isRunning) return;
 
-      const diff = targetPosRef.current - currentPosRef.current;
-      if (Math.abs(diff) > 0.001) {
-        currentPosRef.current += diff * 0.20; // Snappy 0.20 damping for zero-lag tracking
-        applyTransforms(currentPosRef.current);
+      if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+        const diff = targetPosRef.current - currentPosRef.current;
+        if (Math.abs(diff) > 0.001) {
+          currentPosRef.current += diff * 0.20; // Snappy 0.20 damping for zero-lag tracking
+          applyTransforms(currentPosRef.current);
 
-        const newActive = Math.round(currentPosRef.current);
-        setActiveIdx((prev) => (prev !== newActive ? newActive : prev));
-      } else if (currentPosRef.current !== targetPosRef.current) {
-        currentPosRef.current = targetPosRef.current;
-        applyTransforms(currentPosRef.current);
+          const newActive = Math.round(currentPosRef.current);
+          setActiveIdx((prev) => (prev !== newActive ? newActive : prev));
+        } else if (currentPosRef.current !== targetPosRef.current) {
+          currentPosRef.current = targetPosRef.current;
+          applyTransforms(currentPosRef.current);
 
-        const newActive = Math.round(currentPosRef.current);
-        setActiveIdx((prev) => (prev !== newActive ? newActive : prev));
+          const newActive = Math.round(currentPosRef.current);
+          setActiveIdx((prev) => (prev !== newActive ? newActive : prev));
+        }
       }
 
       animationFrameId = requestAnimationFrame(loop);
@@ -159,10 +163,10 @@ export default function SectionServices() {
     };
   }, [applyTransforms]);
 
-  // Scroll listener for sticky 3D card transitions
+  // Scroll listener for sticky 3D card transitions (desktop only)
   useEffect(() => {
     const handleScroll = () => {
-      if (!sectionRef.current) return;
+      if (!sectionRef.current || window.innerWidth < 1024) return;
       const rect = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       const totalScrollable = sectionRef.current.offsetHeight - windowHeight;
@@ -184,17 +188,21 @@ export default function SectionServices() {
 
   const goToCard = (index: number) => {
     targetPosRef.current = index;
+    setActiveIdx(index);
   };
 
   const nextCard = () => {
-    const next = Math.min(EDIT_FORMATS.length - 1, Math.round(targetPosRef.current) + 1);
+    const next = Math.min(EDIT_FORMATS.length - 1, activeIdx + 1);
     goToCard(next);
   };
 
   const prevCard = () => {
-    const prev = Math.max(0, Math.round(targetPosRef.current) - 1);
+    const prev = Math.max(0, activeIdx - 1);
     goToCard(prev);
   };
+
+  const currentMobileFormat = EDIT_FORMATS[activeIdx] || EDIT_FORMATS[0];
+  const MobileIcon = currentMobileFormat.icon;
 
   return (
     <section 
@@ -202,23 +210,160 @@ export default function SectionServices() {
       ref={sectionRef}
       className="relative lg:h-[260vh] select-none"
     >
-      {/* Pinned 3D Perspective Viewport (Sticky on Desktop) */}
-      <div className="sticky top-0 min-h-screen flex flex-col justify-between px-6 sm:px-12 md:px-16 lg:px-20 pt-28 pb-12 overflow-hidden">
-        
-        {/* Background Ambient Wireframe Laser Lines */}
-        <svg 
-          className="absolute inset-0 w-full h-full pointer-events-none opacity-30 z-0"
-          xmlns="http://www.w3.org/2000/svg"
+      {/* Background Ambient Wireframe Laser Lines */}
+      <svg 
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-30 z-0"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <line x1="6%" y1="0%" x2="24%" y2="46%" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+        <line x1="24%" y1="46%" x2="50%" y2="88%" stroke="rgba(245,158,11,0.18)" strokeWidth="1.2" />
+        <line x1="50%" y1="88%" x2="76%" y2="34%" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+        <line x1="76%" y1="34%" x2="94%" y2="0%" stroke="rgba(245,158,11,0.14)" strokeWidth="1.2" />
+      </svg>
+
+      {/* Ambient Warm Underglow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-transparent blur-[140px] pointer-events-none" />
+
+      {/* MOBILE / TABLET VIEW (< 1024px): 100% Visible, No Clipping, High Contrast */}
+      <div className="lg:hidden relative z-10 px-4 sm:px-8 py-16 flex flex-col gap-8 max-w-lg mx-auto">
+        {/* Section Header */}
+        <div className="space-y-2.5 text-center sm:text-left">
+          <div className="flex items-center justify-center sm:justify-start gap-2.5 text-xs uppercase tracking-[0.25em] text-neutral-400 font-semibold">
+            <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
+            <span className="text-white">VIDEO SERVICES</span>
+          </div>
+
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-[1.1] text-white">
+            Tell us what you're making.{' '}
+            <span className="font-editorial-serif italic font-normal text-amber-300 block sm:inline">
+              We'll handle the edit.
+            </span>
+          </h2>
+
+          <p className="text-xs sm:text-sm text-neutral-400 font-normal leading-relaxed pt-1">
+            Send raw footage. We deliver high-retention, publication-ready cuts in 48 hours.
+          </p>
+        </div>
+
+        {/* Format Selector Tabs */}
+        <div className="flex items-center justify-center gap-1.5 p-1 bg-neutral-900/90 rounded-full border border-white/10 overflow-x-auto">
+          {EDIT_FORMATS.map((format, idx) => (
+            <button
+              key={format.id}
+              onClick={() => goToCard(idx)}
+              className={`px-3 py-1.5 rounded-full text-xs font-mono-tech transition-all whitespace-nowrap cursor-pointer ${
+                activeIdx === idx
+                  ? 'bg-amber-400 text-black font-bold shadow-[0_0_12px_rgba(245,158,11,0.5)]'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              {format.turnaround}
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile Active Card */}
+        <div
+          className="w-full rounded-[28px] p-6 flex flex-col justify-between border border-amber-400/40 bg-neutral-950/95 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_30px_rgba(245,158,11,0.15)] relative overflow-hidden"
         >
-          <line x1="6%" y1="0%" x2="24%" y2="46%" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-          <line x1="24%" y1="46%" x2="50%" y2="88%" stroke="rgba(245,158,11,0.18)" strokeWidth="1.2" />
-          <line x1="50%" y1="88%" x2="76%" y2="34%" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-          <line x1="76%" y1="34%" x2="94%" y2="0%" stroke="rgba(245,158,11,0.14)" strokeWidth="1.2" />
-        </svg>
+          {/* Card Top */}
+          <div className="flex items-center justify-between">
+            <span className="font-mono-tech text-xs font-bold tracking-wider text-amber-400">
+              {`{ ${currentMobileFormat.number} }`}
+            </span>
+            <span className="text-[10px] font-mono-tech uppercase font-bold px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300">
+              {currentMobileFormat.format}
+            </span>
+          </div>
 
-        {/* Ambient Warm Underglow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-transparent blur-[140px] pointer-events-none" />
+          {/* Center Glass Orb */}
+          <div className="relative w-full h-[140px] flex items-center justify-center my-4">
+            <div className="absolute w-20 h-20 rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-300 blur-[2px] shadow-[0_0_35px_rgba(245,158,11,0.6)]" />
+            <div className="relative z-10 w-20 h-20 rounded-[20px] bg-gradient-to-br from-white/20 to-white/5 border border-white/35 shadow-[inset_0_1px_3px_rgba(255,255,255,0.6)] flex items-center justify-center">
+              <MobileIcon className="w-8 h-8 text-white drop-shadow-md" />
+            </div>
+          </div>
 
+          {/* Card Bottom */}
+          <div className="space-y-2">
+            <h3 className="text-lg font-extrabold text-white tracking-tight">
+              {currentMobileFormat.title}
+            </h3>
+            <p className="text-xs text-neutral-300 leading-relaxed">
+              {currentMobileFormat.statement}
+            </p>
+
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between">
+              <a
+                href="/services"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.history.pushState({}, '', '/services');
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                  window.scrollTo({ top: 0, behavior: 'instant' });
+                }}
+                className="text-xs font-mono-tech font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1.5"
+              >
+                <span>{currentMobileFormat.specs}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Controls */}
+        <div className="flex items-center justify-between gap-4 pt-1">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={prevCard}
+              disabled={activeIdx === 0}
+              aria-label="Previous format"
+              className="w-10 h-10 rounded-full bg-neutral-900 border border-white/20 text-white flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={nextCard}
+              disabled={activeIdx === EDIT_FORMATS.length - 1}
+              aria-label="Next format"
+              className="w-10 h-10 rounded-full bg-neutral-900 border border-white/20 text-white flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {EDIT_FORMATS.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goToCard(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`transition-all rounded-full ${
+                  activeIdx === idx
+                    ? 'w-6 h-2 bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]'
+                    : 'w-2 h-2 bg-white/30'
+                }`}
+              />
+            ))}
+          </div>
+
+          <a
+            href="/services"
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, '', '/services');
+              window.dispatchEvent(new PopStateEvent('popstate'));
+              window.scrollTo({ top: 0, behavior: 'instant' });
+            }}
+            className="text-xs font-mono-tech text-neutral-400 hover:text-white"
+          >
+            ALL SERVICES →
+          </a>
+        </div>
+      </div>
+
+      {/* DESKTOP VIEW (>= 1024px): Pinned 3D Perspective Viewport */}
+      <div className="hidden lg:flex sticky top-0 min-h-screen flex-col justify-between px-6 sm:px-12 md:px-16 lg:px-20 pt-28 pb-12 overflow-hidden">
+        
         {/* Section Header */}
         <div className="w-full max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-end justify-between gap-6 relative z-10">
           <div className="space-y-2.5 max-w-2xl">
@@ -235,7 +380,7 @@ export default function SectionServices() {
             </h2>
 
             <p className="text-xs sm:text-sm text-neutral-400 max-w-xl font-normal leading-relaxed pt-1">
-              We edit different kinds of video for different kinds of teams. The common part? You send us the footage and get a finished video back.
+              Send raw footage. We turn it into sharp, high-retention video tailored for your channel and ready to publish.
             </p>
           </div>
 
@@ -256,7 +401,7 @@ export default function SectionServices() {
           </div>
         </div>
 
-        {/* 3D PERSPECTIVE CAROUSEL STAGE (Hardware Accelerated, Smooth Continuous Motion) */}
+        {/* 3D PERSPECTIVE CAROUSEL STAGE */}
         <div 
           className="relative w-full max-w-7xl mx-auto flex-1 flex items-center justify-center my-3 z-10"
           style={{ perspective: '1600px' }}
@@ -290,21 +435,12 @@ export default function SectionServices() {
 
                   {/* CENTER OBJECT: Floating 3D Glass Lens & Glowing Amber Core */}
                   <div className="relative w-full h-[180px] sm:h-[195px] flex items-center justify-center pointer-events-none my-1">
-                    
-                    {/* Glowing Amber Liquid Core Sphere */}
                     <div className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-amber-300 blur-[2px] shadow-[0_0_50px_rgba(245,158,11,0.6)]" />
-
-                    {/* Secondary Overlapping Ambient Orb */}
                     <div className="absolute -top-1 -right-3 w-16 h-16 rounded-full bg-gradient-to-br from-amber-400/80 to-transparent blur-[1px] opacity-75" />
-
-                    {/* Background Tilted Glass Plate (Clean Specular Gradient, Zero GPU Blur Stalls) */}
                     <div className="absolute w-28 h-28 sm:w-32 sm:h-32 rounded-[28px] bg-gradient-to-br from-white/15 to-white/5 border border-white/25 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_20px_40px_rgba(0,0,0,0.6)] rotate-[-12deg]" />
-
-                    {/* Foreground Glass Crystal Lens with Specular Highlight */}
                     <div className="relative z-10 w-24 h-24 sm:w-28 sm:h-28 rounded-[24px] bg-gradient-to-br from-white/20 to-white/5 border border-white/35 shadow-[inset_0_1px_3px_rgba(255,255,255,0.6),0_15px_35px_rgba(0,0,0,0.5)] rotate-[8deg] flex items-center justify-center">
                       <Icon className="w-9 h-9 sm:w-10 sm:h-10 text-white drop-shadow-md" />
                     </div>
-
                   </div>
 
                   {/* BOTTOM: Service Title, Statement & Explore Link */}
@@ -317,7 +453,6 @@ export default function SectionServices() {
                       {format.statement}
                     </p>
 
-                    {/* Platform Tag & Specs Link */}
                     <div className="flex items-center justify-between pt-2 border-t border-white/[0.08] text-[11px] font-mono-tech">
                       <span className="text-neutral-400">
                         {format.format}
@@ -338,7 +473,6 @@ export default function SectionServices() {
         {/* Bottom Pagination & Navigation Controls */}
         <div className="w-full max-w-7xl mx-auto flex items-center justify-between gap-4 pt-3 text-xs font-mono-tech text-neutral-400 relative z-10">
           
-          {/* Left Arrow Controls */}
           <div className="flex items-center gap-2">
             <button
               onClick={prevCard}
@@ -361,7 +495,6 @@ export default function SectionServices() {
             </span>
           </div>
 
-          {/* Center Pagination Dots */}
           <div className="flex items-center gap-2">
             {EDIT_FORMATS.map((f, idx) => (
               <button
@@ -377,7 +510,6 @@ export default function SectionServices() {
             ))}
           </div>
 
-          {/* Right Indicator */}
           <div className="text-neutral-300 hidden sm:flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             <span>FRAME-ACCURATE REVIEW & RAPID REVISIONS</span>

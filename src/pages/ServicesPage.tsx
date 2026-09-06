@@ -64,7 +64,7 @@ const SERVICES_LIST: ServiceItem[] = [
     num: '01',
     category: 'YOUTUBE VIDEO EDITING',
     title: 'Long-form, without the long nights.',
-    desc: 'Talking heads, interviews, documentaries, educational videos and more. We turn your raw footage into a polished YouTube video with tighter pacing, clean audio, b-roll, graphics, captions and a professional finish.',
+    desc: 'Talking heads, documentaries, and explainers. We turn raw footage into high-retention YouTube cuts with custom pacing, sound design, color grading, and graphics.',
     thumbnail: 'https://i.ytimg.com/vi/OWRKm1ZpbDA/hqdefault.jpg',
     videoUrl: 'https://www.youtube.com/watch?v=OWRKm1ZpbDA',
     youtubeId: 'OWRKm1ZpbDA',
@@ -86,7 +86,7 @@ const SERVICES_LIST: ServiceItem[] = [
     num: '02',
     category: 'SHORT-FORM VIDEO EDITING',
     title: 'Make the good bits impossible to miss.',
-    desc: 'We turn your raw clips or long-form videos into Shorts, Reels and TikToks with tight pacing, strong hooks, captions and visuals that keep people watching.',
+    desc: 'Transform raw clips or long videos into viral 9:16 vertical edits for Reels, Shorts, and TikTok with punchy hooks and kinetic captions.',
     thumbnail: 'https://i.ytimg.com/vi/QUx1anKHYuI/hqdefault.jpg',
     videoUrl: 'https://www.youtube.com/watch?v=QUx1anKHYuI',
     youtubeId: 'QUx1anKHYuI',
@@ -108,7 +108,7 @@ const SERVICES_LIST: ServiceItem[] = [
     num: '03',
     category: 'PODCAST VIDEO EDITING',
     title: 'You talk. We make it watchable.',
-    desc: 'We edit podcasts and interviews into polished multi-camera videos, clean up the audio, cut the dead space and create short clips from the best moments.',
+    desc: 'Multi-cam camera switching, dialogue de-noising (-14 LUFS), dead air removal, and viral promotional clips for social distribution.',
     thumbnail: 'https://i.ytimg.com/vi/xuas_Yc7VNQ/hqdefault.jpg',
     videoUrl: 'https://www.youtube.com/watch?v=xuas_Yc7VNQ',
     youtubeId: 'xuas_Yc7VNQ',
@@ -130,7 +130,7 @@ const SERVICES_LIST: ServiceItem[] = [
     num: '04',
     category: 'BRAND & COMMERCIAL',
     title: 'Make your brand look expensive.',
-    desc: 'Product videos, social ads, launch films and branded content. We shape the footage around the message, polish the details and give the final video the finish it deserves.',
+    desc: 'High-converting social ads, product launches, and brand films engineered to capture attention and elevate your brand perception.',
     thumbnail: 'https://i.ytimg.com/vi/IJsVs6Nw6ls/hqdefault.jpg',
     videoUrl: 'https://www.youtube.com/watch?v=IJsVs6Nw6ls',
     youtubeId: 'IJsVs6Nw6ls',
@@ -152,7 +152,7 @@ const SERVICES_LIST: ServiceItem[] = [
     num: '05',
     category: 'CONTENT REPURPOSING',
     title: 'One recording. More to work with.',
-    desc: 'We find the moments worth sharing and turn them into additional pieces of content, so you get more value from the footage you already have.',
+    desc: 'Turn a single recording into an omnipresent content pack: vertical cutdowns, audiograms, quote reels, and multi-platform exports.',
     thumbnail: 'https://i.ytimg.com/vi/OsP0icRA4Hc/hqdefault.jpg',
     videoUrl: 'https://www.youtube.com/watch?v=OsP0icRA4Hc',
     youtubeId: 'OsP0icRA4Hc',
@@ -193,7 +193,7 @@ const SERVICE_FAQ_DATA: ServiceFAQItem[] = [
     category: 'ingestion',
     categoryLabel: 'Ingestion',
     question: 'CAN YOU WORK WITH RAW, UNORGANISED FOOTAGE?',
-    answer: "Yes. You don't need to spend hours renaming every file and creating the world's most beautiful folder structure before sending anything. Give us what you have and we'll work through it.",
+    answer: "Yes. Send raw, unorganized clips. We organize takes, sync audio, and shape the story without any tedious prep needed on your end.",
     highlight: 'Zero Prep Needed',
   },
   {
@@ -201,7 +201,7 @@ const SERVICE_FAQ_DATA: ServiceFAQItem[] = [
     category: 'style',
     categoryLabel: 'Workflow',
     question: 'DO I NEED TO PROVIDE AN EDITING BRIEF?',
-    answer: "A brief is helpful, but it doesn't need to be complicated. Tell us what you're making, who it's for, where it's going and any examples you like. We'll ask questions if we need more context.",
+    answer: "A brief is simple: tell us your audience, platform, and share 1 or 2 reference links you like.",
     highlight: 'Simple Briefing',
   },
   {
@@ -209,7 +209,7 @@ const SERVICE_FAQ_DATA: ServiceFAQItem[] = [
     category: 'style',
     categoryLabel: 'Style Match',
     question: 'CAN YOU FOLLOW MY EXISTING STYLE?',
-    answer: "Absolutely. Send examples of your previous videos or references you like. We'll use them to understand your preferred pacing, graphics, captions and overall feel.",
+    answer: "100%. Share previous videos or channels you like — we match your exact pacing, captions, and font aesthetic.",
     highlight: 'Brand Continuity',
   },
   {
@@ -217,7 +217,7 @@ const SERVICE_FAQ_DATA: ServiceFAQItem[] = [
     category: 'scope',
     categoryLabel: 'Capacity',
     question: 'CAN YOU EDIT ONE VIDEO AND MULTIPLE VIDEOS EVERY MONTH?',
-    answer: 'Yes. We can work on individual projects as well as ongoing content, depending on your volume and requirements.',
+    answer: 'Yes. We handle both single signature videos and regular monthly editing retainers with guaranteed 48-hour delivery.',
     highlight: 'Flexible Volume',
   },
   {
@@ -225,7 +225,7 @@ const SERVICE_FAQ_DATA: ServiceFAQItem[] = [
     category: 'ingestion',
     categoryLabel: 'Deliverables',
     question: 'CAN YOU CREATE DIFFERENT FORMATS FROM ONE VIDEO?',
-    answer: 'Yes. We can create versions for YouTube, Instagram, TikTok, websites, ads and other placements when the project requires it.',
+    answer: 'Yes. We deliver 16:9 YouTube masters, 9:16 vertical reels, 1:1 square feeds, and 4:5 social cuts.',
     highlight: 'Multi-Platform Masters',
   },
   {
@@ -233,7 +233,7 @@ const SERVICE_FAQ_DATA: ServiceFAQItem[] = [
     category: 'scope',
     categoryLabel: 'Consultation',
     question: 'WHAT IF I\'M NOT SURE WHICH SERVICE I NEED?',
-    answer: "Just tell us what you're trying to make. You don't need to know the editing terminology. That's our job.",
+    answer: "Reach out via our contact form. Tell us what footage you have, and we will recommend the best workflow.",
     highlight: 'Free Creative Advice',
   },
 ];
@@ -458,7 +458,7 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
                 </span>
               </h2>
               <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-normal">
-                Make the final video easier to watch, easier to share and easier for you to get out the door. Whether you've got hours of camera footage or a folder full of clips you've been meaning to do something with, we'll turn it into something useful.
+                High-retention edits tailored for your audience and platform. Send your footage — we handle everything through to final delivery.
               </p>
             </div>
 
