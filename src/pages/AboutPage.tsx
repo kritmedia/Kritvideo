@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   ArrowUpRight, 
   ArrowRight, 
@@ -66,17 +66,20 @@ const AEO_DATA: AeoItem[] = [
 // =========================================================================
 // APPLE-STYLE SCROLL TEXT HIGHLIGHT COMPONENTS
 // =========================================================================
+interface AppleScrollWordProps {
+  key?: React.Key;
+  word: string; 
+  progress: any; 
+  range: [number, number];
+  isAccent?: boolean;
+}
+
 function AppleScrollWord({ 
   word, 
   progress, 
   range,
   isAccent = false 
-}: { 
-  word: string; 
-  progress: any; 
-  range: [number, number];
-  isAccent?: boolean;
-}) {
+}: AppleScrollWordProps) {
   const [isMobile, setIsMobile] = useState<boolean>(() => {
     return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
   });
