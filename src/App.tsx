@@ -554,14 +554,15 @@ export default function App() {
 
       <div ref={heroContainerRef} className="relative z-10 flex flex-col">
         {/* SECTION 1: Hero Section (Minimal, High-Impact Split Layout matching reference image) */}
-        <section className="relative min-h-screen flex flex-col justify-between px-6 sm:px-12 md:px-16 lg:px-20 pt-32 pb-8 select-none">
-          <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16 py-10">
+        <section className="relative min-h-screen flex flex-col justify-between px-5 sm:px-12 md:px-16 lg:px-20 pt-24 sm:pt-32 pb-4 sm:pb-8 select-none">
+          <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-10 lg:gap-16 py-4 sm:py-10">
             
             {/* LEFT COLUMN: Bold, Minimal Headline & Pillars */}
             <div className="w-full lg:w-5/12 max-w-lg space-y-4">
-              <div className="flex items-center gap-2.5 text-xs font-mono-tech uppercase tracking-[0.25em] text-neutral-400 font-semibold">
+              <div className="flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs font-mono-tech uppercase tracking-[0.2em] sm:tracking-[0.25em] text-neutral-400 font-semibold">
                 <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-white">VIDEO EDITING & POST-PRODUCTION STUDIO</span>
+                <span className="text-white hidden sm:inline">VIDEO EDITING & POST-PRODUCTION STUDIO</span>
+                <span className="text-white sm:hidden">POST-PRODUCTION STUDIO</span>
               </div>
 
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[4.75rem] font-black tracking-[-0.04em] leading-[0.94] text-white uppercase drop-shadow-2xl">
@@ -571,8 +572,8 @@ export default function App() {
                 </span>
               </h1>
 
-              {/* Core Services */}
-              <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-mono-tech text-neutral-300 tracking-[0.16em] uppercase font-bold pt-1">
+              {/* Core Services (Desktop / Tablet) */}
+              <div className="hidden sm:flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-mono-tech text-neutral-300 tracking-[0.16em] uppercase font-bold pt-1">
                 <span>YOUTUBE</span>
                 <span className="text-amber-400">✦</span>
                 <span>SHORT-FORM</span>
@@ -587,9 +588,10 @@ export default function App() {
             <div className="hidden lg:block lg:w-2/12 pointer-events-none" />
 
             {/* RIGHT COLUMN: Concise purpose statement & modern capsule CTA */}
-            <div className="w-full lg:w-5/12 max-w-md space-y-5 lg:text-left">
+            <div className="w-full lg:w-5/12 max-w-md space-y-4 sm:space-y-5 lg:text-left">
               <p className="text-xs sm:text-sm font-mono-tech uppercase tracking-wider text-neutral-200 leading-relaxed max-w-sm">
-                Dedicated video editing for YouTube creators and brands. Send raw footage — get high-retention cuts delivered in 48 hours.
+                <span className="sm:hidden">High-retention video editing for creators and brands. 48-hour delivery.</span>
+                <span className="hidden sm:inline">Dedicated video editing for YouTube creators and brands. Send raw footage — get high-retention cuts delivered in 48 hours.</span>
               </p>
 
               {/* Modern Capsule CTA */}
@@ -618,8 +620,8 @@ export default function App() {
                   </button>
                 </div>
 
-                {/* Microcopy */}
-                <div className="flex items-center gap-3 text-[11px] font-mono-tech text-neutral-400">
+                {/* Microcopy (Desktop / Tablet) */}
+                <div className="hidden sm:flex items-center gap-3 text-[11px] font-mono-tech text-neutral-400">
                   <span className="text-neutral-300">
                     48H DELIVERY • DAVINCI COLOR • BESPOKE CRAFT
                   </span>
@@ -629,8 +631,8 @@ export default function App() {
 
           </div>
 
-          {/* BOTTOM RIBBON: Hero supporting note */}
-          <div className="w-full max-w-7xl mx-auto pt-2 pb-2">
+          {/* BOTTOM RIBBON: Hero supporting note (Desktop / Tablet) */}
+          <div className="hidden sm:block w-full max-w-7xl mx-auto pt-2 pb-2">
             <div className="p-3 sm:p-3.5 rounded-2xl bg-neutral-950/60 backdrop-blur-2xl border border-white/[0.08] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono-tech text-neutral-300 tracking-wider">
               <div className="flex items-center gap-2 text-white font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block" />
