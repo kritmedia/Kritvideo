@@ -554,11 +554,11 @@ export default function App() {
 
       <div ref={heroContainerRef} className="relative z-10 flex flex-col">
         {/* SECTION 1: Hero Section (Minimal, High-Impact Split Layout matching reference image) */}
-        <section className="relative min-h-screen flex flex-col justify-between px-5 sm:px-12 md:px-16 lg:px-20 pt-24 sm:pt-32 pb-4 sm:pb-8 select-none">
-          <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-10 lg:gap-16 py-4 sm:py-10">
+        <section className="relative min-h-screen flex flex-col justify-between px-5 sm:px-12 md:px-16 lg:px-20 pt-20 sm:pt-32 pb-4 sm:pb-8 select-none">
+          <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col justify-center lg:flex-row lg:items-center lg:justify-between gap-6 sm:gap-10 lg:gap-16 py-4 sm:py-10">
             
             {/* LEFT COLUMN: Bold, Minimal Headline & Pillars */}
-            <div className="w-full lg:w-5/12 max-w-lg space-y-4">
+            <div className="w-full lg:w-5/12 max-w-lg space-y-3 sm:space-y-4">
               <div className="flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs font-mono-tech uppercase tracking-[0.2em] sm:tracking-[0.25em] text-neutral-400 font-semibold">
                 <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
                 <span className="text-white hidden sm:inline">VIDEO EDITING & POST-PRODUCTION STUDIO</span>
@@ -572,8 +572,8 @@ export default function App() {
                 </span>
               </h1>
 
-              {/* Core Services (Desktop / Tablet) */}
-              <div className="hidden sm:flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-mono-tech text-neutral-300 tracking-[0.16em] uppercase font-bold pt-1">
+              {/* Core Services */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-mono-tech text-neutral-300 tracking-[0.14em] sm:tracking-[0.16em] uppercase font-bold pt-1">
                 <span>YOUTUBE</span>
                 <span className="text-amber-400">✦</span>
                 <span>SHORT-FORM</span>
@@ -590,8 +590,7 @@ export default function App() {
             {/* RIGHT COLUMN: Concise purpose statement & modern capsule CTA */}
             <div className="w-full lg:w-5/12 max-w-md space-y-4 sm:space-y-5 lg:text-left">
               <p className="text-xs sm:text-sm font-mono-tech uppercase tracking-wider text-neutral-200 leading-relaxed max-w-sm">
-                <span className="sm:hidden">High-retention video editing for creators and brands. 48-hour delivery.</span>
-                <span className="hidden sm:inline">Dedicated video editing for YouTube creators and brands. Send raw footage — get high-retention cuts delivered in 48 hours.</span>
+                Dedicated video editing for YouTube creators and brands. Send raw footage — get high-retention cuts delivered in 48 hours.
               </p>
 
               {/* Modern Capsule CTA */}
@@ -620,8 +619,8 @@ export default function App() {
                   </button>
                 </div>
 
-                {/* Microcopy (Desktop / Tablet) */}
-                <div className="hidden sm:flex items-center gap-3 text-[11px] font-mono-tech text-neutral-400">
+                {/* Microcopy */}
+                <div className="flex items-center gap-3 text-[11px] font-mono-tech text-neutral-400">
                   <span className="text-neutral-300">
                     48H DELIVERY • DAVINCI COLOR • BESPOKE CRAFT
                   </span>
@@ -631,14 +630,14 @@ export default function App() {
 
           </div>
 
-          {/* BOTTOM RIBBON: Hero supporting note (Desktop / Tablet) */}
-          <div className="hidden sm:block w-full max-w-7xl mx-auto pt-2 pb-2">
-            <div className="p-3 sm:p-3.5 rounded-2xl bg-neutral-950/60 backdrop-blur-2xl border border-white/[0.08] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono-tech text-neutral-300 tracking-wider">
-              <div className="flex items-center gap-2 text-white font-medium">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block" />
+          {/* BOTTOM RIBBON: Hero supporting note */}
+          <div className="w-full max-w-7xl mx-auto pt-2 pb-2">
+            <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-neutral-950/60 backdrop-blur-2xl border border-white/[0.08] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs font-mono-tech text-neutral-300 tracking-wider">
+              <div className="flex items-center gap-2 text-white font-medium text-center sm:text-left">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block shrink-0" />
                 <span>Global video editing studio • Fast turnaround • Production-ready delivery</span>
               </div>
-              <div className="flex items-center gap-6 text-neutral-400 font-mono-tech text-[11px] uppercase tracking-widest shrink-0">
+              <div className="hidden sm:flex items-center gap-6 text-neutral-400 font-mono-tech text-[11px] uppercase tracking-widest shrink-0">
                 <span>YOUTUBE</span>
                 <span>•</span>
                 <span>REELS & SHORTS</span>
