@@ -1,24 +1,242 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Play,
-  ChevronLeft,
-  ChevronRight,
-  X,
-  ExternalLink,
-  Sparkles,
-  CheckSquare,
-  ArrowUpRight
+  Pause,
+  SkipBack,
+  SkipForward,
+  Volume2,
+  VolumeX,
+  Maximize2,
+  Minimize2,
+  Sliders,
+  ArrowUpRight,
+  Sparkles
 } from 'lucide-react';
-import { SHOWCASE_VIDEOS, ShowcaseVideo } from '../data/showcaseVideos';
+
+interface PortfolioItem {
+  id: string;
+  youtubeId: string;
+  category: 'youtube' | 'shorts' | 'brand' | 'creator';
+  categoryLabel: string;
+  title: string;
+  client: string;
+  tagline: string;
+  duration: string;
+  durationSeconds: number;
+  views: string;
+  format: '16:9' | '9:16';
+  thumbnail: string;
+  themeColor: string;
+  glowColor: string;
+  highlights: string[];
+  specs: {
+    resolution: string;
+    codec: string;
+    fps: string;
+    colorSpace: string;
+  };
+}
+
+const PORTFOLIO_DATA: PortfolioItem[] = [
+  {
+    id: 'sneaker-product',
+    youtubeId: 'IJsVs6Nw6ls',
+    category: 'brand',
+    categoryLabel: 'BRAND & ADS',
+    title: 'Nike Basketball Commercial',
+    client: 'Nike Hoops Edit',
+    tagline: 'Product-focused commercial storytelling',
+    duration: '01:30',
+    durationSeconds: 90,
+    views: 'Commercial Master',
+    format: '16:9',
+    thumbnail: 'https://i.ytimg.com/vi/IJsVs6Nw6ls/hqdefault.jpg',
+    themeColor: '#d97706',
+    glowColor: 'rgba(217, 119, 6, 0.40)',
+    highlights: ['Focal Zoom Framing', 'Heavy Bass Soundscape', 'ACES Color Workflow'],
+    specs: {
+      resolution: '4K DCI (4096x2160)',
+      codec: 'ProRes 4444 XQ',
+      fps: '24 FPS',
+      colorSpace: 'ACEScg Wide Gamut',
+    },
+  },
+  {
+    id: 'iphone-log',
+    youtubeId: 'QUx1anKHYuI',
+    category: 'shorts',
+    categoryLabel: 'SHORT-FORM',
+    title: 'iPhone 15 Pro Max Cinematic',
+    client: 'Apple Log Visuals',
+    tagline: 'Viral vertical framing with punchy motion',
+    duration: '01:05',
+    durationSeconds: 65,
+    views: 'Viral Retention',
+    format: '9:16',
+    thumbnail: 'https://i.ytimg.com/vi/QUx1anKHYuI/hqdefault.jpg',
+    themeColor: '#ef4444',
+    glowColor: 'rgba(239, 68, 68, 0.40)',
+    highlights: ['First 3s Hook Design', 'Kinetic Captions', 'Punchy Audio SFX'],
+    specs: {
+      resolution: '1080x1920 (Vertical 4K)',
+      codec: 'Apple ProRes 422',
+      fps: '60 FPS',
+      colorSpace: 'Apple Log / Rec.709',
+    },
+  },
+  {
+    id: 'soccer-commercial',
+    youtubeId: 'xuas_Yc7VNQ',
+    category: 'brand',
+    categoryLabel: 'COMMERCIAL',
+    title: 'Cinematic Soccer Commercial',
+    client: 'Apex Football',
+    tagline: 'Broadcast commercial pacing and sound design',
+    duration: '01:45',
+    durationSeconds: 105,
+    views: 'Sony A7SIII',
+    format: '16:9',
+    thumbnail: 'https://i.ytimg.com/vi/xuas_Yc7VNQ/hqdefault.jpg',
+    themeColor: '#10b981',
+    glowColor: 'rgba(16, 185, 129, 0.40)',
+    highlights: ['Atmospheric Foley', 'Film Print Emulation', 'Dynamic Beat Match'],
+    specs: {
+      resolution: '4K UHD (3840x2160)',
+      codec: 'ProRes 4444',
+      fps: '30 FPS',
+      colorSpace: 'S-Gamut3.Cine / S-Log3',
+    },
+  },
+  {
+    id: 'sports-reel',
+    youtubeId: 'OWRKm1ZpbDA',
+    category: 'youtube',
+    categoryLabel: 'YOUTUBE 4K',
+    title: 'Cinematic Sports Reel',
+    client: 'Jamison McDivitt',
+    tagline: 'High-energy pacing and kinetic visual cuts',
+    duration: '02:15',
+    durationSeconds: 135,
+    views: 'Cinematography',
+    format: '16:9',
+    thumbnail: 'https://i.ytimg.com/vi/OWRKm1ZpbDA/hqdefault.jpg',
+    themeColor: '#f59e0b',
+    glowColor: 'rgba(245, 158, 11, 0.40)',
+    highlights: ['Multi-Layer Sound Design', 'Dynamic Speed Ramps', 'Commercial Color Grade'],
+    specs: {
+      resolution: '4K DCI (3840x2160)',
+      codec: 'Apple ProRes 422 HQ',
+      fps: '60 FPS',
+      colorSpace: 'DaVinci YRGB',
+    },
+  },
+  {
+    id: 'basketball-film',
+    youtubeId: 'OsP0icRA4Hc',
+    category: 'youtube',
+    categoryLabel: 'DOCUMENTARY',
+    title: 'FLY - Cinematic Basketball Film',
+    client: 'Sony FX3 Productions',
+    tagline: 'Emotional documentary storytelling and grading',
+    duration: '03:40',
+    durationSeconds: 220,
+    views: 'Sony FX3 4K',
+    format: '16:9',
+    thumbnail: 'https://i.ytimg.com/vi/OsP0icRA4Hc/hqdefault.jpg',
+    themeColor: '#3b82f6',
+    glowColor: 'rgba(59, 130, 246, 0.40)',
+    highlights: ['Dialogue Cleanup', 'Orchestral Audio Mix', 'Cinema Letterbox Export'],
+    specs: {
+      resolution: '4K UHD (3840x2160)',
+      codec: 'ProRes 422',
+      fps: '24 FPS',
+      colorSpace: 'Sony S-Cinetone',
+    },
+  },
+  {
+    id: 'podcast-master',
+    youtubeId: 'xuas_Yc7VNQ',
+    category: 'creator',
+    categoryLabel: 'PODCASTS',
+    title: 'Silicon Conversations',
+    client: 'Tech Founders Live',
+    tagline: 'Multi-camera conversation edit & dead-air removal',
+    duration: '45:10',
+    durationSeconds: 2710,
+    views: 'Multi-Cam Master',
+    format: '16:9',
+    thumbnail: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=75',
+    themeColor: '#9333ea',
+    glowColor: 'rgba(147, 51, 234, 0.40)',
+    highlights: ['Multi-Cam Switching', 'Audio Normalization', 'Shorts Extract Pack'],
+    specs: {
+      resolution: '4K UHD (3840x2160)',
+      codec: 'ProRes 422 HQ',
+      fps: '24 FPS',
+      colorSpace: 'Rec.709',
+    },
+  },
+  {
+    id: 'viral-reel',
+    youtubeId: 'QUx1anKHYuI',
+    category: 'shorts',
+    categoryLabel: 'REELS / TIKTOK',
+    title: 'Creator Launch Campaign',
+    client: 'Viral Studio Media',
+    tagline: 'Engineered for 85%+ retention and algorithmic reach',
+    duration: '00:55',
+    durationSeconds: 55,
+    views: '1.8M Views',
+    format: '9:16',
+    thumbnail: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=75',
+    themeColor: '#ec4899',
+    glowColor: 'rgba(236, 72, 153, 0.40)',
+    highlights: ['Custom Subtitle Animations', 'Sound FX Punch-Ins', '9:16 Retention Framing'],
+    specs: {
+      resolution: '1080x1920 (Vertical)',
+      codec: 'H.265 / HEVC',
+      fps: '60 FPS',
+      colorSpace: 'Rec.709',
+    },
+  },
+];
 
 export default function SectionOurWork() {
-  // Center active video in the 3D arc (default to index 3 - Nike Basketball Commercial)
-  const [activeCenterIndex, setActiveCenterIndex] = useState<number>(3);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [currentTime, setCurrentTime] = useState(18);
+  const [isMuted, setIsMuted] = useState(false);
+  const [showSpecsModal, setShowSpecsModal] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isHoveringCard, setIsHoveringCard] = useState(false);
+  const theaterContainerRef = useRef<HTMLDivElement>(null);
 
-  // Cinema theater modal state
-  const [selectedVideo, setSelectedVideo] = useState<ShowcaseVideo | null>(null);
+  const filteredItems = PORTFOLIO_DATA;
+  const activeItem = filteredItems[currentIndex] || PORTFOLIO_DATA[0];
 
-  // Mobile detection for responsive 3D card layout
+  // Playback timer simulation for transport dock
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      setCurrentTime((prev) => {
+        if (prev >= activeItem.durationSeconds) return 0;
+        return prev + 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [isPlaying, activeItem.durationSeconds]);
+
+  const handleNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % filteredItems.length);
+    setCurrentTime(0);
+  }, [filteredItems.length]);
+
+  const handlePrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
+    setCurrentTime(0);
+  }, [filteredItems.length]);
+
+  // Mobile viewport detection
   const [isMobile, setIsMobile] = useState<boolean>(() => {
     return typeof window !== 'undefined' ? window.innerWidth < 640 : false;
   });
@@ -30,60 +248,6 @@ export default function SectionOurWork() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // Carousel navigation handlers
-  const handlePrev = useCallback(() => {
-    setActiveCenterIndex((prev) => (prev - 1 + SHOWCASE_VIDEOS.length) % SHOWCASE_VIDEOS.length);
-  }, []);
-
-  const handleNext = useCallback(() => {
-    setActiveCenterIndex((prev) => (prev + 1) % SHOWCASE_VIDEOS.length);
-  }, []);
-
-  // Clicking any card opens it in the 4K Cinema Theater
-  const handleCardClick = (video: ShowcaseVideo, idx: number) => {
-    setActiveCenterIndex(idx);
-    setSelectedVideo(video);
-  };
-
-  // Switch video while in theater modal
-  const handleModalPrev = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (!selectedVideo) return;
-    const currentIdx = SHOWCASE_VIDEOS.findIndex((v) => v.id === selectedVideo.id);
-    const prevIdx = (currentIdx - 1 + SHOWCASE_VIDEOS.length) % SHOWCASE_VIDEOS.length;
-    setSelectedVideo(SHOWCASE_VIDEOS[prevIdx]);
-    setActiveCenterIndex(prevIdx);
-  };
-
-  const handleModalNext = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (!selectedVideo) return;
-    const currentIdx = SHOWCASE_VIDEOS.findIndex((v) => v.id === selectedVideo.id);
-    const nextIdx = (currentIdx + 1) % SHOWCASE_VIDEOS.length;
-    setSelectedVideo(SHOWCASE_VIDEOS[nextIdx]);
-    setActiveCenterIndex(nextIdx);
-  };
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-
-      if (selectedVideo) {
-        if (e.key === 'Escape') setSelectedVideo(null);
-        if (e.key === 'ArrowLeft') handleModalPrev();
-        if (e.key === 'ArrowRight') handleModalNext();
-        return;
-      }
-
-      if (e.key === 'ArrowLeft') handlePrev();
-      if (e.key === 'ArrowRight') handleNext();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handlePrev, handleNext, selectedVideo]);
 
   // Touch swipe support for mobile
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
@@ -103,29 +267,67 @@ export default function SectionOurWork() {
     setTouchStartX(null);
   };
 
-  const activeVideo = SHOWCASE_VIDEOS[activeCenterIndex] || SHOWCASE_VIDEOS[0];
+  // Fullscreen trigger
+  const toggleFullScreen = () => {
+    setIsFullScreen((prev) => !prev);
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      if (e.key === 'ArrowRight') {
+        handleNext();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        setIsPlaying((prev) => !prev);
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullScreen();
+      } else if (e.key === 'Escape') {
+        if (isFullScreen) setIsFullScreen(false);
+        if (showSpecsModal) setShowSpecsModal(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleNext, handlePrev, isFullScreen, showSpecsModal]);
+
+  const formatTime = (secs: number) => {
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60);
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
+  const progressPercent = Math.min(
+    100,
+    (currentTime / (activeItem.durationSeconds || 100)) * 100
+  );
 
   return (
     <section
       id="work"
-      className="relative pt-16 pb-16 sm:pt-20 sm:pb-20 px-3 sm:px-6 md:px-10 lg:px-16 bg-black text-white overflow-hidden select-none"
+      className="relative pt-14 pb-12 sm:pt-16 sm:pb-16 px-4 sm:px-10 md:px-16 lg:px-20 bg-black text-white overflow-hidden select-none"
     >
-      {/* Dynamic ambient backdrop glow matching active video */}
+      {/* DYNAMIC AMBIENT BACKDROP GLOW MATCHING ACTIVE ALBUM/VIDEO ARTWORK */}
       <div
         className="absolute inset-0 transition-all duration-1000 ease-out pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse 80% 55% at 50% 35%, ${activeVideo.glowColor} 0%, rgba(0, 0, 0, 0.98) 75%)`,
+          background: `radial-gradient(ellipse 90% 70% at 50% 38%, ${activeItem.glowColor} 0%, rgba(0, 0, 0, 0.96) 80%)`,
         }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-25 pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto z-10">
         {/* Header Eyebrow */}
-        <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+        <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
           <div className="flex items-center gap-3 text-xs sm:text-sm uppercase tracking-[0.28em] text-neutral-400 font-semibold">
             <span
               className="w-2.5 h-2.5 rounded-full inline-block animate-pulse"
-              style={{ backgroundColor: activeVideo.themeColor }}
+              style={{ backgroundColor: activeItem.themeColor }}
             />
             <span className="text-white">SELECTED WORK</span>
           </div>
@@ -133,7 +335,7 @@ export default function SectionOurWork() {
           <div className="flex items-center gap-2 text-xs font-mono-tech text-neutral-400">
             <span className="px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/10 flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>{SHOWCASE_VIDEOS.length} FEATURED EDITS</span>
+              <span>{PORTFOLIO_DATA.length} FEATURED EDITS</span>
             </span>
           </div>
         </div>
@@ -148,11 +350,11 @@ export default function SectionOurWork() {
               </span>
             </h2>
             <p className="text-xs sm:text-sm text-neutral-400 font-normal max-w-2xl">
-              Recent video edits across YouTube, high-retention shorts, podcasts, and brand campaigns engineered to hold attention.
+              Recent video edits across YouTube, high-retention shorts, podcasts, and brand campaigns.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-mono-tech text-neutral-400 shrink-0">
+          <div className="flex items-center gap-2 text-xs font-mono-tech text-neutral-400">
             <a
               href="/work"
               onClick={(e) => {
@@ -163,282 +365,580 @@ export default function SectionOurWork() {
               }}
               className="px-5 py-2.5 rounded-full bg-neutral-900 border border-white/15 hover:border-white text-white transition-all font-bold flex items-center gap-2 cursor-pointer shadow-lg hover:scale-105 active:scale-95"
             >
-              <span>VIEW ALL WORK</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <span>VIEW ALL WORK ↗</span>
             </a>
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* 3D CURVED PANORAMIC VIDEO AMPHITHEATER CAROUSEL                           */}
+        {/* 3D APPLE COVER FLOW CAROUSEL                                              */}
         {/* ========================================================================= */}
-        <div className="relative mt-6 sm:mt-10 max-w-[1600px] mx-auto z-10 select-none">
-          {/* Navigation Arrow Controls */}
-          <button
-            onClick={handlePrev}
-            aria-label="Previous Video"
-            className="absolute left-1 sm:left-3 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full bg-black/80 hover:bg-amber-500 border border-white/20 hover:border-amber-400 text-white hover:text-black flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-[0_0_25px_rgba(0,0,0,0.9)] active:scale-95 group"
-          >
-            <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
-          </button>
-          <button
-            onClick={handleNext}
-            aria-label="Next Video"
-            className="absolute right-1 sm:right-3 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full bg-black/80 hover:bg-amber-500 border border-white/20 hover:border-amber-400 text-white hover:text-black flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-[0_0_25px_rgba(0,0,0,0.9)] active:scale-95 group"
-          >
-            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
-          </button>
+        <div
+          className="relative w-full h-[440px] sm:h-[540px] md:h-[590px] flex items-center justify-center my-4 perspective-[1400px] touch-pan-y"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <div className="relative w-full h-full flex items-center justify-center">
+            {filteredItems.map((item, index) => {
+              const offset = index - currentIndex;
+              const isCenter = offset === 0;
+              const isLeft = offset < 0;
+              const isRight = offset > 0;
+              const absOffset = Math.abs(offset);
 
-          {/* The 3D Arc Track */}
-          <div
-            className="w-full flex items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 py-6 sm:py-8 overflow-visible touch-pan-y"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            style={{
-              perspective: '1300px',
-              transformStyle: 'preserve-3d',
-            }}
-          >
-            {SHOWCASE_VIDEOS.map((video, idx) => {
-              const count = SHOWCASE_VIDEOS.length;
-              let rel = (idx - activeCenterIndex) % count;
-              if (rel > count / 2) rel -= count;
-              if (rel < -count / 2) rel += count;
+              // On mobile, only render center card and immediate left/right neighbor to prevent horizontal overflow
+              if (isMobile && absOffset > 1) return null;
+              if (!isMobile && absOffset > 2) return null;
 
-              const absRel = Math.abs(rel);
-              const isCenter = rel === 0;
+              let translateX = 0;
+              let translateZ = 0;
+              let rotateY = 0;
+              let scale = 1;
+              let opacity = 1;
+              let zIndex = 30 - absOffset * 10;
 
-              // Responsive filtering to avoid horizontal overflow on mobile / tablet
-              if (isMobile && absRel > 1) return null;
-              if (!isMobile && absRel > 2) return null;
+              if (isMobile) {
+                if (isCenter) {
+                  translateX = 0;
+                  translateZ = 40;
+                  rotateY = 0;
+                  scale = 1.0;
+                  opacity = 1;
+                } else if (isLeft) {
+                  translateX = -140;
+                  translateZ = -80;
+                  rotateY = 24;
+                  scale = 0.82;
+                  opacity = 0.38;
+                } else if (isRight) {
+                  translateX = 140;
+                  translateZ = -80;
+                  rotateY = -24;
+                  scale = 0.82;
+                  opacity = 0.38;
+                }
+              } else {
+                if (isCenter) {
+                  translateX = 0;
+                  translateZ = 70;
+                  rotateY = 0;
+                  scale = 1.08;
+                  opacity = 1;
+                } else if (isLeft) {
+                  translateX = -190 * absOffset - 80;
+                  translateZ = -130 * absOffset;
+                  rotateY = 36;
+                  scale = Math.max(0.76, 1 - absOffset * 0.12);
+                  opacity = Math.max(0.35, 0.9 - absOffset * 0.25);
+                } else if (isRight) {
+                  translateX = 190 * absOffset + 80;
+                  translateZ = -130 * absOffset;
+                  rotateY = -36;
+                  scale = Math.max(0.76, 1 - absOffset * 0.12);
+                  opacity = Math.max(0.35, 0.9 - absOffset * 0.25);
+                }
+              }
 
-              // Compute Y rotation: outer cards angle inward
-              const rotY = rel === 0 ? 0 : rel < 0 ? (24 - (absRel - 1) * 4) : -(24 - (absRel - 1) * 4);
-              const scale = isCenter ? 1.0 : absRel === 1 ? 0.98 : 1.05;
-              const translateZ = isCenter ? 0 : absRel === 1 ? -10 : 20;
-              const zIndex = isCenter ? 35 : absRel === 1 ? 32 : 30;
+              const isHorizontal = item.format === '16:9';
 
               return (
                 <div
-                  key={video.id}
-                  onClick={() => handleCardClick(video, idx)}
-                  style={{
-                    transform: `perspective(1200px) rotateY(${rotY}deg) translateZ(${translateZ}px) scale(${scale})`,
-                    zIndex,
-                    transformOrigin: rel < 0 ? 'right center' : rel > 0 ? 'left center' : 'center center',
+                  key={item.id}
+                  onClick={() => {
+                    if (isCenter) {
+                      toggleFullScreen();
+                    } else {
+                      setCurrentIndex(index);
+                      setCurrentTime(0);
+                    }
                   }}
-                  className={`relative shrink-0 w-[180px] xs:w-[200px] sm:w-[175px] md:w-[210px] lg:w-[240px] aspect-[9/13.5] rounded-2xl sm:rounded-[24px] overflow-hidden cursor-pointer transition-all duration-700 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.9)] border ${
+                  onMouseEnter={() => isCenter && setIsHoveringCard(true)}
+                  onMouseLeave={() => isCenter && setIsHoveringCard(false)}
+                  style={{
+                    transform: `translate3d(${translateX}px, 0px, ${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                    zIndex,
+                    opacity,
+                    transition: 'all 0.55s cubic-bezier(0.25, 1, 0.5, 1)',
+                  }}
+                  className={`absolute ${
+                    isHorizontal
+                      ? 'w-[270px] xs:w-[290px] sm:w-[410px] md:w-[460px] aspect-[4/4.8]'
+                      : 'w-[250px] xs:w-[270px] sm:w-[370px] md:w-[410px] aspect-[4/5]'
+                  } rounded-[32px] overflow-hidden cursor-pointer shadow-[0_30px_70px_rgba(0,0,0,0.9)] border ${
                     isCenter
-                      ? 'border-amber-400 shadow-[0_0_35px_rgba(245,158,11,0.5)] ring-2 ring-amber-400/40'
-                      : 'border-white/15 hover:border-white/40'
-                  } group`}
+                      ? 'border-white/30 ring-1 ring-white/20 shadow-[0_0_60px_rgba(0,0,0,0.95)]'
+                      : 'border-white/10 filter brightness-75 hover:brightness-95'
+                  }`}
                 >
-                  {/* Video Thumbnail Background */}
+                  {/* Artwork Image Frame */}
                   <img
-                    src={video.thumbnail}
-                    alt={video.title}
+                    src={item.thumbnail}
+                    alt={item.title}
                     loading="lazy"
                     decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-105 brightness-95"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover transition-transform duration-700 select-none"
+                    style={{
+                      transform: isCenter && isHoveringCard ? 'scale(1.06)' : 'scale(1)',
+                    }}
                   />
 
-                  {/* Cinematic Gradient Vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/30 group-hover:via-black/10 transition-colors" />
-
-                  {/* Top Badge */}
-                  <div className="absolute top-2.5 sm:top-3 inset-x-2.5 sm:inset-x-3 flex items-center justify-between pointer-events-none">
-                    <span className="px-2 sm:px-2.5 py-0.5 rounded-md bg-black/75 border border-white/15 text-[8px] sm:text-[9px] font-mono-tech uppercase font-bold text-amber-400 backdrop-blur-md">
-                      {video.badge}
-                    </span>
-                    <span className="px-2 py-0.5 rounded-md bg-black/60 text-[8px] sm:text-[9px] font-mono-tech text-white/90 backdrop-blur-md">
-                      {video.duration}
-                    </span>
-                  </div>
-
-                  {/* Center Radiant Play Icon */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <div
-                      className={`w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center transition-all duration-300 ${
-                        isCenter
-                          ? 'bg-amber-400 text-black shadow-[0_0_30px_rgba(245,158,11,0.85)] scale-110 group-hover:scale-125'
-                          : 'bg-white/90 text-black group-hover:bg-amber-400 group-hover:text-black group-hover:scale-110 shadow-xl'
-                      }`}
-                    >
-                      <Play className="w-5 h-5 fill-current ml-0.5" />
+                  {/* Top Artwork Gradient & Format Badges */}
+                  <div className="absolute top-0 inset-x-0 p-5 sm:p-6 flex items-center justify-between pointer-events-none bg-gradient-to-b from-black/85 via-black/35 to-transparent">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono-tech text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white border border-white/15 shadow-sm">
+                        {item.categoryLabel}
+                      </span>
+                      <span
+                        className={`font-mono-tech text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                          item.format === '16:9'
+                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                            : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                        }`}
+                      >
+                        {item.format}
+                      </span>
                     </div>
-                    <span className="mt-2 text-[9px] font-mono-tech font-bold uppercase tracking-wider text-white/90 bg-black/70 px-2.5 py-0.5 rounded-full backdrop-blur-md border border-white/15 opacity-0 group-hover:opacity-100 transition-opacity">
-                      WATCH FILM ▶
-                    </span>
+
+                    {/* Fullscreen Trigger Button on Active Card */}
+                    {isCenter ? (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFullScreen();
+                        }}
+                        aria-label="Open Fullscreen Theater"
+                        className="pointer-events-auto w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all hover:scale-110 cursor-pointer"
+                        title="Full Screen Cinema View (F)"
+                      >
+                        <Maximize2 className="w-3.5 h-3.5" />
+                      </button>
+                    ) : (
+                      <span className="font-mono-tech text-[11px] px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-neutral-300 border border-white/15">
+                        {item.duration}
+                      </span>
+                    )}
                   </div>
 
-                  {/* Bottom Clean Meta Overlay */}
-                  <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 pointer-events-none space-y-0.5">
-                    <p className="text-[9px] sm:text-[10px] font-mono-tech text-amber-400 font-semibold uppercase tracking-wider truncate">
-                      {video.client}
+                  {/* Central Play/Pause Liquid Button */}
+                  {isCenter && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div
+                        className={`w-18 h-18 rounded-full bg-black/50 backdrop-blur-xl border border-white/30 text-white flex items-center justify-center shadow-[0_0_40px_rgba(0,0,0,0.8)] transition-all duration-300 ${
+                          isHoveringCard || !isPlaying ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
+                        }`}
+                      >
+                        {isPlaying ? (
+                          <Pause className="w-7 h-7 fill-white" />
+                        ) : (
+                          <Play className="w-7 h-7 fill-white ml-1" />
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Frosted Glass Bottom Banner */}
+                  <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 bg-gradient-to-t from-black/95 via-black/80 to-transparent backdrop-blur-md border-t border-white/10 flex flex-col justify-end">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-mono-tech uppercase tracking-wider text-neutral-400 font-semibold truncate pr-2">
+                        {item.client}
+                      </span>
+                      <span
+                        className="text-xs font-mono-tech font-bold shrink-0"
+                        style={{ color: item.themeColor }}
+                      >
+                        {item.views}
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight leading-tight line-clamp-1">
+                      {item.title}
+                    </h3>
+
+                    <p className="text-xs font-editorial-serif italic text-neutral-300 mt-1 line-clamp-1">
+                      {item.tagline}
                     </p>
-                    <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-1 leading-snug">
-                      {video.title}
-                    </h4>
-                  </div>
 
-                  {/* Hover Accent Glow */}
-                  <div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/[0.08] transition-colors pointer-events-none" />
+                    {/* Equalizer on Center Card */}
+                    {isCenter && isPlaying && (
+                      <div className="flex items-center justify-between mt-3 pt-2 border-t border-white/10">
+                        <div className="flex items-center gap-1">
+                          {[35, 75, 50, 90, 65, 80, 45, 95, 70, 55, 85].map((h, i) => (
+                            <span
+                              key={i}
+                              className="w-1 rounded-full animate-pulse"
+                              style={{
+                                height: `${h * 0.16}px`,
+                                backgroundColor: item.themeColor,
+                                animationDelay: `${i * 0.1}s`,
+                              }}
+                            />
+                          ))}
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFullScreen();
+                          }}
+                          className="text-[11px] font-mono-tech text-neutral-300 hover:text-white flex items-center gap-1 transition-colors cursor-pointer"
+                        >
+                          <Maximize2 className="w-3 h-3" />
+                          <span>FULLSCREEN</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
           </div>
-
-          {/* Interactive Hint */}
-          <div className="text-center pt-2 select-none">
-            <span className="text-[10px] sm:text-xs font-mono-tech text-neutral-500 uppercase tracking-widest">
-              ← CLICK ANY CARD TO WATCH IN 4K CINEMA THEATER • USE ARROWS TO ROTATE →
-            </span>
-          </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* SPECIALIZATION PILL BAR (Exact Recreation from Reference Image)           */}
+        {/* FROSTED GLASS FLOATING MEDIA CONTROLS BAR                                 */}
         {/* ========================================================================= */}
-        <div className="pt-8 sm:pt-10 flex justify-center px-4 relative z-20">
-          <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-7 px-6 sm:px-8 py-3 rounded-full bg-neutral-950/85 border border-white/15 backdrop-blur-xl shadow-[0_15px_40px_rgba(0,0,0,0.8)] text-xs sm:text-sm font-mono-tech text-neutral-200">
-            <div className="flex items-center gap-2">
-              <CheckSquare className="w-3.5 h-3.5 text-amber-400" />
-              <span>Short Video Editing</span>
+        <div className="mt-8 max-w-3xl mx-auto">
+          <div className="relative rounded-full bg-neutral-900/70 backdrop-blur-2xl border border-white/15 px-5 sm:px-8 py-3.5 sm:py-4 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex items-center justify-between gap-4">
+            {/* Left Deck: Prev / Play / Next */}
+            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+              <button
+                onClick={handlePrev}
+                aria-label="Previous reel"
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-neutral-300 hover:text-white transition-colors cursor-pointer active:scale-90"
+                title="Previous Video (Left Arrow)"
+              >
+                <SkipBack className="w-5 h-5 fill-current" />
+              </button>
+
+              <button
+                onClick={() => setIsPlaying((prev) => !prev)}
+                aria-label={isPlaying ? 'Pause playback' : 'Play video'}
+                className="w-12 h-12 rounded-full bg-white text-black hover:bg-neutral-200 flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.4)] transition-all cursor-pointer active:scale-95"
+                title="Play / Pause (Space)"
+              >
+                {isPlaying ? (
+                  <Pause className="w-5 h-5 fill-black" />
+                ) : (
+                  <Play className="w-5 h-5 fill-black ml-0.5" />
+                )}
+              </button>
+
+              <button
+                onClick={handleNext}
+                aria-label="Next reel"
+                className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-neutral-300 hover:text-white transition-colors cursor-pointer active:scale-90"
+                title="Next Video (Right Arrow)"
+              >
+                <SkipForward className="w-5 h-5 fill-current" />
+              </button>
             </div>
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/70 hidden sm:inline-block" />
-            <div className="flex items-center gap-2">
-              <CheckSquare className="w-3.5 h-3.5 text-amber-400" />
-              <span>Content Strategy</span>
+
+            {/* Center Track Capsule: Mini Thumbnail + Title + Live Scrubber */}
+            <div className="flex-1 min-w-0 px-2 sm:px-4 hidden sm:flex items-center gap-3.5 bg-black/40 rounded-2xl p-2 border border-white/10">
+              <div className="relative w-10 h-10 rounded-xl overflow-hidden shrink-0 border border-white/20">
+                <img
+                  src={activeItem.thumbnail}
+                  alt={activeItem.title}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="flex-1 min-w-0 space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-white truncate pr-2">
+                    {activeItem.title}
+                  </span>
+                  <span className="font-mono-tech text-[10px] text-neutral-400 shrink-0">
+                    {formatTime(currentTime)} / {activeItem.duration}
+                  </span>
+                </div>
+
+                {/* Progress bar scrubber */}
+                <div
+                  onClick={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const percent = clickX / rect.width;
+                    setCurrentTime(percent * activeItem.durationSeconds);
+                  }}
+                  className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden cursor-pointer relative group"
+                >
+                  <div
+                    className="h-full rounded-full transition-all duration-150"
+                    style={{
+                      width: `${progressPercent}%`,
+                      backgroundColor: activeItem.themeColor,
+                    }}
+                  />
+                </div>
+              </div>
             </div>
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/70 hidden sm:inline-block" />
-            <div className="flex items-center gap-2">
-              <CheckSquare className="w-3.5 h-3.5 text-amber-400" />
-              <span>Growth Optimization</span>
+
+            {/* Right Deck: Specs / Fullscreen / Audio */}
+            <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0 text-neutral-300">
+              <button
+                onClick={() => setShowSpecsModal(true)}
+                aria-label="View editing specs"
+                className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center hover:text-white transition-colors cursor-pointer"
+                title="View Technical Specs"
+              >
+                <Sliders className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={toggleFullScreen}
+                aria-label="Toggle Fullscreen Theater"
+                className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center hover:text-white transition-colors cursor-pointer text-amber-400"
+                title="Full Screen Cinema (F)"
+              >
+                <Maximize2 className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={() => setIsMuted((prev) => !prev)}
+                aria-label={isMuted ? 'Unmute' : 'Mute'}
+                className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center hover:text-white transition-colors cursor-pointer"
+                title="Mute / Unmute"
+              >
+                {isMuted ? (
+                  <VolumeX className="w-4 h-4 text-red-400" />
+                ) : (
+                  <Volume2 className="w-4 h-4" />
+                )}
+              </button>
             </div>
+          </div>
+        </div>
+
+        {/* Supporting Line */}
+        <div className="text-center mt-12 space-y-4">
+          <p className="text-sm sm:text-base font-editorial-serif italic text-neutral-300">
+            “Warning: You may start looking at your own camera roll differently.”
+          </p>
+
+          <div className="flex items-center justify-center gap-6 pt-2">
+            <a
+              href="#contact"
+              className="px-9 py-4 bg-white text-black font-bold text-xs sm:text-sm rounded-full hover:bg-neutral-200 transition-all flex items-center gap-2.5 shadow-[0_0_30px_rgba(255,255,255,0.25)] hover:scale-105 active:scale-95 cursor-pointer"
+            >
+              <span>Request an Edit in This Style</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </div>
 
       {/* ========================================================================= */}
-      {/* 4K CINEMA THEATER MODAL (Full 4K Unobstructed Viewing Experience)          */}
+      {/* IMMERSIVE FULL SCREEN THEATER MODAL (Triggered by Fullscreen button or 'F' key) */}
       {/* ========================================================================= */}
-      {selectedVideo && (
+      {isFullScreen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-10 bg-black/95 backdrop-blur-3xl transition-all duration-300"
-          onClick={() => setSelectedVideo(null)}
+          ref={theaterContainerRef}
+          className="fixed inset-0 z-50 bg-black flex flex-col justify-between p-4 sm:p-8 animate-fadeIn select-none"
+          style={{
+            backgroundImage: `radial-gradient(circle at center, ${activeItem.glowColor} 0%, rgba(0,0,0,0.98) 75%)`,
+          }}
         >
-          {/* Left Arrow Floating Button */}
-          <button
-            onClick={handleModalPrev}
-            aria-label="Previous Project"
-            className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-neutral-900/80 hover:bg-amber-500 hover:border-amber-400 border border-white/20 text-white hover:text-black flex items-center justify-center transition-all cursor-pointer backdrop-blur-md shadow-2xl active:scale-95 group"
-            title="Previous Video (←)"
-          >
-            <ChevronLeft className="w-6 h-6 transition-transform group-hover:-translate-x-0.5" />
-          </button>
-
-          {/* Right Arrow Floating Button */}
-          <button
-            onClick={handleModalNext}
-            aria-label="Next Project"
-            className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-neutral-900/80 hover:bg-amber-500 hover:border-amber-400 border border-white/20 text-white hover:text-black flex items-center justify-center transition-all cursor-pointer backdrop-blur-md shadow-2xl active:scale-95 group"
-            title="Next Video (→)"
-          >
-            <ChevronRight className="w-6 h-6 transition-transform group-hover:translate-x-0.5" />
-          </button>
-
-          {/* Cinema Screen Frame */}
-          <div
-            className="relative w-full max-w-5xl rounded-2xl sm:rounded-3xl bg-neutral-950 border border-white/20 shadow-[0_30px_100px_rgba(0,0,0,0.98)] overflow-hidden flex flex-col"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between px-5 sm:px-7 py-3.5 sm:py-4 border-b border-white/10 bg-neutral-900/70">
-              <div className="flex items-center gap-3">
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono-tech text-[10px] font-bold uppercase">
-                  {selectedVideo.categoryLabel}
-                </span>
-                <span className="font-mono-tech text-xs text-neutral-400">
-                  {selectedVideo.client}
-                </span>
-                <span className="hidden sm:inline-block text-neutral-600">•</span>
-                <span className="hidden sm:inline-block font-mono-tech text-xs text-amber-400 font-semibold">
-                  {selectedVideo.badge}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <span className="hidden md:inline-block text-[11px] font-mono-tech text-neutral-400">
-                  Press <kbd className="px-1.5 py-0.5 bg-neutral-800 border border-white/10 rounded text-neutral-200">ESC</kbd> to close
-                </span>
-                <button
-                  onClick={() => setSelectedVideo(null)}
-                  className="w-9 h-9 rounded-full bg-white/10 hover:bg-white hover:text-black text-white flex items-center justify-center transition-all cursor-pointer active:scale-95"
-                  aria-label="Close modal"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
+          {/* Top Fullscreen Bar */}
+          <div className="relative z-20 flex items-center justify-between bg-black/60 backdrop-blur-xl border border-white/10 px-6 py-3.5 rounded-full max-w-5xl mx-auto w-full">
+            <div className="flex items-center gap-3">
+              <span
+                className="w-3 h-3 rounded-full animate-pulse"
+                style={{ backgroundColor: activeItem.themeColor }}
+              />
+              <span className="font-mono-tech text-xs text-white uppercase tracking-widest font-bold">
+                KRIT CINEMA THEATER • {activeItem.format}
+              </span>
             </div>
 
-            {/* Embedded Responsive Video Player */}
+            <div className="flex items-center gap-3">
+              <span className="font-mono-tech text-xs text-neutral-400 hidden sm:inline-block">
+                Press <kbd className="px-1.5 py-0.5 rounded bg-neutral-800 text-white font-mono text-[10px]">ESC</kbd> to exit
+              </span>
+              <button
+                onClick={() => setIsFullScreen(false)}
+                aria-label="Exit Fullscreen"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white hover:text-black text-white flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <Minimize2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Central Cinema Stage with Real YouTube Player */}
+          <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
             <div
-              className={`relative w-full ${
-                selectedVideo.format === '9:16'
-                  ? 'aspect-[9/16] max-h-[70vh] mx-auto'
-                  : 'aspect-video'
-              } bg-black overflow-hidden`}
+              className={`relative rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.95)] border border-white/20 ${
+                activeItem.format === '16:9'
+                  ? 'w-full max-w-6xl aspect-[16/9]'
+                  : 'h-full max-h-[80vh] aspect-[9/16]'
+              }`}
             >
               <iframe
-                src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
-                title={selectedVideo.title}
+                src={`https://www.youtube.com/embed/${activeItem.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                title={activeItem.title}
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
             </div>
+          </div>
 
-            {/* Modal Bottom Meta Bar */}
-            <div className="p-5 sm:p-7 bg-neutral-900/90 border-t border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1 max-w-xl">
-                <h3 className="text-lg sm:text-xl font-extrabold text-white">
-                  {selectedVideo.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-neutral-400">
-                  {selectedVideo.tagline}
-                </p>
-                <div className="pt-2 flex flex-wrap items-center gap-2">
-                  {selectedVideo.highlights.map((h, i) => (
-                    <span
-                      key={i}
-                      className="px-2.5 py-0.5 rounded bg-white/5 border border-white/10 text-[10px] font-mono-tech text-neutral-300"
-                    >
-                      {h}
-                    </span>
-                  ))}
-                </div>
+          {/* Bottom Fullscreen Transport Dock */}
+          <div className="relative z-20 max-w-4xl mx-auto w-full bg-neutral-950/80 backdrop-blur-2xl border border-white/15 rounded-3xl p-4 sm:p-5 shadow-2xl space-y-3">
+            {/* Scrubber */}
+            <div className="flex items-center gap-4">
+              <span className="font-mono-tech text-xs text-neutral-400 shrink-0">
+                {formatTime(currentTime)}
+              </span>
+
+              <div
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const clickX = e.clientX - rect.left;
+                  const percent = clickX / rect.width;
+                  setCurrentTime(percent * activeItem.durationSeconds);
+                }}
+                className="h-2 flex-1 bg-white/10 rounded-full overflow-hidden cursor-pointer relative"
+              >
+                <div
+                  className="h-full rounded-full transition-all duration-150"
+                  style={{
+                    width: `${progressPercent}%`,
+                    backgroundColor: activeItem.themeColor,
+                  }}
+                />
               </div>
 
-              <div className="flex items-center gap-3 shrink-0 pt-2 md:pt-0">
-                <a
-                  href={`https://www.youtube.com/watch?v=${selectedVideo.youtubeId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-mono-tech uppercase flex items-center gap-2 transition-all cursor-pointer"
+              <span className="font-mono-tech text-xs text-neutral-400 shrink-0">
+                {activeItem.duration}
+              </span>
+            </div>
+
+            {/* Controls Bar */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handlePrev}
+                  className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer"
                 >
-                  <span>WATCH ON YOUTUBE</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+                  <SkipBack className="w-5 h-5 fill-current" />
+                </button>
 
                 <button
-                  onClick={handleModalNext}
-                  className="px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-mono-tech font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer shadow-[0_0_20px_rgba(245,158,11,0.4)]"
+                  onClick={() => setIsPlaying((prev) => !prev)}
+                  className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:bg-neutral-200 transition-all cursor-pointer"
                 >
-                  <span>NEXT</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  {isPlaying ? (
+                    <Pause className="w-5 h-5 fill-black" />
+                  ) : (
+                    <Play className="w-5 h-5 fill-black ml-0.5" />
+                  )}
+                </button>
+
+                <button
+                  onClick={handleNext}
+                  className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer"
+                >
+                  <SkipForward className="w-5 h-5 fill-current" />
+                </button>
+              </div>
+
+              {/* Title in Theater Dock */}
+              <div className="text-center hidden sm:block">
+                <p className="text-sm font-bold text-white">{activeItem.title}</p>
+                <p className="text-xs text-neutral-400">{activeItem.client}</p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setIsMuted((prev) => !prev)}
+                  className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer"
+                >
+                  {isMuted ? <VolumeX className="w-5 h-5 text-red-400" /> : <Volume2 className="w-5 h-5" />}
+                </button>
+
+                <button
+                  onClick={() => setIsFullScreen(false)}
+                  className="px-4 py-2 rounded-full bg-white/10 hover:bg-white hover:text-black font-mono-tech text-xs text-white transition-colors cursor-pointer"
+                >
+                  EXIT THEATER
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* TECH SPECS MODAL */}
+      {showSpecsModal && (
+        <div
+          onClick={() => setShowSpecsModal(false)}
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex items-center justify-center p-6"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-lg rounded-3xl bg-neutral-950 border border-neutral-800 p-8 shadow-2xl space-y-6"
+          >
+            <div className="flex items-center justify-between pb-4 border-b border-neutral-800">
+              <div>
+                <span className="font-mono-tech text-xs text-neutral-400 uppercase tracking-widest block">
+                  TECHNICAL EDIT SPECIFICATION
+                </span>
+                <h4 className="text-xl font-bold text-white mt-1">{activeItem.title}</h4>
+              </div>
+              <button
+                onClick={() => setShowSpecsModal(false)}
+                className="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-700 flex items-center justify-center hover:bg-white hover:text-black transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 font-mono-tech text-xs">
+              <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 space-y-1">
+                <span className="text-neutral-500 uppercase">Resolution</span>
+                <p className="text-white font-bold text-sm">{activeItem.specs.resolution}</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 space-y-1">
+                <span className="text-neutral-500 uppercase">Master Codec</span>
+                <p className="text-white font-bold text-sm">{activeItem.specs.codec}</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 space-y-1">
+                <span className="text-neutral-500 uppercase">Framerate</span>
+                <p className="text-white font-bold text-sm">{activeItem.specs.fps}</p>
+              </div>
+              <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 space-y-1">
+                <span className="text-neutral-500 uppercase">Color Space</span>
+                <p className="text-white font-bold text-sm">{activeItem.specs.colorSpace}</p>
+              </div>
+            </div>
+
+            <div className="space-y-2 pt-2">
+              <span className="text-xs font-mono-tech text-neutral-400 uppercase tracking-wider block">
+                Editorial Highlights
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {activeItem.highlights.map((h, i) => (
+                  <span
+                    key={i}
+                    className="text-xs font-mono-tech px-3 py-1.5 rounded-full bg-neutral-900 text-neutral-200 border border-neutral-800"
+                  >
+                    ✓ {h}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowSpecsModal(false)}
+              className="w-full py-3.5 rounded-full bg-white text-black font-semibold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors cursor-pointer"
+            >
+              Close Spec Sheet
+            </button>
           </div>
         </div>
       )}
