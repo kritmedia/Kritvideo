@@ -1,21 +1,16 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowUpRight, 
-  ArrowRight, 
   ArrowDown,
   Play, 
-  Sparkles,
-  CheckSquare,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
   X,
   Volume2,
-  Maximize2,
   Film,
   ExternalLink
 } from 'lucide-react';
-import Logo from '../components/Logo';
 import Header from '../components/Header';
 import SectionFinalCTAAndFooter from '../components/SectionFinalCTAAndFooter';
 import ScrollProgressIndicator from '../components/ScrollProgressIndicator';
@@ -150,28 +145,11 @@ const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
 ];
 
 export default function WorkPage({ onNavigate }: WorkPageProps) {
-  // Active Center Index in 3D Carousel (Defaults to center item)
-  const [activeCenterIndex, setActiveCenterIndex] = useState<number>(3);
-  
   // Theater Modal State (Opens video in full-screen cinema view)
   const [selectedVideo, setSelectedVideo] = useState<ShowcaseVideo | null>(null);
 
   // Category Filter for Grid Section
   const [activeCategory, setActiveCategory] = useState<string>('all');
-
-  const handlePrev = useCallback(() => {
-    setActiveCenterIndex((prev) => (prev - 1 + SHOWCASE_VIDEOS.length) % SHOWCASE_VIDEOS.length);
-  }, []);
-
-  const handleNext = useCallback(() => {
-    setActiveCenterIndex((prev) => (prev + 1) % SHOWCASE_VIDEOS.length);
-  }, []);
-
-  // Card click handler: Clicking ANY card opens it in the Cinema Theater
-  const handleCardClick = (video: ShowcaseVideo, idx: number) => {
-    setActiveCenterIndex(idx);
-    setSelectedVideo(video);
-  };
 
   // Switch video while in theater modal
   const handleModalPrev = (e?: React.MouseEvent) => {
@@ -180,7 +158,6 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
     const currentIdx = SHOWCASE_VIDEOS.findIndex(v => v.id === selectedVideo.id);
     const prevIdx = (currentIdx - 1 + SHOWCASE_VIDEOS.length) % SHOWCASE_VIDEOS.length;
     setSelectedVideo(SHOWCASE_VIDEOS[prevIdx]);
-    setActiveCenterIndex(prevIdx);
   };
 
   const handleModalNext = (e?: React.MouseEvent) => {
@@ -189,55 +166,20 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
     const currentIdx = SHOWCASE_VIDEOS.findIndex(v => v.id === selectedVideo.id);
     const nextIdx = (currentIdx + 1) % SHOWCASE_VIDEOS.length;
     setSelectedVideo(SHOWCASE_VIDEOS[nextIdx]);
-    setActiveCenterIndex(nextIdx);
   };
 
-  // Keyboard navigation
+  // Keyboard navigation for cinema theater modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedVideo) {
         if (e.key === 'Escape') setSelectedVideo(null);
         if (e.key === 'ArrowLeft') handleModalPrev();
         if (e.key === 'ArrowRight') handleModalNext();
-        return;
       }
-      if (e.key === 'ArrowLeft') handlePrev();
-      if (e.key === 'ArrowRight') handleNext();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handlePrev, handleNext, selectedVideo]);
-
-  // Mobile detection for responsive 3D video arc
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    return typeof window !== 'undefined' ? window.innerWidth < 640 : false;
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Touch swipe support for mobile video arc
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return;
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (diff > 45) {
-      handleNext();
-    } else if (diff < -45) {
-      handlePrev();
-    }
-    setTouchStartX(null);
-  };
+  }, [selectedVideo]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -329,161 +271,6 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
             </button>
           </div>
 
-        </div>
-
-        {/* ======================================================================= */}
-        {/* 3D CURVED PANORAMIC VIDEO AMPHITHEATER (Exact Reference Recreation)    */}
-        {/* ======================================================================= */}
-        <div className="relative mt-14 sm:mt-18 max-w-[1600px] mx-auto z-10 select-none">
-          
-          {/* Navigation Arrow Controls */}
-          <button
-            onClick={handlePrev}
-            aria-label="Previous Video"
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full bg-black/80 hover:bg-amber-500 border border-white/20 hover:border-amber-400 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-[0_0_25px_rgba(0,0,0,0.9)] active:scale-95 group"
-          >
-            <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
-          </button>
-          <button
-            onClick={handleNext}
-            aria-label="Next Video"
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-40 w-11 h-11 rounded-full bg-black/80 hover:bg-amber-500 border border-white/20 hover:border-amber-400 text-white flex items-center justify-center backdrop-blur-md transition-all cursor-pointer shadow-[0_0_25px_rgba(0,0,0,0.9)] active:scale-95 group"
-          >
-            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
-          </button>
-
-          {/* The 3D Arc Track */}
-          <div 
-            className="w-full flex items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 py-6 sm:py-8 overflow-visible touch-pan-y"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            style={{
-              perspective: '1300px',
-              transformStyle: 'preserve-3d',
-            }}
-          >
-            {SHOWCASE_VIDEOS.map((video, idx) => {
-              // Calculate relative offset from current active center
-              const count = SHOWCASE_VIDEOS.length;
-              let rel = (idx - activeCenterIndex) % count;
-              if (rel > count / 2) rel -= count;
-              if (rel < -count / 2) rel += count;
-
-              const absRel = Math.abs(rel);
-              const isCenter = rel === 0;
-
-              // On mobile, render only the active card and immediate neighbors to avoid horizontal overflow
-              if (isMobile && absRel > 1) return null;
-
-              // Compute Y rotation: outer cards angle inward
-              const rotY = rel === 0 ? 0 : rel < 0 ? (24 - (absRel - 1) * 4) : -(24 - (absRel - 1) * 4);
-              
-              // Scale: outer cards are larger (matching reference), center card is clear and focused
-              const scale = isCenter ? 1.0 : absRel === 1 ? 0.98 : absRel === 2 ? 1.05 : 1.15;
-              
-              // Z-translation: push outer cards slightly forward
-              const translateZ = isCenter ? 0 : absRel === 1 ? -10 : absRel === 2 ? 20 : 60;
-
-              // Z-index hierarchy
-              const zIndex = isCenter ? 35 : absRel === 1 ? 32 : absRel === 2 ? 34 : 36;
-
-              return (
-                <div
-                  key={video.id}
-                  onClick={() => handleCardClick(video, idx)}
-                  style={{
-                    transform: `perspective(1200px) rotateY(${rotY}deg) translateZ(${translateZ}px) scale(${scale})`,
-                    zIndex,
-                    transformOrigin: rel < 0 ? 'right center' : rel > 0 ? 'left center' : 'center center',
-                  }}
-                  className={`relative shrink-0 w-[180px] xs:w-[200px] sm:w-[175px] md:w-[210px] lg:w-[240px] aspect-[9/13.5] rounded-2xl sm:rounded-[24px] overflow-hidden cursor-pointer transition-all duration-700 ease-out shadow-[0_20px_60px_rgba(0,0,0,0.9)] border ${
-                    isCenter 
-                      ? 'border-amber-400 shadow-[0_0_35px_rgba(245,158,11,0.5)] ring-2 ring-amber-400/40' 
-                      : 'border-white/15 hover:border-white/40'
-                  } group`}
-                >
-                  {/* Video Thumbnail Background */}
-                  <img 
-                    src={video.thumbnail} 
-                    alt={video.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-105 brightness-95"
-                  />
-
-                  {/* Cinematic Gradient Vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/30 group-hover:via-black/10 transition-colors" />
-
-                  {/* Top Badge */}
-                  <div className="absolute top-2.5 sm:top-3 inset-x-2.5 sm:inset-x-3 flex items-center justify-between pointer-events-none">
-                    <span className="px-2 sm:px-2.5 py-0.5 rounded-md bg-black/75 border border-white/15 text-[8px] sm:text-[9px] font-mono-tech uppercase font-bold text-amber-400 backdrop-blur-md">
-                      {video.badge}
-                    </span>
-                    <span className="px-2 py-0.5 rounded-md bg-black/60 text-[8px] sm:text-[9px] font-mono-tech text-white/90 backdrop-blur-md">
-                      {video.duration}
-                    </span>
-                  </div>
-
-                  {/* Center Radiant Play Icon (Clean, Reference-Accurate) */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <div className={`w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center transition-all duration-300 ${
-                      isCenter 
-                        ? 'bg-amber-400 text-black shadow-[0_0_30px_rgba(245,158,11,0.85)] scale-110 group-hover:scale-125' 
-                        : 'bg-white/90 text-black group-hover:bg-amber-400 group-hover:text-black group-hover:scale-110 shadow-xl'
-                    }`}>
-                      <Play className="w-5 h-5 fill-current ml-0.5" />
-                    </div>
-                    <span className="mt-2 text-[9px] font-mono-tech font-bold uppercase tracking-wider text-white/90 bg-black/70 px-2.5 py-0.5 rounded-full backdrop-blur-md border border-white/15 opacity-0 group-hover:opacity-100 transition-opacity">
-                      WATCH FILM ▶
-                    </span>
-                  </div>
-
-                  {/* Bottom Clean Meta Overlay */}
-                  <div className="absolute bottom-0 inset-x-0 p-3 sm:p-4 pointer-events-none space-y-0.5">
-                    <p className="text-[9px] sm:text-[10px] font-mono-tech text-amber-400 font-semibold uppercase tracking-wider truncate">
-                      {video.client}
-                    </p>
-                    <h4 className="text-xs sm:text-sm font-bold text-white line-clamp-1 leading-snug">
-                      {video.title}
-                    </h4>
-                  </div>
-
-                  {/* Hover Accent Glow */}
-                  <div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/[0.08] transition-colors pointer-events-none" />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Interactive Hint */}
-          <div className="text-center pt-2 select-none">
-            <span className="text-[10px] sm:text-xs font-mono-tech text-neutral-500 uppercase tracking-widest">
-              ← CLICK ANY CARD TO WATCH IN 4K CINEMA THEATER • USE ARROWS TO ROTATE →
-            </span>
-          </div>
-
-        </div>
-
-        {/* ======================================================================= */}
-        {/* 03. SPECIALIZATION PILL BAR (Exact Recreation from Reference Image)     */}
-        {/* ======================================================================= */}
-        <div className="pt-8 sm:pt-10 flex justify-center px-4 relative z-20">
-          <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-7 px-6 sm:px-8 py-3 rounded-full bg-neutral-950/85 border border-white/15 backdrop-blur-xl shadow-[0_15px_40px_rgba(0,0,0,0.8)] text-xs sm:text-sm font-mono-tech text-neutral-200">
-            <div className="flex items-center gap-2">
-              <CheckSquare className="w-3.5 h-3.5 text-amber-400" />
-              <span>Short Video Editing</span>
-            </div>
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/70 hidden sm:inline-block" />
-            <div className="flex items-center gap-2">
-              <CheckSquare className="w-3.5 h-3.5 text-amber-400" />
-              <span>Content Strategy</span>
-            </div>
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/70 hidden sm:inline-block" />
-            <div className="flex items-center gap-2">
-              <CheckSquare className="w-3.5 h-3.5 text-amber-400" />
-              <span>Growth Optimization</span>
-            </div>
-          </div>
         </div>
 
       </section>
@@ -690,14 +477,10 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
 
           {/* Responsive Video Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {filteredGridVideos.map((video, i) => (
+            {filteredGridVideos.map((video) => (
               <div
                 key={video.id}
-                onClick={() => {
-                  const masterIdx = SHOWCASE_VIDEOS.findIndex(v => v.id === video.id);
-                  if (masterIdx !== -1) setActiveCenterIndex(masterIdx);
-                  setSelectedVideo(video);
-                }}
+                onClick={() => setSelectedVideo(video)}
                 className="group relative rounded-2xl sm:rounded-3xl bg-neutral-950/80 border border-white/10 hover:border-amber-400/40 backdrop-blur-xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-1.5 cursor-pointer flex flex-col"
               >
                 {/* Thumbnail Screen */}
