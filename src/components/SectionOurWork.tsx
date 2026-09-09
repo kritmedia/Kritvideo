@@ -55,7 +55,7 @@ const PORTFOLIO_DATA: PortfolioItem[] = [
     durationSeconds: 1122,
     views: 'YouTube Long-Form',
     format: '16:9',
-    thumbnail: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1400&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=75',
     themeColor: '#e67300', // Amber gold
     glowColor: 'rgba(230, 115, 0, 0.40)',
     highlights: ['Narrative Flow', 'Visual Pacing', 'Sound Design'],
@@ -77,7 +77,7 @@ const PORTFOLIO_DATA: PortfolioItem[] = [
     durationSeconds: 90,
     views: 'Commercial Edit',
     format: '16:9',
-    thumbnail: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1400&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=75',
     themeColor: '#d97706', // Warm bronze
     glowColor: 'rgba(217, 119, 6, 0.40)',
     highlights: ['Commercial Color Grade', 'Sound Finishing', 'Dynamic Motion'],
@@ -99,7 +99,7 @@ const PORTFOLIO_DATA: PortfolioItem[] = [
     durationSeconds: 2710,
     views: 'Multi-Cam Master',
     format: '16:9',
-    thumbnail: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1400&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=75',
     themeColor: '#9333ea', // Violet
     glowColor: 'rgba(147, 51, 234, 0.40)',
     highlights: ['Multi-Cam Switching', 'Audio Normalization', 'Chaptering'],
@@ -121,7 +121,7 @@ const PORTFOLIO_DATA: PortfolioItem[] = [
     durationSeconds: 500,
     views: 'Cinematic Story',
     format: '16:9',
-    thumbnail: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1400&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=75',
     themeColor: '#0284c7', // Cyber blue
     glowColor: 'rgba(2, 132, 199, 0.40)',
     highlights: ['Film Emulation', 'Atmospheric Foley', 'Seamless Cuts'],
@@ -143,7 +143,7 @@ const PORTFOLIO_DATA: PortfolioItem[] = [
     durationSeconds: 50,
     views: 'Social Reels',
     format: '9:16',
-    thumbnail: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=75',
     themeColor: '#dc2626', // Crimson red
     glowColor: 'rgba(220, 38, 38, 0.40)',
     highlights: ['Hook Retention', 'Kinetic Captions', 'Sound FX'],
@@ -165,7 +165,7 @@ const PORTFOLIO_DATA: PortfolioItem[] = [
     durationSeconds: 45,
     views: 'Paid Ad Creative',
     format: '16:9',
-    thumbnail: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1400&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=75',
     themeColor: '#16a34a', // Emerald green
     glowColor: 'rgba(22, 163, 74, 0.40)',
     highlights: ['Macro Product Shots', 'Crisp Typography', 'Dynamic Grade'],

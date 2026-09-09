@@ -311,14 +311,14 @@ export default function App() {
   useEffect(() => {
     let isMounted = true;
 
-    // 1. Instantly request Frame 1 with high priority
+    // 1. Instantly request Frame 1 with high priority for immediate above-the-fold render
     loadHeroFrame(1, true);
 
     const firstImg = heroImagesRef.current[0];
     const handleInitialLoad = () => {
       if (isMounted) drawCompositeFrame(0);
-      // 2. Buffer next 10 frames after Frame 1 has loaded
-      prefetchHeroRange(2, 12);
+      // Buffer the next 4 frames for smooth immediate interaction
+      prefetchHeroRange(2, 5);
     };
 
     if (firstImg) {
@@ -329,31 +329,26 @@ export default function App() {
       }
     }
 
-    // 3. Progressive idle background preloading: load 4 frames per idle cycle
-    let currentIdleHero = 13;
+    // 2. Idle prefetch subpages (Services, Work, About, Contact, Blog)
+    // so navigating to any route renders INSTANTLY (0ms delay) without blocking initial render
     let idleTimer: any = null;
-
-    const loadNextIdleBatch = () => {
+    const prefetchSubpages = () => {
       if (!isMounted) return;
-      if (currentIdleHero <= TOTAL_HERO_FRAMES) {
-        prefetchHeroRange(currentIdleHero, currentIdleHero + 3);
-        currentIdleHero += 4;
-        if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-          idleTimer = (window as any).requestIdleCallback(loadNextIdleBatch, { timeout: 1200 });
-        } else {
-          idleTimer = setTimeout(loadNextIdleBatch, 80);
-        }
-      }
+      import('./pages/ServicesPage');
+      import('./pages/WorkPage');
+      import('./pages/AboutPage');
+      import('./pages/ContactPage');
+      import('./pages/BlogArchivePage');
     };
 
-    // Begin idle loading 1.5s after mount so initial paint, hydration, and fonts finish without contention
-    const initialIdleDelay = setTimeout(() => {
-      loadNextIdleBatch();
-    }, 1500);
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      idleTimer = (window as any).requestIdleCallback(prefetchSubpages, { timeout: 3500 });
+    } else {
+      idleTimer = setTimeout(prefetchSubpages, 2000);
+    }
 
     return () => {
       isMounted = false;
-      clearTimeout(initialIdleDelay);
       if (idleTimer) {
         if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
           (window as any).cancelIdleCallback(idleTimer);
@@ -417,28 +412,28 @@ export default function App() {
       if (Math.abs(diff) > 0.0001) {
         currentProgressRef.current += diff * 0.12;
         drawCompositeFrame(currentProgressRef.current);
-      } else {
-        currentProgressRef.current = targetProgressRef.current;
-      }
 
-      // Scroll-driven adaptive lookahead prefetching
-      const progress = currentProgressRef.current;
-      if (progress <= 0.48) {
-        const heroFrame = Math.min(
-          TOTAL_HERO_FRAMES,
-          Math.max(1, Math.round((progress / 0.48) * (TOTAL_HERO_FRAMES - 1)) + 1)
-        );
-        prefetchHeroRange(heroFrame - 2, heroFrame + 10);
-        if (progress > 0.35) {
-          prefetchSecondRange(1, 15);
+        // Lightweight JIT lookahead: only buffer 4 frames ahead during active scrolling
+        const progress = currentProgressRef.current;
+        if (progress <= 0.48) {
+          const heroFrame = Math.min(
+            TOTAL_HERO_FRAMES,
+            Math.max(1, Math.round((progress / 0.48) * (TOTAL_HERO_FRAMES - 1)) + 1)
+          );
+          prefetchHeroRange(heroFrame - 1, heroFrame + 4);
+          if (progress > 0.42) {
+            prefetchSecondRange(1, 4);
+          }
+        } else {
+          const secondProgress = (progress - 0.52) / (1.0 - 0.52);
+          const secondFrame = Math.min(
+            TOTAL_SECOND_FRAMES,
+            Math.max(1, Math.round(secondProgress * (TOTAL_SECOND_FRAMES - 1)) + 1)
+          );
+          prefetchSecondRange(secondFrame - 1, secondFrame + 4);
         }
       } else {
-        const secondProgress = (progress - 0.52) / (1.0 - 0.52);
-        const secondFrame = Math.min(
-          TOTAL_SECOND_FRAMES,
-          Math.max(1, Math.round(secondProgress * (TOTAL_SECOND_FRAMES - 1)) + 1)
-        );
-        prefetchSecondRange(secondFrame - 2, secondFrame + 10);
+        currentProgressRef.current = targetProgressRef.current;
       }
 
       animationFrameIdRef.current = requestAnimationFrame(renderLoop);

@@ -24,8 +24,12 @@ export default function Logo({ className = '', size = 'md', showText = true }: L
       {/* Official KritVideo App Emblem */}
       <div className={`relative ${iconDimensions} rounded-xl sm:rounded-2xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.7)] group-hover:shadow-[0_0_25px_rgba(249,115,22,0.5)] transition-all duration-300 shrink-0 border border-white/20`}>
         <img
-          src="/kritvideo-logo.png"
+          src="/kritvideo-logo.webp"
           alt="KritVideo Logo"
+          width="80"
+          height="80"
+          loading="eager"
+          decoding="async"
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>

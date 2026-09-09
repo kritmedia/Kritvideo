@@ -93,7 +93,7 @@ export const BLOG_POSTS: BlogPost[] = [
     publishedAt: 'September 5, 2026',
     readTime: '12 min read',
     author: KRITVIDEO_EDITORIAL_AUTHOR,
-    coverImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1400&q=85',
+    coverImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=75',
     metaTitle: 'How Much Does YouTube Video Editing Cost in 2026? | KritVideo',
     metaDescription: 'Learn real 2026 YouTube video editing rates. See what freelancers, agencies, and dedicated studios charge per video or month, plus how to get the best return.',
     keywords: 'youtube video editing cost, how much to pay youtube editor, video editing pricing 2026, hire youtube editor rates, cost per video editing',
@@ -125,7 +125,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'Finally is Tier 3: The Dedicated Post-Production Studio (like KritVideo). A studio charges $450 to $900 per video, or $1,850 to $3,500 on a monthly retainer. You get a dedicated lead editor backed by specialized colorists and audio engineers. Every video goes through a multi-step quality check, guaranteed 48-hour delivery, and direct communication.'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=75',
           caption: 'Professional studio timelines feature separate layers for dialogue cleaning, foley sound effects, motion graphics, and color nodes.'
         },
         infographic: {
@@ -198,7 +198,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'Dedicated Monthly Retainer ($1,850 to $3,500/month): This is best for channels posting 4 to 8 videos every single month. You lock in a dedicated lead editor on your account. You get priority turnaround, guaranteed 48-hour delivery, and consistent communication without having to negotiate price for every single upload.'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&w=800&q=75',
           caption: 'Planning post-production budgets with predictable per-video or monthly studio retainers prevents unexpected project overruns.'
         }
       },
@@ -246,7 +246,7 @@ export const BLOG_POSTS: BlogPost[] = [
     publishedAt: 'September 3, 2026',
     readTime: '11 min read',
     author: KRITVIDEO_EDITORIAL_AUTHOR,
-    coverImage: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1400&q=85',
+    coverImage: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=75',
     metaTitle: '2026 YouTube Retention Rate Benchmarks (APV Guide) | KritVideo',
     metaDescription: 'What is a good Average Percentage Viewed (APV) on YouTube? See 2026 retention benchmarks by video length, niche, and learn how to stop viewer drop-off.',
     keywords: 'good youtube retention rate, average percentage viewed benchmark, youtube retention percentage 2026, how to improve youtube retention, youtube watch time benchmark',
@@ -286,7 +286,7 @@ export const BLOG_POSTS: BlogPost[] = [
           ]
         },
         image: {
-          url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=75',
           caption: 'Monitoring audience retention curves and Average Percentage Viewed (APV) in YouTube Studio highlights critical drop-off points.'
         }
       },
@@ -375,7 +375,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'Formula #4: The Direct Question Hook. Ask a question your target viewer has asked themselves this week: "Have you ever spent 12 hours editing a video, only for it to get 84 views? Here is the single mistake you made."'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=75',
           caption: 'Visual framing, camera transitions, and dynamic pacing capture viewers within the first critical seconds of video playback.'
         },
         bulletPoints: [
@@ -426,7 +426,7 @@ export const BLOG_POSTS: BlogPost[] = [
     publishedAt: 'September 1, 2026',
     readTime: '12 min read',
     author: KRITVIDEO_EDITORIAL_AUTHOR,
-    coverImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=85',
+    coverImage: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=75',
     metaTitle: 'The B2B Founder Video Playbook: 1 Hour to 30 Days of Content | KritVideo',
     metaDescription: 'Learn how busy B2B founders turn a 60-minute recording into 20+ viral LinkedIn clips, YouTube videos, and Shorts. Discover our step-by-step repurposing system.',
     keywords: 'b2b video editing service, founder led content, repurpose video into shorts, executive video production, podcast to shorts agency',
@@ -458,7 +458,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'When the hour is over, you upload the raw video file to a shared Google Drive or Dropbox folder. Your work is 100% finished.'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=800&q=75',
           caption: 'Vertical video extracts must be framed cleanly with ample headroom and brand-matched color schemes to preserve executive credibility.'
         }
       },
@@ -557,7 +557,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'Item 3: Elevate Your Camera to Eye Level ($0). Never film looking down at your laptop screen—it creates an unflattering angle and shows your ceiling. Stack three books under your laptop or webcam so the lens is level with your pupils.'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=75',
           caption: 'A clean desk setup with a dedicated dynamic microphone and eye-level camera creates a crisp, distraction-free executive video aesthetic.'
         },
         bulletPoints: [
@@ -612,7 +612,7 @@ export const BLOG_POSTS: BlogPost[] = [
     publishedAt: 'August 28, 2026',
     readTime: '11 min read',
     author: KRITVIDEO_EDITORIAL_AUTHOR,
-    coverImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=85',
+    coverImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=75',
     metaTitle: 'Freelance Editor vs Agency vs Dedicated Studio (2026) | KritVideo',
     metaDescription: 'Should you hire a freelance video editor, an agency, or a dedicated studio team? Discover the hidden costs, turnaround times, and pros and cons of each model.',
     keywords: 'hire freelance video editor vs agency, best video editing agency, dedicated video editor, youtube editor comparison, freelance video editor drawbacks',
@@ -656,7 +656,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'The Hidden Disadvantages: Traditional agencies are slow and bureaucratic. A simple cut often has to go through an account manager, an associate producer, and a creative director before it reaches the editor. More importantly, agencies rarely understand native YouTube culture. They edit YouTube videos like TV commercials, which often results in stiff pacing and low retention.'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=75',
           caption: 'High-end post-production studios combine dedicated human relationships with standardized color and audio infrastructure.'
         }
       },
@@ -759,7 +759,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'Step 3: Establish a Consistent Upload Routine. Agree on a set filming day and delivery day. For example: you upload raw files every Tuesday evening; your editor delivers the polished cut every Thursday afternoon. Consistency removes stress for everyone.'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=75',
           caption: 'Clear creative briefs, reference timelines, and structured onboarding prevent communication friction and guarantee consistent quality.'
         }
       },
@@ -785,7 +785,7 @@ export const BLOG_POSTS: BlogPost[] = [
     publishedAt: 'August 24, 2026',
     readTime: '12 min read',
     author: KRITVIDEO_EDITORIAL_AUTHOR,
-    coverImage: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1400&q=85',
+    coverImage: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=800&q=75',
     metaTitle: 'YouTube Audio Mastering Guide: -14 LUFS Explained Simply | KritVideo',
     metaDescription: 'Why are your YouTube videos quiet? Understand YouTube -14 LUFS audio normalization, True Peak ceilings, and how to master dialogue cleanly in simple steps.',
     keywords: 'youtube audio mastering, 14 lufs explained, why is youtube video quiet, fairlight audio mastering, dialogue eq youtube, audio normalization youtube',
@@ -817,7 +817,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'On YouTube, the target volume is -14.0 LUFS integrated. If your video is exported at -10 LUFS (which is very loud), YouTube does not leave it loud. Their playback system automatically turns your entire video down by 4 decibels! This can squash your audio dynamics and make your music sound flat.'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=75',
           caption: 'Monitoring dialogue levels with loudness meters ensures consistent volume across mobile phones, laptops, and TV speakers.'
         }
       },
@@ -918,7 +918,7 @@ export const BLOG_POSTS: BlogPost[] = [
           'You do not need ugly acoustic foam panels to fix this. You just need soft, porous materials that absorb sound waves before they can bounce back into the microphone.'
         ],
         image: {
-          url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80',
+          url: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=75',
           caption: 'Studio headphones and acoustic dampening allow accurate monitoring of subtle background hum, room echo, and vocal dynamics.'
         },
         bulletPoints: [
