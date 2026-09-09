@@ -7,21 +7,9 @@ import {
   Clock, 
   ShieldCheck, 
   Volume2, 
-  Film, 
-  Scissors, 
-  Layers, 
-  Heart, 
-  CheckCircle2, 
   ChevronDown, 
-  Camera, 
-  Mic2, 
-  User, 
-  Briefcase,
-  Quote,
-  Sliders,
   Plus
 } from 'lucide-react';
-import Logo from '../components/Logo';
 import Header from '../components/Header';
 import SectionFinalCTAAndFooter from '../components/SectionFinalCTAAndFooter';
 import ScrollProgressIndicator from '../components/ScrollProgressIndicator';
@@ -280,7 +268,7 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
           <div className="flex flex-col items-center text-center pb-16 relative z-20">
             <div className="inline-flex items-center gap-2 text-xs font-mono-tech text-amber-300 font-bold tracking-widest uppercase bg-amber-500/10 border border-amber-500/20 px-4 py-1.5 rounded-full">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-              <span className="font-editorial-serif italic text-base text-amber-300 lowercase">our story & how it works.</span>
+              <h2 className="font-editorial-serif italic text-base text-amber-300 lowercase inline">our story & how it works.</h2>
             </div>
             <div className="text-[10px] font-mono-tech text-neutral-500 uppercase tracking-widest pt-2">
               [ SCROLL TO SEE HOW WE HELP ]
@@ -371,9 +359,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
                     </div>
                     <span className="text-[10px] font-mono-tech text-neutral-500 uppercase">THE STRUGGLE</span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                     Shooting is fun. Editing gets overwhelming.
-                  </h4>
+                  </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                     You shoot your clips, get excited, and then face dozens of messy takes. Most videos never get published because editing takes hours of patience you simply don't have. Good ideas end up forgotten on hard drives.
                   </p>
@@ -433,9 +421,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
                     </div>
                     <span className="text-[10px] font-mono-tech text-neutral-500 uppercase">THE STORY</span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                     You shoot. We shape the story.
-                  </h4>
+                  </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                     Send us your raw footage. We cut out the awkward pauses, pick your best takes, and pace the video smoothly so people enjoy watching from start to finish — keeping your natural voice front and center.
                   </p>
@@ -482,9 +470,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
                     </div>
                     <span className="text-[10px] font-mono-tech text-neutral-500 uppercase">FINISHING</span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                     Crisp sound, balanced colors, clean look.
-                  </h4>
+                  </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                     We make your voice sound clear and easy to hear, fix dark or washed-out lighting, and add music and simple titles that make your video feel polished and enjoyable to watch.
                   </p>
@@ -518,9 +506,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
                     </div>
                     <span className="text-[10px] font-mono-tech text-neutral-500 uppercase">PUBLISHED</span>
                   </div>
-                  <h4 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                     Finished, shared, and hours back every week.
-                  </h4>
+                  </h3>
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
                     Your video is finished and ready to upload to YouTube, Instagram, LinkedIn, or your website. No stress, no delays — just consistent videos that build real trust with your audience.
                   </p>
@@ -571,9 +559,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
                 <span>● WHAT YOU GET</span>
               </div>
-              <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
                 Four things we <span className="font-editorial-serif italic font-normal text-amber-300">give you.</span>
-              </h3>
+              </h2>
             </div>
             <p className="text-neutral-300 text-xs sm:text-sm max-w-md font-normal leading-relaxed">
               Simple, high-leverage outcomes that make creating and publishing videos effortless and enjoyable every single week.
@@ -631,9 +619,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
                         <IconComponent className="w-5 h-5" />
                       </div>
                     </div>
-                    <h4 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-amber-300 transition-colors">
+                    <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-amber-300 transition-colors">
                       {card.title}
-                    </h4>
+                    </h3>
                     <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-normal">
                       {card.desc}
                     </p>
@@ -721,9 +709,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             <div className="text-xs font-mono-tech text-amber-400 font-bold uppercase tracking-widest">
               ● QUICK QUESTIONS
             </div>
-            <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               A few things about KritVideo.
-            </h3>
+            </h2>
           </div>
 
           <div className="space-y-3">

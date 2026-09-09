@@ -170,6 +170,8 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
               <img
                 src={post.author.avatar}
                 alt={post.author.name}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover rounded-full"
               />
             </div>
@@ -185,6 +187,8 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
           <img
             src={post.coverImage}
             alt={post.title}
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-[320px] sm:h-[460px] object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-transparent" />
@@ -243,6 +247,7 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
                     alt={section.image.caption}
                     className="w-full h-64 sm:h-80 md:h-96 object-cover"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="p-3 text-xs font-mono-tech text-neutral-400 bg-neutral-900/90 border-t border-neutral-800 text-center flex items-center justify-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
@@ -406,6 +411,8 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
             <img
               src={post.author.avatar}
               alt={post.author.name}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover rounded-full"
             />
           </div>
@@ -485,6 +492,8 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
                       <img
                         src={rPost.coverImage}
                         alt={rPost.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent opacity-80" />

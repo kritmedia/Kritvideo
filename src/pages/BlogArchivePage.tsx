@@ -151,6 +151,8 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
                 <img
                   src={featuredPost.coverImage}
                   alt={featuredPost.title}
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-neutral-950" />
@@ -191,6 +193,8 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
                       <img
                         src={featuredPost.author.avatar}
                         alt={featuredPost.author.name}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover rounded-full"
                       />
                     </div>
@@ -249,6 +253,8 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
                       <img
                         src={post.coverImage}
                         alt={post.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent opacity-80" />
@@ -284,6 +290,8 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
                         <img
                           src={post.author.avatar}
                           alt={post.author.name}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover rounded-full"
                         />
                       </div>

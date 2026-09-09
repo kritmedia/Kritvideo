@@ -470,6 +470,8 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
                           <img 
                             src={item.thumbnail} 
                             alt={item.title} 
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover filter brightness-90 group-hover/tab:scale-110 transition-transform duration-300"
                           />
                           {isActive && (

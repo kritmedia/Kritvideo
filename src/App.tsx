@@ -22,6 +22,18 @@ const BlogArchivePage = React.lazy(() => import('./pages/BlogArchivePage'));
 const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
+// Eagerly initiate fetching of the active route component immediately on script evaluation to eliminate network waterfall
+if (typeof window !== 'undefined') {
+  const p = (window.location.pathname || '').toLowerCase().replace(/\/+$/, '') || '/';
+  const h = (window.location.hash || '').toLowerCase();
+  if (p === '/work' || h.startsWith('#/work')) import('./pages/WorkPage');
+  else if (p === '/services' || h.startsWith('#/services')) import('./pages/ServicesPage');
+  else if (p === '/about' || h.startsWith('#/about')) import('./pages/AboutPage');
+  else if (p === '/contact' || h.startsWith('#/contact')) import('./pages/ContactPage');
+  else if (p === '/blog' || h.startsWith('#/blog')) import('./pages/BlogArchivePage');
+  else if (p.startsWith('/blog/')) import('./pages/BlogPostPage');
+}
+
 // Sleek luxury branded loader fallback for subpages
 function PageLoadingFallback() {
   return (
