@@ -559,20 +559,20 @@ export default function App() {
 
       <div ref={heroContainerRef} className="relative z-10 flex flex-col">
         {/* SECTION 1: Hero Section (Minimal, High-Impact Split Layout matching reference image) */}
-        <section className="relative min-h-screen flex flex-col justify-between px-5 sm:px-12 md:px-16 lg:px-20 pt-20 sm:pt-32 pb-4 sm:pb-8 select-none">
-          <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col justify-center lg:flex-row lg:items-center lg:justify-between gap-6 sm:gap-10 lg:gap-16 py-4 sm:py-10">
+        <section className="relative min-h-[100svh] sm:min-h-screen flex flex-col justify-center px-5 sm:px-12 md:px-16 lg:px-20 pt-28 sm:pt-36 pb-14 sm:pb-16 select-none">
+          <div className="w-full max-w-7xl mx-auto flex-1 flex flex-col justify-center lg:flex-row lg:items-center lg:justify-between gap-8 sm:gap-10 lg:gap-16 py-6 sm:py-10">
             
             {/* LEFT COLUMN: Bold, Minimal Headline & Pillars */}
-            <div className="w-full lg:w-5/12 max-w-lg space-y-3 sm:space-y-4">
-              <div className="flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs font-mono-tech uppercase tracking-[0.2em] sm:tracking-[0.25em] text-neutral-400 font-semibold">
-                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+            <div className="w-full lg:w-5/12 max-w-lg space-y-4 sm:space-y-4">
+              <div className="flex items-center gap-2 sm:gap-2.5 text-[10.5px] sm:text-xs font-mono-tech uppercase tracking-[0.18em] sm:tracking-[0.25em] text-neutral-400 font-semibold">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
                 <span className="text-white">YOUR ON-DEMAND VIDEO EDITING TEAM</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[4.75rem] font-black tracking-[-0.04em] leading-[0.94] text-white drop-shadow-2xl">
-                Stop wrestling with your<br />
+              <h1 className="text-[2.2rem] sm:text-6xl md:text-7xl lg:text-[4.75rem] font-black tracking-tight sm:tracking-[-0.04em] leading-[1.08] sm:leading-[0.94] text-white drop-shadow-2xl">
+                Stop wrestling with<br className="sm:hidden" /><span className="hidden sm:inline"> your</span><br className="hidden sm:inline" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-amber-200">
-                  edit timeline.
+                  <span className="sm:hidden">your </span>edit timeline.
                 </span>
               </h1>
             </div>
@@ -581,45 +581,51 @@ export default function App() {
             <div className="hidden lg:block lg:w-2/12 pointer-events-none" />
 
             {/* RIGHT COLUMN: Concise purpose statement & modern capsule CTA */}
-            <div className="w-full lg:w-5/12 max-w-md space-y-4 sm:space-y-5 lg:text-left">
-              <p className="text-sm sm:text-base text-neutral-300 leading-relaxed max-w-md">
+            <div className="w-full lg:w-5/12 max-w-md space-y-6 sm:space-y-6 lg:text-left">
+              <p className="text-[15px] sm:text-base text-neutral-300 leading-relaxed max-w-md font-normal">
                 You film it. We make it look, sound, and perform ridiculously well. Hand over your raw files and get your finished cut back in 48 hours.
               </p>
 
               {/* Modern Capsule CTA */}
-              <div className="space-y-3">
-                <div className="flex flex-wrap items-center gap-3">
+              <div className="space-y-4 sm:space-y-3">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <button
                     onClick={() => navigateTo('/contact')}
-                    className="group pl-6 pr-2 py-2 bg-white text-black font-bold text-xs sm:text-sm rounded-full hover:bg-neutral-100 transition-all flex items-center gap-4 shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] active:scale-95 cursor-pointer"
+                    className="group pl-6 pr-2.5 py-2.5 sm:py-2 bg-white text-black font-bold text-xs sm:text-sm rounded-full hover:bg-neutral-100 transition-all flex items-center justify-between sm:justify-start gap-4 shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] active:scale-95 cursor-pointer w-full sm:w-auto"
                   >
                     <span className="tracking-wider uppercase font-mono-tech font-extrabold text-xs">
                       START A PROJECT
                     </span>
-                    <span className="w-9 h-9 rounded-full bg-amber-400 text-black flex items-center justify-center group-hover:rotate-45 transition-transform duration-300 shadow-md">
+                    <span className="w-9 h-9 rounded-full bg-amber-400 text-black flex items-center justify-center group-hover:rotate-45 transition-transform duration-300 shadow-md shrink-0">
                       <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
                     </span>
                   </button>
 
                   <button
                     onClick={() => scrollToSection('work')}
-                    className="px-5 py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/15 hover:border-white text-neutral-300 hover:text-white text-xs font-mono-tech uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer"
+                    className="px-6 py-3.5 sm:py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/15 hover:border-white text-neutral-300 hover:text-white text-xs font-mono-tech uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 w-full sm:w-auto"
                   >
-                    <Play className="w-3 h-3 fill-current text-amber-400" />
+                    <Play className="w-3.5 h-3.5 fill-current text-amber-400 shrink-0" />
                     <span>SEE OUR CUTS ▶</span>
                   </button>
                 </div>
 
                 {/* Pinch-of-Humour Trust Line */}
-                <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-mono-tech text-neutral-400 pt-1">
-                  <span className="text-amber-400">✦</span>
-                  <span className="text-neutral-300">First cut in 48h</span>
-                  <span className="text-neutral-600">•</span>
-                  <span className="text-amber-400">✦</span>
-                  <span className="text-neutral-300">Revisions till you smile</span>
-                  <span className="text-neutral-600">•</span>
-                  <span className="text-amber-400">✦</span>
-                  <span className="text-neutral-300">Zero timeline crashes</span>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] sm:text-xs font-mono-tech text-neutral-400 pt-1">
+                  <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-neutral-300">
+                    <span className="text-amber-400">✦</span>
+                    <span>First cut in 48h</span>
+                  </span>
+                  <span className="text-neutral-600 hidden sm:inline">•</span>
+                  <span className="inline-flex items-center gap-1.5 text-neutral-300 whitespace-nowrap">
+                    <span className="text-amber-400">✦</span>
+                    <span>Revisions till you smile</span>
+                  </span>
+                  <span className="text-neutral-600 hidden sm:inline">•</span>
+                  <span className="inline-flex items-center gap-1.5 text-neutral-300 whitespace-nowrap">
+                    <span className="text-amber-400">✦</span>
+                    <span>Zero timeline crashes</span>
+                  </span>
                 </div>
               </div>
             </div>
