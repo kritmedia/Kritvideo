@@ -8,9 +8,11 @@ export default function VideoCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [cursorText, setCursorText] = useState<string | null>(null);
 
+  const isTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
+
   useEffect(() => {
     // Check if device has fine pointer (mouse/trackpad), skip for pure touch devices
-    if (typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches) {
+    if (isTouch) {
       return;
     }
 
@@ -47,10 +49,14 @@ export default function VideoCursor() {
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [isVisible]);
+  }, [isVisible, isTouch]);
 
   // Smooth trailing playhead ring animation
   useEffect(() => {
+    if (isTouch) {
+      return;
+    }
+
     let animationFrameId: number;
 
     const follow = () => {
@@ -67,9 +73,9 @@ export default function VideoCursor() {
 
     animationFrameId = requestAnimationFrame(follow);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [pos]);
+  }, [pos, isTouch]);
 
-  if (!isVisible) return null;
+  if (!isVisible || isTouch) return null;
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden select-none">

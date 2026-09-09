@@ -2,15 +2,17 @@ import React, { useEffect, useRef, useState, useCallback, Suspense } from 'react
 import { ArrowUpRight, Play } from 'lucide-react';
 import Header from './components/Header';
 import VideoCursor from './components/VideoCursor';
-import InteractiveProcessCards from './components/InteractiveProcessCards';
-import SectionServices from './components/SectionServices';
-import SectionWhyUs from './components/SectionWhyUs';
-import SectionOurWork from './components/SectionOurWork';
-import SectionTestimonials from './components/SectionTestimonials';
-import SectionFAQ from './components/SectionFAQ';
-import SectionFinalCTAAndFooter from './components/SectionFinalCTAAndFooter';
 import ScrollProgressIndicator from './components/ScrollProgressIndicator';
 import SEOHead from './components/SEOHead';
+
+// Code-split below-the-fold homepage components with React.lazy
+const InteractiveProcessCards = React.lazy(() => import('./components/InteractiveProcessCards'));
+const SectionServices = React.lazy(() => import('./components/SectionServices'));
+const SectionWhyUs = React.lazy(() => import('./components/SectionWhyUs'));
+const SectionOurWork = React.lazy(() => import('./components/SectionOurWork'));
+const SectionTestimonials = React.lazy(() => import('./components/SectionTestimonials'));
+const SectionFAQ = React.lazy(() => import('./components/SectionFAQ'));
+const SectionFinalCTAAndFooter = React.lazy(() => import('./components/SectionFinalCTAAndFooter'));
 
 // Code-split subpage bundles with React.lazy
 const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
@@ -20,6 +22,22 @@ const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const BlogArchivePage = React.lazy(() => import('./pages/BlogArchivePage'));
 const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
+
+// Sleek luxury branded loader fallback for subpages
+function PageLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center select-none" role="status" aria-label="Loading page">
+      <div className="flex items-center gap-3 mb-6">
+        <img src="/kritvideo-logo.webp" width="44" height="44" alt="KritVideo" className="rounded-xl border border-white/20 shadow-2xl" />
+        <span className="text-xl font-extrabold text-white tracking-tight">Krit<span className="text-neutral-400 font-semibold">Video</span></span>
+      </div>
+      <div className="w-28 h-0.5 bg-white/10 rounded-full overflow-hidden relative">
+        <div className="w-1/2 h-full bg-amber-400 rounded-full animate-pulse" />
+      </div>
+      <span className="mt-4 text-[10px] uppercase font-mono-tech tracking-[0.25em] text-neutral-500 font-semibold">Post-Production Studio</span>
+    </div>
+  );
+}
 
 const TOTAL_HERO_FRAMES = 240;
 const TOTAL_SECOND_FRAMES = 239;
@@ -461,7 +479,7 @@ export default function App() {
 
   if (currentPath === '/services') {
     return (
-      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <ServicesPage onNavigate={navigateTo} />
@@ -472,7 +490,7 @@ export default function App() {
 
   if (currentPath === '/work') {
     return (
-      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <WorkPage onNavigate={navigateTo} />
@@ -483,7 +501,7 @@ export default function App() {
 
   if (currentPath === '/about') {
     return (
-      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <AboutPage onNavigate={navigateTo} />
@@ -494,7 +512,7 @@ export default function App() {
 
   if (currentPath === '/contact') {
     return (
-      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <ContactPage onNavigate={navigateTo} />
@@ -505,7 +523,7 @@ export default function App() {
 
   if (currentPath === '/blog') {
     return (
-      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <BlogArchivePage onNavigate={navigateTo} />
@@ -517,7 +535,7 @@ export default function App() {
   if (currentPath.startsWith('/blog/')) {
     const slug = currentPath.replace('/blog/', '').replace(/\/$/, '');
     return (
-      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <BlogPostPage slug={slug} onNavigate={navigateTo} />
@@ -528,7 +546,7 @@ export default function App() {
 
   if (currentPath === '/404') {
     return (
-      <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <VideoCursor />
           <NotFoundPage onNavigate={navigateTo} />
@@ -663,15 +681,21 @@ export default function App() {
         <section id="process" className="relative lg:h-[220vh] select-none py-10 lg:py-0">
           <div className="lg:sticky lg:top-0 lg:min-h-screen flex items-center px-4 sm:px-12 md:px-16 lg:px-20 py-8 lg:py-16 overflow-hidden">
             <div className="max-w-7xl mx-auto w-full">
-              <InteractiveProcessCards />
+              <Suspense fallback={<div className="min-h-[40vh] bg-black" />}>
+                <InteractiveProcessCards />
+              </Suspense>
             </div>
           </div>
         </section>
 
-        <SectionServices />
+        <Suspense fallback={<div className="min-h-[60vh] bg-black" />}>
+          <SectionServices />
+        </Suspense>
 
         {/* SECTION 4 — WHY KRITVIDEO (Vertical Cards Interactive on Scroll) */}
-        <SectionWhyUs />
+        <Suspense fallback={<div className="min-h-[60vh] bg-black" />}>
+          <SectionWhyUs />
+        </Suspense>
       </div>
 
       {/* SUBSEQUENT SECTIONS (Seamlessly flow directly into Section 5) */}
@@ -681,22 +705,30 @@ export default function App() {
 
         {/* SECTION 5 — OUR WORK (Video Showcase Gallery) */}
         <div style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 1000px' }}>
-          <SectionOurWork />
+          <Suspense fallback={<div className="min-h-[600px] bg-black" />}>
+            <SectionOurWork />
+          </Suspense>
         </div>
 
         {/* TESTIMONIALS SECTION (Matching 3-Card Carousel Design) */}
         <div id="testimonials" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
-          <SectionTestimonials />
+          <Suspense fallback={<div className="min-h-[400px] bg-black" />}>
+            <SectionTestimonials />
+          </Suspense>
         </div>
 
         {/* FAQ SECTION (Directly above CTA section) */}
         <div id="faq" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
-          <SectionFAQ />
+          <Suspense fallback={<div className="min-h-[400px] bg-black" />}>
+            <SectionFAQ />
+          </Suspense>
         </div>
 
         {/* SECTION 6 — FINAL CTA & FOOTER */}
         <div id="contact" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
-          <SectionFinalCTAAndFooter onNavigate={navigateTo} />
+          <Suspense fallback={<div className="min-h-[400px] bg-black" />}>
+            <SectionFinalCTAAndFooter onNavigate={navigateTo} />
+          </Suspense>
         </div>
       </div>
     </div>
