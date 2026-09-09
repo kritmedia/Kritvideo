@@ -12,54 +12,36 @@ interface Testimonial {
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    id: 'sarah-jenkins',
-    name: 'Sarah Jenkins',
-    role: 'Creator • 650K',
+    id: 'sarah-j',
+    name: 'Sarah J.',
+    role: 'YouTube Creator',
     quote:
-      'I don\'t have to think about the editing anymore. I send my footage and know a broadcast-ready cut will be waiting for me.',
+      'I used to dread Sundays because I had to edit. Now I drop raw files on Friday and have a polished video by Sunday morning. Life-changing.',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
-    statBadge: '+30 Hours Saved / Wk',
+    statBadge: 'Polished By Sunday',
   },
   {
-    id: 'marcus-chen',
-    name: 'Marcus Chen',
-    role: 'Tech Host • 420K',
+    id: 'marcus-c',
+    name: 'Marcus C.',
+    role: 'Podcast Host',
     quote:
-      'The quality and how well the edit matched my style blew me away. They kept my voice intact while making everything tighter.',
+      'They caught audio hums I didn\'t even notice and cut our 1-hour chat into 5 viral shorts. Hands down our easiest partnership.',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-    statBadge: 'Style Matched',
+    statBadge: '5 Viral Shorts',
   },
   {
-    id: 'elena-rostova',
-    name: 'Elena Rostova',
-    role: 'Filmmaker • 890K',
+    id: 'jake-d',
+    name: 'Jake D.',
+    role: 'Marketing Director',
     quote:
-      'Our audience response jumped immediately. The retention, the story flow, and the sound design make our videos feel like cinema.',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80',
-    statBadge: 'Audience Retention Surged',
-  },
-  {
-    id: 'jake-donovan',
-    name: 'Jake Donovan',
-    role: 'Growth Lead • Apex',
-    quote:
-      'Clear communication, fast turnarounds, and zero friction. We scaled our social video production 4x without hiring in-house.',
+      'No endless back-and-forth emails. We point at the timeline, they fix it within a day, and the campaign goes live on time.',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-    statBadge: '4x Video Output',
-  },
-  {
-    id: 'david-morales',
-    name: 'David Morales',
-    role: 'Host • Modern Founder',
-    quote:
-      'Multi-cam sync, audio cleanup, and social cutdowns all handled in one place. Best creative decision we made this year.',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
-    statBadge: 'Turnkey Multi-Cam',
+    statBadge: 'Live On Time',
   },
 ];
 
 export default function SectionTestimonials() {
-  const [currentIndex, setCurrentIndex] = useState(2); // Start with center card active (Elena Rostova)
+  const [currentIndex, setCurrentIndex] = useState(1); // Start with center card active (Marcus C.)
   const total = TESTIMONIALS.length;
 
   const handleNext = useCallback(() => {
@@ -99,15 +81,13 @@ export default function SectionTestimonials() {
     setTouchStartX(null);
   };
 
-  // 5 visible indices relative to currentIndex: -2, -1, 0, +1, +2
-  const getIndex = (offset: number) => (currentIndex + offset + total * 2) % total;
+  // 3 visible indices relative to currentIndex: -1, 0, +1
+  const getIndex = (offset: number) => (currentIndex + offset + total * 10) % total;
 
   const visibleCards = [
-    { offset: -2, index: getIndex(-2), position: 'far-left' },
     { offset: -1, index: getIndex(-1), position: 'mid-left' },
     { offset: 0, index: getIndex(0), position: 'center' },
     { offset: 1, index: getIndex(1), position: 'mid-right' },
-    { offset: 2, index: getIndex(2), position: 'far-right' },
   ];
 
   return (
@@ -144,16 +124,19 @@ export default function SectionTestimonials() {
           {/* Eyebrow */}
           <div className="flex items-center justify-center gap-2.5 text-xs uppercase tracking-[0.25em] text-neutral-400 font-semibold mb-3 relative z-10">
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse inline-block" />
-            <span className="text-white">FROM PEOPLE WHO'VE WORKED WITH US</span>
+            <span className="text-white">KIND WORDS</span>
           </div>
 
           {/* Section Headline */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-[-0.03em] leading-tight text-white relative z-10">
-            We'll let our clients <span className="font-editorial-serif italic font-normal text-amber-300">explain this bit.</span>
+            Real reviews.{' '}
+            <span className="font-editorial-serif italic font-normal text-amber-300">
+              Zero bribes.
+            </span>
           </h2>
 
           <p className="text-xs sm:text-sm text-neutral-400 max-w-lg mx-auto font-normal leading-relaxed pt-2 relative z-10">
-            The nicest thing someone can say about an editor is probably: “I don't have to think about the editing anymore.”
+            Here’s what creators say when they stop editing their own videos:
           </p>
 
           {/* Centered Accent Divider Line */}

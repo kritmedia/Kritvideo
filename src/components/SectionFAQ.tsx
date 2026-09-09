@@ -23,91 +23,63 @@ interface FAQItem {
 }
 
 const CATEGORIES = [
-  { id: 'all', label: 'All Questions', count: 8, icon: HelpCircle, color: 'from-amber-500/20 via-orange-500/10' },
+  { id: 'all', label: 'All Questions', count: 5, icon: HelpCircle, color: 'from-amber-500/20 via-orange-500/10' },
   { id: 'workflow', label: 'Turnaround & Delivery', count: 2, icon: Clock, color: 'from-amber-400/25 via-orange-500/15' },
-  { id: 'editors', label: 'Lead Editors & Craft', count: 2, icon: UserCheck, color: 'from-amber-500/20 via-yellow-500/15' },
-  { id: 'ingestion', label: 'Raw Files & Ingestion', count: 2, icon: HardDrive, color: 'from-emerald-500/20 via-amber-500/10' },
   { id: 'pricing', label: 'Pricing & Revisions', count: 2, icon: Sparkles, color: 'from-orange-500/25 via-amber-500/15' },
+  { id: 'ingestion', label: 'Raw Files & Upload', count: 1, icon: HardDrive, color: 'from-emerald-500/20 via-amber-500/10' },
 ];
 
 const FAQ_DATA: FAQItem[] = [
   {
-    id: 'service-include',
+    id: 'typical-edit',
     category: 'workflow',
-    question: 'WHAT DOES A VIDEO EDITING SERVICE INCLUDE?',
+    question: 'What’s included in a typical edit?',
     answer:
-      'KritVideo can handle the main stages of post-production, including footage selection, cutting, pacing, B-roll, captions, graphics, audio editing, colour correction and final exports. What we include depends on the type of video you\'re making.',
+      'Everything to make your video publish-ready: cutting down footage, pacing the story, adding music, sound effects, text pop-ups, color correction, and audio cleanup.',
     highlight: 'Full Post-Production',
-    timeEstimate: 'Customized to Format',
+    timeEstimate: 'Publish-Ready Cut',
   },
   {
-    id: 'youtube-editing',
-    category: 'editors',
-    question: 'DO YOU EDIT YOUTUBE VIDEOS?',
-    answer:
-      'Yes. We edit YouTube videos including talking-head content, interviews, documentaries, educational videos, podcasts and other long-form creator content.',
-    highlight: 'Long-Form & Retention',
-    timeEstimate: '16:9 4K Masters',
-  },
-  {
-    id: 'turn-into-shorts',
+    id: 'turnaround-speed',
     category: 'workflow',
-    question: 'CAN YOU TURN LONG VIDEOS INTO SHORTS?',
+    question: 'How fast do I get my video?',
     answer:
-      'Yes. We can find useful moments in your existing footage and turn them into short-form videos for Instagram Reels, YouTube Shorts and TikTok.',
-    highlight: 'Vertical Viral Cutdowns',
-    timeEstimate: '9:16 Social Edits',
+      '48 hours for standard YouTube videos and shorts. If it’s a massive 90-minute documentary, we’ll set a realistic date before we start.',
+    highlight: '48H Turnaround',
+    timeEstimate: 'Standard 48 Hours',
   },
   {
-    id: 'send-footage',
-    category: 'ingestion',
-    question: 'HOW DO I SEND MY FOOTAGE?',
-    answer:
-      'Once your project is confirmed, we\'ll give you the upload details. You can send raw footage, audio, graphics, references and any other files needed for the project.',
-    highlight: 'Private High-Speed Upload',
-    timeEstimate: 'Drive / Dropbox / Frame',
-  },
-  {
-    id: 'turnaround-time',
-    category: 'workflow',
-    question: 'HOW FAST DO YOU DELIVER THE FIRST CUT?',
-    answer:
-      'From the moment your raw footage finishes uploading, our editors start immediately. Your first cut is delivered within 48 hours—pacing-engineered and sound-designed.',
-    highlight: 'Guaranteed 48H Delivery',
-    timeEstimate: 'Avg Delivery: 38 Hours',
-  },
-  {
-    id: 'dedicated-talent',
-    category: 'editors',
-    question: 'DO I WORK WITH A DEDICATED EDITOR?',
-    answer:
-      'Yes. You work with dedicated lead editors who learn your pacing, style, and channel preferences so every video feels consistent. No random freelancers or AI templates.',
-    highlight: 'Dedicated Lead Editors',
-    timeEstimate: 'Direct Communication',
-  },
-  {
-    id: 'revisions-process',
+    id: 'revisions-feedback',
     category: 'pricing',
-    question: 'WHAT IS YOUR REVISION PROCESS?',
+    question: 'What if I don\'t like the first cut?',
     answer:
-      'Revisions are included until you are completely satisfied with the final video. Leave timestamped notes on the review link and we make the adjustments quickly.',
-    highlight: 'Revisions Included',
-    timeEstimate: 'Fast Turnarounds',
+      'You click on the video and leave notes. We tweak it until it’s right. We don’t stop until you’re happy to publish it.',
+    highlight: 'Revisions Until Happy',
+    timeEstimate: 'Fast Revisions',
+  },
+  {
+    id: 'large-files',
+    category: 'ingestion',
+    question: 'How do I send gigabytes of raw video?',
+    answer:
+      'Just share a Google Drive, Dropbox, or Frame.io folder. If your files are huge, we’ll guide you through the simplest way to upload them.',
+    highlight: 'Drive / Dropbox / Frame.io',
+    timeEstimate: 'Simple Upload',
   },
   {
     id: 'contracts-terms',
     category: 'pricing',
-    question: 'ARE THERE LONG-TERM CONTRACTS?',
+    question: 'Are there long-term contracts?',
     answer:
-      'No long-term lock-in. We offer flexible project-based and retainer workflows so you can scale up, pause, or stop anytime.',
-    highlight: 'Flexible Workflows',
-    timeEstimate: 'Cancel / Pause Anytime',
+      'Nope. You can do a single video, buy a pack, or pause anytime you take a filming break. You’re never locked in.',
+    highlight: 'Zero Lock-In',
+    timeEstimate: 'Pause / Cancel Anytime',
   },
 ];
 
 export default function SectionFAQ() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [openId, setOpenId] = useState<string>('service-include');
+  const [openId, setOpenId] = useState<string>('typical-edit');
 
   const filteredFAQs = activeCategory === 'all' 
     ? FAQ_DATA 
@@ -177,18 +149,18 @@ export default function SectionFAQ() {
           {/* Eyebrow Pill */}
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-neutral-900/80 border border-white/10 backdrop-blur-md text-xs font-mono-tech uppercase tracking-[0.25em] text-neutral-400 font-semibold shadow-inner">
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse inline-block" />
-            <span className="text-white">QUESTIONS, ANSWERED</span>
+            <span className="text-white">FAQS</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-[-0.03em] leading-tight text-white">
-            A few things you might{' '}
+            Answers to the{' '}
             <span className="font-editorial-serif italic font-normal text-amber-300">
-              want to know.
+              obvious questions.
             </span>
           </h2>
 
           <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-xl mx-auto font-normal">
-            Everything you need to know about our video editing services, process, raw files, and deliverables.
+            Clear answers. No hidden gotchas.
           </p>
 
           {/* CTA Link */}

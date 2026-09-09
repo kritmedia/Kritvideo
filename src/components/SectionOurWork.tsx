@@ -39,162 +39,93 @@ interface PortfolioItem {
 
 const PORTFOLIO_DATA: PortfolioItem[] = [
   {
-    id: 'sneaker-product',
-    youtubeId: 'IJsVs6Nw6ls',
-    category: 'brand',
-    categoryLabel: 'BRAND & ADS',
-    title: 'Nike Basketball Commercial',
-    client: 'Nike Hoops Edit',
-    tagline: 'Product-focused commercial storytelling',
-    duration: '01:30',
-    durationSeconds: 90,
-    views: 'Commercial Master',
-    format: '16:9',
-    thumbnail: 'https://i.ytimg.com/vi/IJsVs6Nw6ls/hqdefault.jpg',
-    themeColor: '#d97706',
-    glowColor: 'rgba(217, 119, 6, 0.40)',
-    highlights: ['Focal Zoom Framing', 'Heavy Bass Soundscape', 'ACES Color Workflow'],
-    specs: {
-      resolution: '4K DCI (4096x2160)',
-      codec: 'ProRes 4444 XQ',
-      fps: '24 FPS',
-      colorSpace: 'ACEScg Wide Gamut',
-    },
-  },
-  {
-    id: 'iphone-log',
-    youtubeId: 'QUx1anKHYuI',
-    category: 'shorts',
-    categoryLabel: 'SHORT-FORM',
-    title: 'iPhone 15 Pro Max Cinematic',
-    client: 'Apple Log Visuals',
-    tagline: 'Viral vertical framing with punchy motion',
-    duration: '01:05',
-    durationSeconds: 65,
-    views: 'Viral Retention',
-    format: '9:16',
-    thumbnail: 'https://i.ytimg.com/vi/QUx1anKHYuI/hqdefault.jpg',
-    themeColor: '#ef4444',
-    glowColor: 'rgba(239, 68, 68, 0.40)',
-    highlights: ['First 3s Hook Design', 'Kinetic Captions', 'Punchy Audio SFX'],
-    specs: {
-      resolution: '1080x1920 (Vertical 4K)',
-      codec: 'Apple ProRes 422',
-      fps: '60 FPS',
-      colorSpace: 'Apple Log / Rec.709',
-    },
-  },
-  {
-    id: 'soccer-commercial',
-    youtubeId: 'xuas_Yc7VNQ',
-    category: 'brand',
-    categoryLabel: 'COMMERCIAL',
-    title: 'Cinematic Soccer Commercial',
-    client: 'Apex Football',
-    tagline: 'Broadcast commercial pacing and sound design',
-    duration: '01:45',
-    durationSeconds: 105,
-    views: 'Sony A7SIII',
-    format: '16:9',
-    thumbnail: 'https://i.ytimg.com/vi/xuas_Yc7VNQ/hqdefault.jpg',
-    themeColor: '#10b981',
-    glowColor: 'rgba(16, 185, 129, 0.40)',
-    highlights: ['Atmospheric Foley', 'Film Print Emulation', 'Dynamic Beat Match'],
-    specs: {
-      resolution: '4K UHD (3840x2160)',
-      codec: 'ProRes 4444',
-      fps: '30 FPS',
-      colorSpace: 'S-Gamut3.Cine / S-Log3',
-    },
-  },
-  {
-    id: 'sports-reel',
+    id: 'tech-explainer',
     youtubeId: 'OWRKm1ZpbDA',
     category: 'youtube',
-    categoryLabel: 'YOUTUBE 4K',
-    title: 'Cinematic Sports Reel',
-    client: 'Jamison McDivitt',
-    tagline: 'High-energy pacing and kinetic visual cuts',
+    categoryLabel: 'YOUTUBE',
+    title: 'The 10-Minute Tech Explainer',
+    client: 'YouTube',
+    tagline: 'High watch-time storytelling with punchy visual cues',
     duration: '02:15',
     durationSeconds: 135,
-    views: 'Cinematography',
+    views: 'YouTube • High Watch Time',
     format: '16:9',
     thumbnail: 'https://i.ytimg.com/vi/OWRKm1ZpbDA/hqdefault.jpg',
     themeColor: '#f59e0b',
     glowColor: 'rgba(245, 158, 11, 0.40)',
-    highlights: ['Multi-Layer Sound Design', 'Dynamic Speed Ramps', 'Commercial Color Grade'],
+    highlights: ['Pacing & Hook Design', 'Dead-Air Removal', 'Clean Visual Flow'],
     specs: {
       resolution: '4K DCI (3840x2160)',
-      codec: 'Apple ProRes 422 HQ',
-      fps: '60 FPS',
-      colorSpace: 'DaVinci YRGB',
-    },
-  },
-  {
-    id: 'basketball-film',
-    youtubeId: 'OsP0icRA4Hc',
-    category: 'youtube',
-    categoryLabel: 'DOCUMENTARY',
-    title: 'FLY - Cinematic Basketball Film',
-    client: 'Sony FX3 Productions',
-    tagline: 'Emotional documentary storytelling and grading',
-    duration: '03:40',
-    durationSeconds: 220,
-    views: 'Sony FX3 4K',
-    format: '16:9',
-    thumbnail: 'https://i.ytimg.com/vi/OsP0icRA4Hc/hqdefault.jpg',
-    themeColor: '#3b82f6',
-    glowColor: 'rgba(59, 130, 246, 0.40)',
-    highlights: ['Dialogue Cleanup', 'Orchestral Audio Mix', 'Cinema Letterbox Export'],
-    specs: {
-      resolution: '4K UHD (3840x2160)',
-      codec: 'ProRes 422',
-      fps: '24 FPS',
-      colorSpace: 'Sony S-Cinetone',
-    },
-  },
-  {
-    id: 'podcast-master',
-    youtubeId: 'xuas_Yc7VNQ',
-    category: 'creator',
-    categoryLabel: 'PODCASTS',
-    title: 'Silicon Conversations',
-    client: 'Tech Founders Live',
-    tagline: 'Multi-camera conversation edit & dead-air removal',
-    duration: '45:10',
-    durationSeconds: 2710,
-    views: 'Multi-Cam Master',
-    format: '16:9',
-    thumbnail: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=800&q=75',
-    themeColor: '#9333ea',
-    glowColor: 'rgba(147, 51, 234, 0.40)',
-    highlights: ['Multi-Cam Switching', 'Audio Normalization', 'Shorts Extract Pack'],
-    specs: {
-      resolution: '4K UHD (3840x2160)',
       codec: 'ProRes 422 HQ',
-      fps: '24 FPS',
+      fps: '60 FPS',
       colorSpace: 'Rec.709',
     },
   },
   {
-    id: 'viral-reel',
+    id: 'product-ad',
+    youtubeId: 'IJsVs6Nw6ls',
+    category: 'brand',
+    categoryLabel: 'ADS',
+    title: 'Product Launch Ad',
+    client: 'Meta & TikTok Ads',
+    tagline: 'High-conversion paid video designed to hook in 3 seconds',
+    duration: '01:30',
+    durationSeconds: 90,
+    views: 'Meta & TikTok Ads',
+    format: '16:9',
+    thumbnail: 'https://i.ytimg.com/vi/IJsVs6Nw6ls/hqdefault.jpg',
+    themeColor: '#d97706',
+    glowColor: 'rgba(217, 119, 6, 0.40)',
+    highlights: ['3-Second Hook', 'Dynamic Sound SFX', 'Clear Call-to-Action'],
+    specs: {
+      resolution: '4K DCI (4096x2160)',
+      codec: 'ProRes 4444',
+      fps: '24 FPS',
+      colorSpace: 'ACEScg',
+    },
+  },
+  {
+    id: 'studio-podcast',
+    youtubeId: 'xuas_Yc7VNQ',
+    category: 'creator',
+    categoryLabel: 'PODCAST',
+    title: 'Two-Host Studio Podcast',
+    client: 'Multi-Cam & Clean Audio',
+    tagline: 'Smooth multi-angle cuts with studio dialogue mastering',
+    duration: '01:45',
+    durationSeconds: 105,
+    views: 'Multi-Cam & Clean Audio',
+    format: '16:9',
+    thumbnail: 'https://i.ytimg.com/vi/xuas_Yc7VNQ/hqdefault.jpg',
+    themeColor: '#10b981',
+    glowColor: 'rgba(16, 185, 129, 0.40)',
+    highlights: ['Multi-Cam Switching', 'Voice De-Noise', 'Social Snippet Selection'],
+    specs: {
+      resolution: '4K UHD (3840x2160)',
+      codec: 'ProRes 422',
+      fps: '30 FPS',
+      colorSpace: 'Rec.709',
+    },
+  },
+  {
+    id: 'viral-hooks',
     youtubeId: 'QUx1anKHYuI',
     category: 'shorts',
     categoryLabel: 'REELS / TIKTOK',
-    title: 'Creator Launch Campaign',
-    client: 'Viral Studio Media',
-    tagline: 'Engineered for 85%+ retention and algorithmic reach',
-    duration: '00:55',
-    durationSeconds: 55,
-    views: '1.8M Views',
+    title: 'Viral Hook Series',
+    client: 'Instagram Reels',
+    tagline: 'Snappy vertical cuts built to stop the thumb scroll',
+    duration: '01:05',
+    durationSeconds: 65,
+    views: 'Instagram Reels',
     format: '9:16',
-    thumbnail: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=75',
-    themeColor: '#ec4899',
-    glowColor: 'rgba(236, 72, 153, 0.40)',
-    highlights: ['Custom Subtitle Animations', 'Sound FX Punch-Ins', '9:16 Retention Framing'],
+    thumbnail: 'https://i.ytimg.com/vi/QUx1anKHYuI/hqdefault.jpg',
+    themeColor: '#ef4444',
+    glowColor: 'rgba(239, 68, 68, 0.40)',
+    highlights: ['Thumb-Stop Hook', 'Kinetic Captions', 'Punchy Sound Effects'],
     specs: {
       resolution: '1080x1920 (Vertical)',
-      codec: 'H.265 / HEVC',
+      codec: 'H.264 / ProRes',
       fps: '60 FPS',
       colorSpace: 'Rec.709',
     },
@@ -329,7 +260,7 @@ export default function SectionOurWork() {
               className="w-2.5 h-2.5 rounded-full inline-block animate-pulse"
               style={{ backgroundColor: activeItem.themeColor }}
             />
-            <span className="text-white">SELECTED WORK</span>
+            <span className="text-white">SELECTED EDITS</span>
           </div>
 
           <div className="flex items-center gap-2 text-xs font-mono-tech text-neutral-400">
@@ -344,13 +275,13 @@ export default function SectionOurWork() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
           <div className="max-w-3xl space-y-3">
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold tracking-[-0.035em] leading-[1.08] text-white">
-              See what happens{' '}
+              Proof we{' '}
               <span className="font-editorial-serif italic font-normal text-amber-300 block sm:inline">
-                when we get the footage.
+                know our craft.
               </span>
             </h2>
             <p className="text-xs sm:text-sm text-neutral-400 font-normal max-w-2xl">
-              Recent video edits across YouTube, high-retention shorts, podcasts, and brand campaigns.
+              Hit play. Judge with your eyes, not technical spec sheets.
             </p>
           </div>
 
@@ -365,7 +296,7 @@ export default function SectionOurWork() {
               }}
               className="px-5 py-2.5 rounded-full bg-neutral-900 border border-white/15 hover:border-white text-white transition-all font-bold flex items-center gap-2 cursor-pointer shadow-lg hover:scale-105 active:scale-95"
             >
-              <span>VIEW ALL WORK ↗</span>
+              <span>VIEW MORE WORK ↗</span>
             </a>
           </div>
         </div>
@@ -716,7 +647,7 @@ export default function SectionOurWork() {
         {/* Supporting Line */}
         <div className="text-center mt-12 space-y-4">
           <p className="text-sm sm:text-base font-editorial-serif italic text-neutral-300">
-            “Warning: You may start looking at your own camera roll differently.”
+            “Warning: May cause an irresistible urge to film more content.”
           </p>
 
           <div className="flex items-center justify-center gap-6 pt-2">
@@ -724,7 +655,7 @@ export default function SectionOurWork() {
               href="#contact"
               className="px-9 py-4 bg-white text-black font-bold text-xs sm:text-sm rounded-full hover:bg-neutral-200 transition-all flex items-center gap-2.5 shadow-[0_0_30px_rgba(255,255,255,0.25)] hover:scale-105 active:scale-95 cursor-pointer"
             >
-              <span>Request an Edit in This Style</span>
+              <span>START A PROJECT</span>
               <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>

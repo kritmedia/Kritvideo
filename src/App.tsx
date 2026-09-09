@@ -566,27 +566,15 @@ export default function App() {
             <div className="w-full lg:w-5/12 max-w-lg space-y-3 sm:space-y-4">
               <div className="flex items-center gap-2 sm:gap-2.5 text-[11px] sm:text-xs font-mono-tech uppercase tracking-[0.2em] sm:tracking-[0.25em] text-neutral-400 font-semibold">
                 <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-white hidden sm:inline">VIDEO EDITING & POST-PRODUCTION STUDIO</span>
-                <span className="text-white sm:hidden">POST-PRODUCTION STUDIO</span>
+                <span className="text-white">YOUR ON-DEMAND VIDEO EDITING TEAM</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[4.75rem] font-black tracking-[-0.04em] leading-[0.94] text-white uppercase drop-shadow-2xl">
-                YOU SHOOT.<br />
+              <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[4.75rem] font-black tracking-[-0.04em] leading-[0.94] text-white drop-shadow-2xl">
+                Stop wrestling with your<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-amber-200">
-                  WE EDIT.
+                  edit timeline.
                 </span>
               </h1>
-
-              {/* Core Services */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-mono-tech text-neutral-300 tracking-[0.14em] sm:tracking-[0.16em] uppercase font-bold pt-1">
-                <span>YOUTUBE</span>
-                <span className="text-amber-400">✦</span>
-                <span>SHORT-FORM</span>
-                <span className="text-amber-400">✦</span>
-                <span>PODCASTS</span>
-                <span className="text-amber-400">✦</span>
-                <span>BRAND VIDEO</span>
-              </div>
             </div>
 
             {/* CENTER COLUMN: Kept completely open for character in background scroll */}
@@ -594,8 +582,8 @@ export default function App() {
 
             {/* RIGHT COLUMN: Concise purpose statement & modern capsule CTA */}
             <div className="w-full lg:w-5/12 max-w-md space-y-4 sm:space-y-5 lg:text-left">
-              <p className="text-xs sm:text-sm font-mono-tech uppercase tracking-wider text-neutral-200 leading-relaxed max-w-sm">
-                Dedicated video editing for YouTube creators and brands. Send raw footage — get high-retention cuts delivered in 48 hours.
+              <p className="text-sm sm:text-base text-neutral-300 leading-relaxed max-w-md">
+                You film it. We make it look, sound, and perform ridiculously well. Hand over your raw files and get your finished cut back in 48 hours.
               </p>
 
               {/* Modern Capsule CTA */}
@@ -606,7 +594,7 @@ export default function App() {
                     className="group pl-6 pr-2 py-2 bg-white text-black font-bold text-xs sm:text-sm rounded-full hover:bg-neutral-100 transition-all flex items-center gap-4 shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] active:scale-95 cursor-pointer"
                   >
                     <span className="tracking-wider uppercase font-mono-tech font-extrabold text-xs">
-                      GET STARTED
+                      START A PROJECT
                     </span>
                     <span className="w-9 h-9 rounded-full bg-amber-400 text-black flex items-center justify-center group-hover:rotate-45 transition-transform duration-300 shadow-md">
                       <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
@@ -618,38 +606,24 @@ export default function App() {
                     className="px-5 py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/15 hover:border-white text-neutral-300 hover:text-white text-xs font-mono-tech uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <Play className="w-3 h-3 fill-current text-amber-400" />
-                    <span>SEE OUR WORK</span>
+                    <span>SEE OUR CUTS ▶</span>
                   </button>
                 </div>
 
-                {/* Microcopy */}
-                <div className="flex items-center gap-3 text-[11px] font-mono-tech text-neutral-400">
-                  <span className="text-neutral-300">
-                    48H DELIVERY • DAVINCI COLOR • BESPOKE CRAFT
-                  </span>
+                {/* Pinch-of-Humour Trust Line */}
+                <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-mono-tech text-neutral-400 pt-1">
+                  <span className="text-amber-400">✦</span>
+                  <span className="text-neutral-300">First cut in 48h</span>
+                  <span className="text-neutral-600">•</span>
+                  <span className="text-amber-400">✦</span>
+                  <span className="text-neutral-300">Revisions till you smile</span>
+                  <span className="text-neutral-600">•</span>
+                  <span className="text-amber-400">✦</span>
+                  <span className="text-neutral-300">Zero timeline crashes</span>
                 </div>
               </div>
             </div>
 
-          </div>
-
-          {/* BOTTOM RIBBON: Hero supporting note */}
-          <div className="w-full max-w-7xl mx-auto pt-2 pb-2">
-            <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-neutral-950/60 backdrop-blur-2xl border border-white/[0.08] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-xs font-mono-tech text-neutral-300 tracking-wider">
-              <div className="flex items-center gap-2 text-white font-medium text-center sm:text-left">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block shrink-0" />
-                <span>Global video editing studio • Fast turnaround • Production-ready delivery</span>
-              </div>
-              <div className="hidden sm:flex items-center gap-6 text-neutral-400 font-mono-tech text-[11px] uppercase tracking-widest shrink-0">
-                <span>YOUTUBE</span>
-                <span>•</span>
-                <span>REELS & SHORTS</span>
-                <span>•</span>
-                <span>PODCASTS</span>
-                <span>•</span>
-                <span>COMMERCIALS</span>
-              </div>
-            </div>
           </div>
         </section>
 

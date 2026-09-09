@@ -22,9 +22,9 @@ const STAGES: StageNode[] = [
   {
     id: 1,
     numberStr: '01',
-    title: 'Send your footage',
-    description: 'Upload raw footage, audio, and references via Google Drive, Dropbox, or Frame.io.',
-    metric: '01 — SEND',
+    title: 'Drop your footage',
+    description: 'Send your raw video files via Google Drive, Dropbox, or Frame.io. No messy software setups.',
+    metric: '01 — DROP',
     icon: FolderArchive,
     xCoord: 150,
     yCoord: 110,
@@ -32,9 +32,9 @@ const STAGES: StageNode[] = [
   {
     id: 2,
     numberStr: '02',
-    title: 'We build the cut',
-    description: 'We structure the story, trim the fluff, balance pacing, and add sound design.',
-    metric: '02 — EDIT',
+    title: 'We weave the magic',
+    description: 'We cut the awkward pauses, fix the lighting, balance the audio, and make the story flow.',
+    metric: '02 — WEAVE',
     icon: BarChart3,
     xCoord: 450,
     yCoord: 70,
@@ -42,9 +42,9 @@ const STAGES: StageNode[] = [
   {
     id: 3,
     numberStr: '03',
-    title: 'Frame-accurate review',
-    description: 'Review your cut with timecoded notes. We refine pacing and transitions promptly.',
-    metric: '03 — REVIEW',
+    title: 'Leave quick notes',
+    description: 'Click directly on the video to tell us what to tweak. We fix it fast.',
+    metric: '03 — NOTES',
     icon: Flame,
     xCoord: 750,
     yCoord: 95,
@@ -52,9 +52,9 @@ const STAGES: StageNode[] = [
   {
     id: 4,
     numberStr: '04',
-    title: 'Final delivery',
-    description: 'Get master 4K exports and platform-ready cutdowns ready to upload and distribute.',
-    metric: '04 — DELIVER',
+    title: 'Hit publish',
+    description: 'Download your crisp, export-ready video and go delight your audience.',
+    metric: '04 — PUBLISH',
     icon: Sparkles,
     xCoord: 1050,
     yCoord: 55,
@@ -139,19 +139,17 @@ export default function InteractiveProcessCards() {
           <div className="flex items-center gap-2.5 text-xs font-mono-tech uppercase tracking-[0.25em] text-neutral-400 font-semibold">
             <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
             <span className="text-white">HOW IT WORKS</span>
-            <span className="text-neutral-700">//</span>
-            <span className="text-amber-400">4 SIMPLE STEPS</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold text-white tracking-[-0.035em] leading-[1.12]">
-            No complicated{' '}
+            Four steps.{' '}
             <span className="font-editorial-serif italic font-normal text-amber-300">
-              production process.
+              Zero drama.
             </span>
           </h2>
 
           <p className="text-xs sm:text-sm text-neutral-400 max-w-xl font-normal leading-relaxed">
-            Zero complicated workflows. Send raw files — get publication-ready edits back.
+            Because editing video should never feel like doing your taxes.
           </p>
         </div>
 

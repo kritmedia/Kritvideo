@@ -25,9 +25,9 @@ const EDIT_FORMATS: EditFormat[] = [
   {
     id: 'youtube',
     number: '01',
-    title: 'YOUTUBE VIDEO EDITING',
-    tagline: '16:9 • LONG-FORM • 4K',
-    statement: 'Talking heads, documentaries, and explainers. We turn your raw footage into sharp, high-retention YouTube cuts ready to publish.',
+    title: 'YOUTUBE VIDEOS',
+    tagline: 'Talking heads, explainers, and docs.',
+    statement: 'We craft clean pacing, trim the dead air, and drop the right visual cues so your viewers actually stay until the end screen.',
     format: '16:9 • LONG-FORM • 4K',
     specs: 'EXPLORE YOUTUBE EDITING →',
     turnaround: 'YOUTUBE',
@@ -36,9 +36,9 @@ const EDIT_FORMATS: EditFormat[] = [
   {
     id: 'vertical',
     number: '02',
-    title: 'SHORTS & REELS',
-    tagline: '9:16 • SHORT-FORM • SOCIAL',
-    statement: 'Turn long-form clips or raw takes into punchy, high-retention 9:16 vertical edits tailored for Shorts, Reels, and TikTok.',
+    title: 'SHORTS, REELS & TIKTOKS',
+    tagline: 'Fast, snappy vertical cuts.',
+    statement: 'Turn one long conversation or a messy camera roll into punchy 60-second clips built to stop the thumb scroll.',
     format: '9:16 • SHORT-FORM • SOCIAL',
     specs: 'EXPLORE SHORT-FORM EDITING →',
     turnaround: 'SHORT-FORM',
@@ -47,9 +47,9 @@ const EDIT_FORMATS: EditFormat[] = [
   {
     id: 'podcast',
     number: '03',
-    title: 'PODCAST EDITING',
-    tagline: 'MULTI-CAM • AUDIO • CLIPS',
-    statement: 'Multi-cam camera switching, dialogue de-noising, natural pacing, and viral promotional clips for your social channels.',
+    title: 'PODCASTS',
+    tagline: 'Multi-cam sync and crystal clear audio.',
+    statement: 'We switch between hosts smoothly, remove background hisses, and hand you promo clips ready for social.',
     format: 'MULTI-CAM • AUDIO • CLIPS',
     specs: 'EXPLORE PODCAST EDITING →',
     turnaround: 'PODCAST',
@@ -58,9 +58,9 @@ const EDIT_FORMATS: EditFormat[] = [
   {
     id: 'ads',
     number: '04',
-    title: 'COMMERCIAL & BRAND VIDEO',
-    tagline: 'ADS • BRAND FILMS • SOCIAL',
-    statement: 'Direct-response social ads, product launches, and brand stories engineered to hook viewers in the first 3 seconds.',
+    title: 'SOCIAL ADS & BRAND VIDEOS',
+    tagline: 'Product launches and promo spots.',
+    statement: 'Engaging videos that hook people in the first 3 seconds without feeling like a boring corporate pitch.',
     format: 'ADS • BRAND FILMS • SOCIAL',
     specs: 'EXPLORE BRAND VIDEO →',
     turnaround: 'BRAND VIDEO',
@@ -235,18 +235,18 @@ export default function SectionServices() {
         <div className="space-y-2.5 text-center sm:text-left">
           <div className="flex items-center justify-center sm:justify-start gap-2.5 text-xs uppercase tracking-[0.25em] text-neutral-400 font-semibold">
             <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" />
-            <span className="text-white">VIDEO SERVICES</span>
+            <span className="text-white">WHAT WE EDIT</span>
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-[1.1] text-white">
-            Tell us what you're making.{' '}
+            Whatever you film,{' '}
             <span className="font-editorial-serif italic font-normal text-amber-300 block sm:inline">
-              We'll handle the edit.
+              we make it watchable.
             </span>
           </h2>
 
           <p className="text-xs sm:text-sm text-neutral-400 font-normal leading-relaxed pt-1">
-            Send raw footage. We deliver high-retention, publication-ready cuts in 48 hours.
+            Built for screens, thumbs, and short attention spans.
           </p>
         </div>
 
@@ -374,18 +374,18 @@ export default function SectionServices() {
           <div className="space-y-2.5 max-w-2xl">
             <div className="flex items-center gap-3 text-xs sm:text-sm uppercase tracking-[0.25em] text-neutral-400 font-semibold">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse inline-block" />
-              <span className="text-white">VIDEO EDITING SERVICES</span>
+              <span className="text-white">WHAT WE EDIT</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-extrabold tracking-[-0.03em] leading-[1.08] text-white">
-              Tell us what you're making.{' '}
+              Whatever you film,{' '}
               <span className="font-editorial-serif italic font-normal text-amber-300 block sm:inline">
-                We'll handle the edit.
+                we make it watchable.
               </span>
             </h2>
 
             <p className="text-xs sm:text-sm text-neutral-400 max-w-xl font-normal leading-relaxed pt-1">
-              Send raw footage. We turn it into sharp, high-retention video tailored for your channel and ready to publish.
+              Built for screens, thumbs, and short attention spans.
             </p>
           </div>
 

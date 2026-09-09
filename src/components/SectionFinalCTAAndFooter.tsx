@@ -42,20 +42,20 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
                 {/* Minimalist Eyebrow */}
                 <div className="inline-flex items-center gap-2.5 text-xs font-mono-tech uppercase tracking-[0.25em] text-neutral-400 font-semibold">
                   <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse inline-block" />
-                  <span className="text-white">READY WHEN YOU ARE</span>
+                  <span className="text-white">READY TO DELEGATE?</span>
                 </div>
 
                 {/* Bold, Arresting Editorial Headline */}
                 <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-[-0.035em] text-white leading-[1.08]">
-                  Got footage?{' '}
+                  Got raw footage sitting on{' '}
                   <span className="font-editorial-serif italic font-normal text-amber-300 block sm:inline">
-                    Let's make something out of it.
+                    your hard drive?
                   </span>
                 </h2>
 
                 {/* Confident Subtitle */}
                 <p className="text-xs sm:text-sm md:text-base text-neutral-400 max-w-lg mx-auto leading-relaxed font-normal">
-                  Tell us what you're working on, what you need edited and where you want the finished video to go. We'll take a look and tell you what happens next.
+                  Let’s turn it into something your audience will love. Send us your clips and we’ll handle the heavy lifting.
                 </p>
 
                 {/* Minimalist Action Dock */}
@@ -65,15 +65,14 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
                       onClick={() => onNavigate ? onNavigate('/contact') : (window.location.href = '/contact')}
                       className="w-full sm:w-auto px-9 py-4 bg-white hover:bg-neutral-200 text-black font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_25px_rgba(255,255,255,0.25)] hover:scale-105 active:scale-95 shrink-0"
                     >
-                      <span>LET'S GET STARTED</span>
-                      <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+                      <span>GET A QUOTE & START ↗</span>
                     </button>
                   </div>
 
                   {/* Clean Trust Line */}
                   <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-xs font-mono-tech text-neutral-400 pt-1">
-                    <span className="text-neutral-300">
-                      CLEAR PROCESS • REAL EDITORS • FINISHED VIDEOS
+                    <span className="text-neutral-300 italic">
+                      No awkward sales calls required.
                     </span>
                   </div>
                 </div>
@@ -153,11 +152,11 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
               </div>
 
               <p className="text-base sm:text-lg font-editorial-serif italic text-neutral-300 leading-relaxed max-w-sm">
-                “You make the content. We'll make sure the edit does it justice.”
+                “We make your videos look good so you can get back to creating.”
               </p>
 
               <p className="text-xs text-neutral-400 leading-relaxed max-w-md">
-                KritVideo is a video editing and post-production studio helping creators and brands turn raw footage into finished videos for YouTube, social media, campaigns and everything in between.
+                KRITVIDEO — We make your videos look good so you can get back to creating.
               </p>
 
               {/* Direct Contact & Location */}
@@ -171,8 +170,8 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
                     COPY
                   </button>
                 </div>
-                <span className="text-[11px] font-mono-tech text-neutral-500 uppercase tracking-wider">
-                  INDIA • WORKING GLOBALLY
+                <span className="text-[11px] font-mono-tech text-neutral-400">
+                  • Working with creators worldwide.
                 </span>
               </div>
             </div>
@@ -237,7 +236,7 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
                     onClick={() => onNavigate ? onNavigate('/work') : (window.location.href = '/work')}
                     className="hover:text-white transition-colors cursor-pointer text-left"
                   >
-                    WORK
+                    Work
                   </button>
                 </li>
                 <li>
@@ -245,53 +244,22 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
                     onClick={() => onNavigate ? onNavigate('/services') : (window.location.href = '/services')}
                     className="hover:text-white transition-colors cursor-pointer text-left"
                   >
-                    SERVICES
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => onNavigate ? onNavigate('/about') : (window.location.href = '/about')}
-                    className="hover:text-white transition-colors cursor-pointer text-left"
-                  >
-                    ABOUT
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => onNavigate ? onNavigate('/blog') : (window.location.href = '/blog')}
-                    className="hover:text-white transition-colors cursor-pointer text-left"
-                  >
-                    BLOG
+                    Services
                   </button>
                 </li>
                 <li>
                   <button
                     onClick={() => {
                       if (onNavigate) {
-                        onNavigate('/#why-us');
+                        onNavigate('/#process');
                       } else {
-                        const el = document.getElementById('why-us');
+                        const el = document.getElementById('process');
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
                     className="hover:text-white transition-colors cursor-pointer text-left"
                   >
-                    WHY US
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      if (onNavigate) {
-                        onNavigate('/#faq');
-                      } else {
-                        const el = document.getElementById('faq');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
-                    className="hover:text-white transition-colors cursor-pointer text-left"
-                  >
-                    FAQ
+                    How It Works
                   </button>
                 </li>
                 <li>
@@ -299,7 +267,15 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
                     onClick={() => onNavigate ? onNavigate('/contact') : (window.location.href = '/contact')}
                     className="hover:text-white transition-colors cursor-pointer text-left"
                   >
-                    CONTACT
+                    Pricing
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => onNavigate ? onNavigate('/contact') : (window.location.href = '/contact')}
+                    className="hover:text-white transition-colors cursor-pointer text-left"
+                  >
+                    Contact
                   </button>
                 </li>
               </ul>
@@ -358,7 +334,7 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
           {/* SUB-FOOTER: Copyright, Legals & Audio Signal */}
           <div className="pt-8 border-t border-neutral-850/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono-tech text-neutral-400">
             <div className="flex items-center gap-2">
-              <span>© 2026 KRITVIDEO. ALL RIGHTS RESERVED.</span>
+              <span>© 2026 KritVideo Studio. Made for creators who value their sleep.</span>
             </div>
 
             <div className="flex items-center gap-6">
