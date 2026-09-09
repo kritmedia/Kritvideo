@@ -137,40 +137,259 @@ const PORTFOLIO_DATA: PortfolioItem[] = [
   },
 ];
 
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
 export default function SectionOurWork() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [currentTime, setCurrentTime] = useState(18);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isVideoActive, setIsVideoActive] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [videoDuration, setVideoDuration] = useState<number | null>(null);
   const [isMuted, setIsMuted] = useState(false);
   const [showSpecsModal, setShowSpecsModal] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isHoveringCard, setIsHoveringCard] = useState(false);
+
   const theaterContainerRef = useRef<HTMLDivElement>(null);
+  const inlineIframeRef = useRef<HTMLIFrameElement | null>(null);
+  const theaterIframeRef = useRef<HTMLIFrameElement | null>(null);
+  const activePlayerRef = useRef<any>(null);
 
   const filteredItems = PORTFOLIO_DATA;
   const activeItem = filteredItems[currentIndex] || PORTFOLIO_DATA[0];
 
-  // Playback timer simulation for transport dock
+  // Helper to construct YouTube embed URL with enablejsapi, playsinline, and parent origin
+  const getYouTubeEmbedUrl = useCallback((youtubeId: string, autoplay = true, startTime = 0) => {
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    const params = new URLSearchParams({
+      enablejsapi: '1',
+      rel: '0',
+      modestbranding: '1',
+      playsinline: '1',
+      controls: '1',
+    });
+    if (autoplay) params.set('autoplay', '1');
+    if (isMuted) params.set('mute', '1');
+    if (startTime > 0) params.set('start', String(Math.floor(startTime)));
+    if (origin) params.set('origin', origin);
+    return `https://www.youtube.com/embed/${youtubeId}?${params.toString()}`;
+  }, [isMuted]);
+
+  // Universal command sender to YouTube player (via YT.Player or iframe postMessage)
+  const postToPlayer = useCallback((action: string, args: any[] = []) => {
+    if (activePlayerRef.current && typeof activePlayerRef.current[action] === 'function') {
+      try {
+        activePlayerRef.current[action](...args);
+      } catch (e) {}
+    }
+    const iframe = isFullScreen ? theaterIframeRef.current : inlineIframeRef.current;
+    if (iframe && iframe.contentWindow) {
+      try {
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: action, args }),
+          '*'
+        );
+      } catch (e) {}
+    }
+  }, [isFullScreen]);
+
+  // Load YouTube IFrame API script once
   useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setCurrentTime((prev) => {
-        if (prev >= activeItem.durationSeconds) return 0;
-        return prev + 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [isPlaying, activeItem.durationSeconds]);
+    if (typeof window === 'undefined') return;
+    if (window.YT && window.YT.Player) return;
+
+    const existing = document.getElementById('youtube-iframe-api');
+    if (!existing) {
+      const tag = document.createElement('script');
+      tag.id = 'youtube-iframe-api';
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const first = document.getElementsByTagName('script')[0];
+      if (first && first.parentNode) {
+        first.parentNode.insertBefore(tag, first);
+      } else {
+        document.head.appendChild(tag);
+      }
+    }
+  }, []);
 
   const handleNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % filteredItems.length);
     setCurrentTime(0);
-  }, [filteredItems.length]);
+    setVideoDuration(null);
+    activePlayerRef.current = null;
+    setIsPlaying(isVideoActive);
+  }, [filteredItems.length, isVideoActive]);
 
   const handlePrev = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + filteredItems.length) % filteredItems.length);
     setCurrentTime(0);
-  }, [filteredItems.length]);
+    setVideoDuration(null);
+    activePlayerRef.current = null;
+    setIsPlaying(isVideoActive);
+  }, [filteredItems.length, isVideoActive]);
+
+  // Attach YT.Player when an iframe loads
+  const attachYouTubePlayer = useCallback((iframe: HTMLIFrameElement | null) => {
+    if (!iframe || typeof window === 'undefined') return;
+
+    try {
+      if (iframe.contentWindow) {
+        iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening' }), '*');
+      }
+    } catch (e) {}
+
+    if (window.YT && window.YT.Player) {
+      try {
+        const player = new window.YT.Player(iframe, {
+          events: {
+            onReady: (event: any) => {
+              activePlayerRef.current = event.target;
+              try {
+                const dur = event.target.getDuration();
+                if (dur && !isNaN(dur) && dur > 0) setVideoDuration(dur);
+                if (isMuted) event.target.mute();
+                else event.target.unMute();
+              } catch (e) {}
+            },
+            onStateChange: (event: any) => {
+              // 1 = PLAYING, 2 = PAUSED, 0 = ENDED
+              if (event.data === 1) {
+                setIsPlaying(true);
+                setIsVideoActive(true);
+              } else if (event.data === 2) {
+                setIsPlaying(false);
+              } else if (event.data === 0) {
+                setIsPlaying(false);
+                handleNext();
+              }
+            },
+          },
+        });
+        activePlayerRef.current = player;
+      } catch (e) {}
+    }
+  }, [handleNext, isMuted]);
+
+  // Listen to postMessage events from the YouTube iframe for real-time state & time synchronization
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (!event.data) return;
+      let data = event.data;
+      if (typeof data === 'string') {
+        try {
+          data = JSON.parse(data);
+        } catch (e) {
+          return;
+        }
+      }
+      if (!data || typeof data !== 'object') return;
+
+      // Synchronize on player state change
+      if (data.event === 'onStateChange') {
+        if (data.info === 1) {
+          setIsPlaying(true);
+          setIsVideoActive(true);
+        } else if (data.info === 2) {
+          setIsPlaying(false);
+        } else if (data.info === 0) {
+          setIsPlaying(false);
+          handleNext();
+        }
+      } else if (data.event === 'infoDelivery' && data.info) {
+        if (typeof data.info.currentTime === 'number') {
+          setCurrentTime(data.info.currentTime);
+        }
+        if (typeof data.info.duration === 'number' && data.info.duration > 0) {
+          setVideoDuration(data.info.duration);
+        }
+        if (typeof data.info.playerState === 'number') {
+          if (data.info.playerState === 1) {
+            setIsPlaying(true);
+            setIsVideoActive(true);
+          } else if (data.info.playerState === 2) {
+            setIsPlaying(false);
+          } else if (data.info.playerState === 0) {
+            setIsPlaying(false);
+            handleNext();
+          }
+        }
+        if (typeof data.info.muted === 'boolean') {
+          setIsMuted(data.info.muted);
+        }
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [handleNext]);
+
+  // High-frequency polling while playing to keep scrubber & time counter smoothly locked to YouTube video
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const interval = setInterval(() => {
+      if (activePlayerRef.current && typeof activePlayerRef.current.getCurrentTime === 'function') {
+        try {
+          const t = activePlayerRef.current.getCurrentTime();
+          if (typeof t === 'number' && !isNaN(t)) {
+            setCurrentTime(t);
+          }
+          const d = activePlayerRef.current.getDuration();
+          if (typeof d === 'number' && !isNaN(d) && d > 0) {
+            setVideoDuration(d);
+          }
+        } catch (e) {}
+      }
+
+      const iframe = isFullScreen ? theaterIframeRef.current : inlineIframeRef.current;
+      if (iframe && iframe.contentWindow) {
+        try {
+          iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening' }), '*');
+        } catch (e) {}
+      }
+    }, 250);
+
+    return () => clearInterval(interval);
+  }, [isPlaying, isFullScreen]);
+
+  // Control handlers
+  const handlePlayToggle = () => {
+    if (!isVideoActive) {
+      setIsVideoActive(true);
+      setIsPlaying(true);
+      return;
+    }
+    if (isPlaying) {
+      postToPlayer('pauseVideo');
+      setIsPlaying(false);
+    } else {
+      postToPlayer('playVideo');
+      setIsPlaying(true);
+    }
+  };
+
+  const handleScrub = (clickX: number, width: number) => {
+    const percent = Math.max(0, Math.min(1, clickX / width));
+    const maxDur = videoDuration || activeItem.durationSeconds || 100;
+    const targetSecs = percent * maxDur;
+    setCurrentTime(targetSecs);
+    postToPlayer('seekTo', [targetSecs, true]);
+  };
+
+  const handleMuteToggle = () => {
+    if (isMuted) {
+      postToPlayer('unMute');
+      setIsMuted(false);
+    } else {
+      postToPlayer('mute');
+      setIsMuted(true);
+    }
+  };
 
   // Mobile viewport detection
   const [isMobile, setIsMobile] = useState<boolean>(() => {
@@ -207,7 +426,26 @@ export default function SectionOurWork() {
   const toggleFullScreen = () => {
     setIsFullScreen((prev) => {
       const next = !prev;
-      if (next) setIsPlaying(true);
+      if (next) {
+        if (inlineIframeRef.current && inlineIframeRef.current.contentWindow) {
+          try {
+            inlineIframeRef.current.contentWindow.postMessage(
+              JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+              '*'
+            );
+          } catch (e) {}
+        }
+        setIsPlaying(true);
+      } else {
+        if (theaterIframeRef.current && theaterIframeRef.current.contentWindow) {
+          try {
+            theaterIframeRef.current.contentWindow.postMessage(
+              JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+              '*'
+            );
+          } catch (e) {}
+        }
+      }
       return next;
     });
   };
@@ -223,15 +461,17 @@ export default function SectionOurWork() {
         handlePrev();
       } else if (e.key === ' ') {
         e.preventDefault();
-        setIsPlaying((prev) => !prev);
+        handlePlayToggle();
       } else if (e.key === 'f' || e.key === 'F') {
         e.preventDefault();
         toggleFullScreen();
       } else if (e.key === 'Escape') {
         if (isFullScreen) {
           setIsFullScreen(false);
-        } else if (isPlaying) {
+        } else if (isPlaying || isVideoActive) {
+          postToPlayer('pauseVideo');
           setIsPlaying(false);
+          setIsVideoActive(false);
         }
         if (showSpecsModal) setShowSpecsModal(false);
       }
@@ -239,7 +479,7 @@ export default function SectionOurWork() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleNext, handlePrev, isFullScreen, isPlaying, showSpecsModal]);
+  }, [handleNext, handlePrev, isFullScreen, isPlaying, isVideoActive, showSpecsModal, postToPlayer]);
 
   // Lock body scroll when theater mode or specs modal is open
   useEffect(() => {
@@ -253,14 +493,16 @@ export default function SectionOurWork() {
   }, [isFullScreen, showSpecsModal]);
 
   const formatTime = (secs: number) => {
-    const m = Math.floor(secs / 60);
-    const s = Math.floor(secs % 60);
+    const sRound = Math.floor(secs);
+    const m = Math.floor(sRound / 60);
+    const s = sRound % 60;
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
+  const totalDuration = videoDuration || activeItem.durationSeconds || 100;
   const progressPercent = Math.min(
     100,
-    (currentTime / (activeItem.durationSeconds || 100)) * 100
+    Math.max(0, (currentTime / totalDuration) * 100)
   );
 
   return (
@@ -401,12 +643,17 @@ export default function SectionOurWork() {
                   key={item.id}
                   onClick={() => {
                     if (isCenter) {
-                      if (!isPlaying) {
+                      if (!isVideoActive) {
+                        setIsVideoActive(true);
                         setIsPlaying(true);
                       }
                     } else {
                       setCurrentIndex(index);
                       setCurrentTime(0);
+                      setVideoDuration(null);
+                      activePlayerRef.current = null;
+                      setIsVideoActive(false);
+                      setIsPlaying(false);
                     }
                   }}
                   onMouseEnter={() => isCenter && setIsHoveringCard(true)}
@@ -427,11 +674,13 @@ export default function SectionOurWork() {
                       : 'border-white/10 filter brightness-75 hover:brightness-95'
                   }`}
                 >
-                  {/* Media Content: Real YouTube Player when playing, Artwork Thumbnail when idle */}
-                  {isCenter && isPlaying ? (
+                  {/* Media Content: Real YouTube Player when active, Artwork Thumbnail when idle */}
+                  {isCenter && isVideoActive ? (
                     <div className="w-full h-full relative bg-black">
                       <iframe
-                        src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                        ref={inlineIframeRef}
+                        src={getYouTubeEmbedUrl(item.youtubeId, isPlaying)}
+                        onLoad={() => attachYouTubePlayer(inlineIframeRef.current)}
                         title={item.title}
                         className="w-full h-full border-0 rounded-[32px]"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -453,7 +702,7 @@ export default function SectionOurWork() {
                   )}
 
                   {/* Top Artwork Gradient & Format Badges (Visible when not playing) */}
-                  {(!isCenter || !isPlaying) && (
+                  {(!isCenter || !isVideoActive) && (
                     <div className="absolute top-0 inset-x-0 p-5 sm:p-6 flex items-center justify-between pointer-events-none bg-gradient-to-b from-black/85 via-black/35 to-transparent">
                       <div className="flex items-center gap-2">
                         <span className="font-mono-tech text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white border border-white/15 shadow-sm">
@@ -491,8 +740,8 @@ export default function SectionOurWork() {
                     </div>
                   )}
 
-                  {/* Quick Floating Actions When Video is Playing Inline */}
-                  {isCenter && isPlaying && (
+                  {/* Quick Floating Actions When Video is Active Inline */}
+                  {isCenter && isVideoActive && (
                     <div className="absolute top-3.5 right-3.5 z-30 flex items-center gap-2 pointer-events-auto">
                       <button
                         onClick={(e) => {
@@ -508,11 +757,13 @@ export default function SectionOurWork() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
+                          postToPlayer('pauseVideo');
                           setIsPlaying(false);
+                          setIsVideoActive(false);
                         }}
                         aria-label="Stop playback"
                         className="w-8 h-8 rounded-full bg-black/80 hover:bg-white hover:text-black text-white border border-white/25 backdrop-blur-md flex items-center justify-center transition-all cursor-pointer shadow-lg hover:scale-105 active:scale-95"
-                        title="Stop playback (ESC)"
+                        title="Close Video (ESC)"
                       >
                         <X className="w-3.5 h-3.5" />
                       </button>
@@ -520,12 +771,12 @@ export default function SectionOurWork() {
                   )}
 
                   {/* Central Play Liquid Button on Active Card */}
-                  {isCenter && !isPlaying && (
+                  {isCenter && !isVideoActive && (
                     <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setIsPlaying(true);
+                          handlePlayToggle();
                         }}
                         aria-label="Play video"
                         className="pointer-events-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-black/60 hover:bg-white hover:text-black text-white backdrop-blur-xl border border-white/30 flex items-center justify-center shadow-[0_0_40px_rgba(0,0,0,0.8)] transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group"
@@ -538,7 +789,7 @@ export default function SectionOurWork() {
 
                   {/* Frosted Glass Bottom Banner (Hidden during inline playback to give 100% unobstructed view) */}
                   <div className={`absolute bottom-0 inset-x-0 p-5 sm:p-7 bg-gradient-to-t from-black/95 via-black/80 to-transparent backdrop-blur-md border-t border-white/10 flex flex-col justify-end transition-opacity duration-300 ${
-                    isCenter && isPlaying ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                    isCenter && isVideoActive ? 'opacity-0 pointer-events-none' : 'opacity-100'
                   }`}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-mono-tech uppercase tracking-wider text-neutral-400 font-semibold truncate pr-2">
@@ -612,7 +863,7 @@ export default function SectionOurWork() {
               </button>
 
               <button
-                onClick={() => setIsPlaying((prev) => !prev)}
+                onClick={handlePlayToggle}
                 aria-label={isPlaying ? 'Pause playback' : 'Play video'}
                 className="w-12 h-12 rounded-full bg-white text-black hover:bg-neutral-200 flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.4)] transition-all cursor-pointer active:scale-95"
                 title="Play / Pause (Space)"
@@ -653,7 +904,7 @@ export default function SectionOurWork() {
                     {activeItem.title}
                   </span>
                   <span className="font-mono-tech text-[10px] text-neutral-400 shrink-0">
-                    {formatTime(currentTime)} / {activeItem.duration}
+                    {formatTime(currentTime)} / {videoDuration ? formatTime(videoDuration) : activeItem.duration}
                   </span>
                 </div>
 
@@ -661,9 +912,7 @@ export default function SectionOurWork() {
                 <div
                   onClick={(e) => {
                     const rect = e.currentTarget.getBoundingClientRect();
-                    const clickX = e.clientX - rect.left;
-                    const percent = clickX / rect.width;
-                    setCurrentTime(percent * activeItem.durationSeconds);
+                    handleScrub(e.clientX - rect.left, rect.width);
                   }}
                   className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden cursor-pointer relative group"
                 >
@@ -699,7 +948,7 @@ export default function SectionOurWork() {
               </button>
 
               <button
-                onClick={() => setIsMuted((prev) => !prev)}
+                onClick={handleMuteToggle}
                 aria-label={isMuted ? 'Unmute' : 'Mute'}
                 className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center hover:text-white transition-colors cursor-pointer"
                 title="Mute / Unmute"
@@ -816,7 +1065,9 @@ export default function SectionOurWork() {
               }`}
             >
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/${activeItem.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                ref={theaterIframeRef}
+                src={getYouTubeEmbedUrl(activeItem.youtubeId, true, currentTime)}
+                onLoad={() => attachYouTubePlayer(theaterIframeRef.current)}
                 title={activeItem.title}
                 className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -835,9 +1086,7 @@ export default function SectionOurWork() {
                 <div
                   onClick={(e) => {
                     const rect = e.currentTarget.getBoundingClientRect();
-                    const clickX = e.clientX - rect.left;
-                    const percent = clickX / rect.width;
-                    setCurrentTime(percent * activeItem.durationSeconds);
+                    handleScrub(e.clientX - rect.left, rect.width);
                   }}
                   className="h-2 flex-1 bg-white/10 rounded-full overflow-hidden cursor-pointer relative"
                 >
@@ -851,7 +1100,7 @@ export default function SectionOurWork() {
                 </div>
 
                 <span className="font-mono-tech text-[11px] sm:text-xs text-neutral-400 shrink-0">
-                  {activeItem.duration}
+                  {videoDuration ? formatTime(videoDuration) : activeItem.duration}
                 </span>
               </div>
 
@@ -867,7 +1116,7 @@ export default function SectionOurWork() {
                   </button>
 
                   <button
-                    onClick={() => setIsPlaying((prev) => !prev)}
+                    onClick={handlePlayToggle}
                     aria-label={isPlaying ? 'Pause playback' : 'Play video'}
                     className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-black flex items-center justify-center hover:bg-neutral-200 transition-all cursor-pointer shadow-md active:scale-95"
                   >
@@ -896,7 +1145,7 @@ export default function SectionOurWork() {
                 {/* Right Deck Actions */}
                 <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                   <button
-                    onClick={() => setIsMuted((prev) => !prev)}
+                    onClick={handleMuteToggle}
                     aria-label={isMuted ? 'Unmute' : 'Mute'}
                     className="w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer transition-colors"
                   >
