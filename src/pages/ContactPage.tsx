@@ -480,29 +480,52 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
         </div>
 
         {/* Accordion */}
-        <div className="space-y-4">
+        <div className="space-y-3.5">
           {FAQ_ITEMS.map((faq, index) => {
             const isOpen = openFaq === index;
+            const itemNumber = (index + 1).toString().padStart(2, '0');
             return (
               <div
                 key={index}
-                className="rounded-2xl bg-neutral-950/90 border border-white/[0.08] hover:border-white/20 transition-all overflow-hidden"
+                className={`rounded-[24px] transition-all duration-300 border overflow-hidden relative ${
+                  isOpen
+                    ? 'bg-neutral-950/95 border-amber-500/50 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(245,158,11,0.15)] ring-1 ring-amber-400/20'
+                    : 'bg-neutral-950/50 hover:bg-neutral-950/80 border-white/[0.08] hover:border-white/20'
+                }`}
               >
+                {isOpen && (
+                  <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-amber-400 to-transparent pointer-events-none" />
+                )}
+
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : index)}
-                  className="w-full p-6 sm:p-7 text-left flex items-center justify-between gap-4 cursor-pointer select-none"
+                  className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 cursor-pointer select-none"
                 >
-                  <span className="text-base sm:text-lg font-bold text-white tracking-tight">
-                    {faq.question}
-                  </span>
-                  <div className={`w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center transition-transform duration-300 shrink-0 ${isOpen ? 'rotate-180 bg-amber-400/20 text-amber-300' : 'text-neutral-400'}`}>
+                  <div className="flex items-start gap-4 sm:gap-5 flex-1">
+                    <span className={`text-xs font-mono-tech font-bold shrink-0 pt-0.5 transition-colors ${
+                      isOpen ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.6)]' : 'text-neutral-500'
+                    }`}>
+                      &#123; {itemNumber} &#125;
+                    </span>
+                    <span className={`text-sm sm:text-base md:text-[1.05rem] font-bold tracking-tight leading-snug transition-colors ${
+                      isOpen ? 'text-white' : 'text-neutral-200 hover:text-white'
+                    }`}>
+                      {faq.question}
+                    </span>
+                  </div>
+
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border transition-all duration-300 ${
+                    isOpen
+                      ? 'bg-amber-400 border-amber-400 text-black rotate-180 shadow-[0_0_15px_rgba(245,158,11,0.5)]'
+                      : 'bg-white/5 border-white/10 text-neutral-400 hover:border-white/30'
+                  }`}>
                     <ChevronDown className="w-4 h-4" />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-6 sm:px-7 sm:pb-7 text-neutral-300 text-sm sm:text-base leading-relaxed border-t border-white/[0.05] pt-4 font-normal">
-                    {faq.answer}
+                  <div className="px-5 sm:px-6 pb-6 pt-2 text-xs sm:text-sm text-neutral-300 leading-relaxed border-t border-white/[0.06] bg-gradient-to-b from-white/[0.02] to-transparent">
+                    <p>{faq.answer}</p>
                   </div>
                 )}
               </div>
