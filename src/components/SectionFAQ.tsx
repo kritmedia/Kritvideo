@@ -89,12 +89,24 @@ export default function SectionFAQ() {
     setOpenId((prev) => (prev === id ? '' : id));
   };
 
+  const handleCategoryChange = (catId: string) => {
+    setActiveCategory(catId);
+    const items = catId === 'all' ? FAQ_DATA : FAQ_DATA.filter((item) => item.category === catId);
+    if (items.length > 0) {
+      // If currently opened FAQ is not in this new category, auto-expand the first item for immediate feedback
+      const isCurrentlyOpenInNewCategory = items.some((item) => item.id === openId);
+      if (!isCurrentlyOpenInNewCategory) {
+        setOpenId(items[0].id);
+      }
+    }
+  };
+
   const activeCategoryObj = CATEGORIES.find(c => c.id === activeCategory) || CATEGORIES[0];
 
   return (
     <section
       id="faq"
-      className="relative pt-16 pb-20 sm:pt-20 sm:pb-24 px-4 sm:px-8 md:px-12 lg:px-20 bg-black text-white select-none overflow-hidden"
+      className="relative pt-16 pb-20 sm:pt-20 sm:pb-24 px-4 sm:px-8 md:px-12 lg:px-20 bg-black text-white select-none overflow-x-clip"
     >
       {/* 1. ARCHITECTURAL FILM RIBBON / MESH WAVE IN BACKGROUND (Matching reference aesthetic) */}
       <div className="absolute inset-0 pointer-events-none opacity-40 overflow-hidden">
@@ -144,7 +156,7 @@ export default function SectionFAQ() {
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* SECTION HEADER: Luxury Headline with Editorial Serif & Studio Counter */}
-        <div className="text-center max-w-3xl mx-auto space-y-3.5 mb-14 sm:mb-18">
+        <div className="text-center max-w-3xl mx-auto space-y-3.5 mb-10 sm:mb-16">
           
           {/* Eyebrow Pill */}
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-neutral-900/80 border border-white/10 backdrop-blur-md text-xs font-mono-tech uppercase tracking-[0.25em] text-neutral-400 font-semibold shadow-inner">
@@ -174,11 +186,54 @@ export default function SectionFAQ() {
           </div>
         </div>
 
-        {/* 2-COLUMN MAIN CONTENT: Left Sidebar Category Card + Right Accordion List */}
+        {/* MOBILE STICKY CATEGORY SWITCHER (Visible on < lg screens, docks below top nav) */}
+        <div className="lg:hidden sticky top-[68px] sm:top-20 z-30 -mx-4 px-4 sm:mx-0 sm:px-0 py-3 bg-black/95 backdrop-blur-2xl border-y border-white/10 mb-6 shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+          <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.06]">
+            <div className="flex items-center gap-2 text-[11px] font-mono-tech uppercase tracking-wider text-neutral-400">
+              <Sliders className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span>Category: <strong className="text-amber-300 font-bold">{activeCategoryObj.label}</strong></span>
+            </div>
+            <span className="text-[10px] font-mono-tech px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-400 font-bold">
+              {filteredFAQs.length} {filteredFAQs.length === 1 ? 'ITEM' : 'ITEMS'}
+            </span>
+          </div>
+
+          {/* Horizontal Scrollable Category Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 scroll-smooth">
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = activeCategory === cat.id;
+
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => handleCategoryChange(cat.id)}
+                  className={`shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono-tech tracking-wide transition-all duration-200 cursor-pointer active:scale-95 ${
+                    isActive
+                      ? 'bg-amber-400 text-black font-extrabold shadow-[0_0_20px_rgba(245,158,11,0.35)] border border-amber-400'
+                      : 'bg-neutral-900/90 text-neutral-400 hover:text-white border border-white/10 hover:border-white/20'
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-black' : 'text-amber-400'}`} />
+                  <span>{cat.label}</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono-tech ${
+                    isActive
+                      ? 'bg-black/20 text-black font-black'
+                      : 'bg-white/10 text-neutral-300'
+                  }`}>
+                    {cat.count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* 2-COLUMN MAIN CONTENT: Left Sidebar Category Card (Desktop) + Right Accordion List */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-start">
           
-          {/* LEFT COLUMN: Interactive "FAQ Category" Card with Viewfinder Reticles */}
-          <div className="lg:col-span-4 space-y-4 relative">
+          {/* LEFT COLUMN: Interactive "FAQ Category" Card with Viewfinder Reticles (Desktop only) */}
+          <div className="hidden lg:block lg:col-span-4 space-y-4 relative">
             <div className="relative p-6 sm:p-7 rounded-[32px] bg-neutral-950/85 border border-white/15 backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.15)] overflow-hidden group">
               
               {/* Corner Viewfinder Crop Marks for Camera Monitor aesthetic */}
@@ -209,7 +264,7 @@ export default function SectionFAQ() {
                   return (
                     <button
                       key={cat.id}
-                      onClick={() => setActiveCategory(cat.id)}
+                      onClick={() => handleCategoryChange(cat.id)}
                       className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-mono-tech tracking-wide transition-all duration-300 cursor-pointer text-left relative overflow-hidden ${
                         isActive
                           ? 'bg-gradient-to-r from-amber-500/20 via-amber-500/10 to-transparent text-amber-300 border border-amber-500/50 shadow-[0_0_25px_rgba(245,158,11,0.2)] font-bold translate-x-1'
@@ -347,6 +402,26 @@ export default function SectionFAQ() {
                 </div>
               );
             })}
+
+            {/* Mobile-only Direct Ingestion Hotline Card placed naturally below FAQs */}
+            <div className="lg:hidden mt-6 pt-2">
+              <div className="p-5 rounded-2xl bg-neutral-950/80 border border-white/15 space-y-2 relative overflow-hidden">
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block" />
+                  <span>Have a custom format or scope?</span>
+                </div>
+                <p className="text-xs text-neutral-400 leading-relaxed font-normal">
+                  Speak directly with a post-production coordinator in under 15 minutes.
+                </p>
+                <a
+                  href="mailto:hello@kritvideo.com"
+                  className="inline-flex items-center gap-2 text-xs font-mono-tech text-amber-400 hover:text-amber-300 font-bold pt-1 transition-colors group"
+                >
+                  <span>hello@kritvideo.com</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </a>
+              </div>
+            </div>
           </div>
 
         </div>

@@ -47,3 +47,13 @@ html, body {
 .animate-bar-5 { animation: bounceBar 1.3s ease-in-out infinite 0.4s; }
 .animate-bar-6 { animation: bounceBar 1.6s ease-in-out infinite 0.15s; }
 .animate-bar-7 { animation: bounceBar 1.2s ease-in-out infinite 0.35s; }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
