@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Play,
   Pause,
@@ -10,7 +11,10 @@ import {
   Minimize2,
   Sliders,
   ArrowUpRight,
-  Sparkles
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink
 } from 'lucide-react';
 
 interface PortfolioItem {
@@ -227,6 +231,17 @@ export default function SectionOurWork() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handlePrev, isFullScreen, showSpecsModal]);
+
+  // Lock body scroll when theater mode or specs modal is open
+  useEffect(() => {
+    if (isFullScreen || showSpecsModal) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isFullScreen, showSpecsModal]);
 
   const formatTime = (secs: number) => {
     const m = Math.floor(secs / 60);
@@ -665,150 +680,203 @@ export default function SectionOurWork() {
       {/* ========================================================================= */}
       {/* IMMERSIVE FULL SCREEN THEATER MODAL (Triggered by Fullscreen button or 'F' key) */}
       {/* ========================================================================= */}
-      {isFullScreen && (
+      {isFullScreen && createPortal(
         <div
           ref={theaterContainerRef}
-          className="fixed inset-0 z-50 bg-black flex flex-col justify-between p-4 sm:p-8 animate-fadeIn select-none"
+          onClick={() => setIsFullScreen(false)}
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-3 sm:p-5 md:p-6 animate-fadeIn select-none overflow-y-auto"
           style={{
             backgroundImage: `radial-gradient(circle at center, ${activeItem.glowColor} 0%, rgba(0,0,0,0.98) 75%)`,
           }}
         >
-          {/* Top Fullscreen Bar */}
-          <div className="relative z-20 flex items-center justify-between bg-black/60 backdrop-blur-xl border border-white/10 px-6 py-3.5 rounded-full max-w-5xl mx-auto w-full">
-            <div className="flex items-center gap-3">
-              <span
-                className="w-3 h-3 rounded-full animate-pulse"
-                style={{ backgroundColor: activeItem.themeColor }}
-              />
-              <span className="font-mono-tech text-xs text-white uppercase tracking-widest font-bold">
-                KRIT CINEMA THEATER • {activeItem.format}
-              </span>
+          {/* Floating Left Side Navigation Chevron (md+) */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrev();
+            }}
+            aria-label="Previous Video"
+            className="hidden md:flex fixed left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-neutral-900/80 hover:bg-white hover:text-black border border-white/20 text-white items-center justify-center transition-all cursor-pointer backdrop-blur-md shadow-2xl active:scale-95 group"
+            title="Previous Video (Left Arrow)"
+          >
+            <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" />
+          </button>
+
+          {/* Floating Right Side Navigation Chevron (md+) */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNext();
+            }}
+            aria-label="Next Video"
+            className="hidden md:flex fixed right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-neutral-900/80 hover:bg-white hover:text-black border border-white/20 text-white items-center justify-center transition-all cursor-pointer backdrop-blur-md shadow-2xl active:scale-95 group"
+            title="Next Video (Right Arrow)"
+          >
+            <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+          </button>
+
+          {/* Centered Unified Cinema Stage (Video + Controls Grouped Tightly with Zero Excessive Void) */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`relative w-full ${
+              activeItem.format === '16:9' ? 'max-w-5xl' : 'max-w-md sm:max-w-lg'
+            } flex flex-col items-center justify-center my-auto`}
+          >
+            {/* Top Fullscreen Header Bar */}
+            <div className="w-full flex items-center justify-between bg-black/60 backdrop-blur-xl border border-white/15 px-4 sm:px-6 py-2.5 rounded-full mb-3 shadow-lg">
+              <div className="flex items-center gap-2.5">
+                <span
+                  className="w-2.5 h-2.5 rounded-full animate-pulse shrink-0"
+                  style={{ backgroundColor: activeItem.themeColor }}
+                />
+                <span className="font-mono-tech text-xs text-white uppercase tracking-wider font-bold">
+                  KRIT CINEMA THEATER • {activeItem.format}
+                </span>
+                <span className="hidden sm:inline font-mono-tech text-[10px] text-neutral-400 px-2 py-0.5 rounded-full bg-white/10 border border-white/10">
+                  {activeItem.categoryLabel}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="font-mono-tech text-[11px] text-neutral-400 hidden sm:inline-block">
+                  Press <kbd className="px-1.5 py-0.5 rounded bg-neutral-800 text-white font-mono text-[10px]">ESC</kbd> to exit
+                </span>
+                <button
+                  onClick={() => setIsFullScreen(false)}
+                  aria-label="Exit Fullscreen"
+                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 hover:bg-white hover:text-black text-white flex items-center justify-center transition-colors cursor-pointer"
+                  title="Exit Theater (ESC)"
+                >
+                  <Minimize2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="font-mono-tech text-xs text-neutral-400 hidden sm:inline-block">
-                Press <kbd className="px-1.5 py-0.5 rounded bg-neutral-800 text-white font-mono text-[10px]">ESC</kbd> to exit
-              </span>
-              <button
-                onClick={() => setIsFullScreen(false)}
-                aria-label="Exit Fullscreen"
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white hover:text-black text-white flex items-center justify-center transition-colors cursor-pointer"
-              >
-                <Minimize2 className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Central Cinema Stage with Real YouTube Player */}
-          <div className="relative flex-1 flex items-center justify-center my-4 overflow-hidden">
+            {/* Cinema Stage with YouTube Player */}
             <div
-              className={`relative rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.95)] border border-white/20 ${
+              className={`relative w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.95)] border border-white/20 bg-black flex items-center justify-center ${
                 activeItem.format === '16:9'
-                  ? 'w-full max-w-6xl aspect-[16/9]'
-                  : 'h-full max-h-[80vh] aspect-[9/16]'
+                  ? 'aspect-video max-h-[58vh] sm:max-h-[64vh]'
+                  : 'aspect-[9/16] h-[58vh] sm:h-[64vh] max-h-[64vh] mx-auto'
               }`}
             >
               <iframe
-                src={`https://www.youtube.com/embed/${activeItem.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                src={`https://www.youtube-nocookie.com/embed/${activeItem.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
                 title={activeItem.title}
-                className="w-full h-full"
+                className="w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
             </div>
-          </div>
 
-          {/* Bottom Fullscreen Transport Dock */}
-          <div className="relative z-20 max-w-4xl mx-auto w-full bg-neutral-950/80 backdrop-blur-2xl border border-white/15 rounded-3xl p-4 sm:p-5 shadow-2xl space-y-3">
-            {/* Scrubber */}
-            <div className="flex items-center gap-4">
-              <span className="font-mono-tech text-xs text-neutral-400 shrink-0">
-                {formatTime(currentTime)}
-              </span>
+            {/* Bottom Fullscreen Transport Dock (Directly Hugging the Video Player with Minimal 12px-14px Gap) */}
+            <div className="relative z-20 w-full bg-neutral-950/90 backdrop-blur-2xl border border-white/15 rounded-2xl sm:rounded-3xl p-3 sm:p-4 shadow-2xl space-y-2.5 mt-3 sm:mt-3.5">
+              {/* Scrubber */}
+              <div className="flex items-center gap-3 sm:gap-4">
+                <span className="font-mono-tech text-[11px] sm:text-xs text-neutral-400 shrink-0">
+                  {formatTime(currentTime)}
+                </span>
 
-              <div
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const clickX = e.clientX - rect.left;
-                  const percent = clickX / rect.width;
-                  setCurrentTime(percent * activeItem.durationSeconds);
-                }}
-                className="h-2 flex-1 bg-white/10 rounded-full overflow-hidden cursor-pointer relative"
-              >
                 <div
-                  className="h-full rounded-full transition-all duration-150"
-                  style={{
-                    width: `${progressPercent}%`,
-                    backgroundColor: activeItem.themeColor,
+                  onClick={(e) => {
+                    const rect = e.currentTarget.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const percent = clickX / rect.width;
+                    setCurrentTime(percent * activeItem.durationSeconds);
                   }}
-                />
+                  className="h-2 flex-1 bg-white/10 rounded-full overflow-hidden cursor-pointer relative"
+                >
+                  <div
+                    className="h-full rounded-full transition-all duration-150"
+                    style={{
+                      width: `${progressPercent}%`,
+                      backgroundColor: activeItem.themeColor,
+                    }}
+                  />
+                </div>
+
+                <span className="font-mono-tech text-[11px] sm:text-xs text-neutral-400 shrink-0">
+                  {activeItem.duration}
+                </span>
               </div>
 
-              <span className="font-mono-tech text-xs text-neutral-400 shrink-0">
-                {activeItem.duration}
-              </span>
-            </div>
+              {/* Controls Bar */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                  <button
+                    onClick={handlePrev}
+                    aria-label="Previous video"
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer transition-colors"
+                  >
+                    <SkipBack className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
+                  </button>
 
-            {/* Controls Bar */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handlePrev}
-                  className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer"
-                >
-                  <SkipBack className="w-5 h-5 fill-current" />
-                </button>
+                  <button
+                    onClick={() => setIsPlaying((prev) => !prev)}
+                    aria-label={isPlaying ? 'Pause playback' : 'Play video'}
+                    className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white text-black flex items-center justify-center hover:bg-neutral-200 transition-all cursor-pointer shadow-md active:scale-95"
+                  >
+                    {isPlaying ? (
+                      <Pause className="w-4 h-4 sm:w-5 sm:h-5 fill-black" />
+                    ) : (
+                      <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-black ml-0.5" />
+                    )}
+                  </button>
 
-                <button
-                  onClick={() => setIsPlaying((prev) => !prev)}
-                  className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:bg-neutral-200 transition-all cursor-pointer"
-                >
-                  {isPlaying ? (
-                    <Pause className="w-5 h-5 fill-black" />
-                  ) : (
-                    <Play className="w-5 h-5 fill-black ml-0.5" />
-                  )}
-                </button>
+                  <button
+                    onClick={handleNext}
+                    aria-label="Next video"
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer transition-colors"
+                  >
+                    <SkipForward className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
+                  </button>
+                </div>
 
-                <button
-                  onClick={handleNext}
-                  className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer"
-                >
-                  <SkipForward className="w-5 h-5 fill-current" />
-                </button>
-              </div>
+                {/* Title & Client */}
+                <div className="text-center min-w-0 px-2 flex-1 hidden sm:block">
+                  <p className="text-sm font-bold text-white truncate">{activeItem.title}</p>
+                  <p className="text-xs text-neutral-400 truncate">{activeItem.client}</p>
+                </div>
 
-              {/* Title in Theater Dock */}
-              <div className="text-center hidden sm:block">
-                <p className="text-sm font-bold text-white">{activeItem.title}</p>
-                <p className="text-xs text-neutral-400">{activeItem.client}</p>
-              </div>
+                {/* Right Deck Actions */}
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                  <button
+                    onClick={() => setIsMuted((prev) => !prev)}
+                    aria-label={isMuted ? 'Unmute' : 'Mute'}
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer transition-colors"
+                  >
+                    {isMuted ? <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-red-400" /> : <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" />}
+                  </button>
 
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setIsMuted((prev) => !prev)}
-                  className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white cursor-pointer"
-                >
-                  {isMuted ? <VolumeX className="w-5 h-5 text-red-400" /> : <Volume2 className="w-5 h-5" />}
-                </button>
+                  <a
+                    href={`https://www.youtube.com/watch?v=${activeItem.youtubeId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-mono-tech transition-colors"
+                  >
+                    <span>YouTube</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
 
-                <button
-                  onClick={() => setIsFullScreen(false)}
-                  className="px-4 py-2 rounded-full bg-white/10 hover:bg-white hover:text-black font-mono-tech text-xs text-white transition-colors cursor-pointer"
-                >
-                  EXIT THEATER
-                </button>
+                  <button
+                    onClick={() => setIsFullScreen(false)}
+                    className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 hover:bg-white hover:text-black font-mono-tech text-xs text-white transition-colors cursor-pointer whitespace-nowrap"
+                  >
+                    EXIT THEATER
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* TECH SPECS MODAL */}
-      {showSpecsModal && (
+      {/* TECH SPECS MODAL (Mounted via Portal) */}
+      {showSpecsModal && createPortal(
         <div
           onClick={() => setShowSpecsModal(false)}
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xl flex items-center justify-center p-6"
+          className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-xl flex items-center justify-center p-6 animate-fadeIn"
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -871,7 +939,8 @@ export default function SectionOurWork() {
               Close Spec Sheet
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );
