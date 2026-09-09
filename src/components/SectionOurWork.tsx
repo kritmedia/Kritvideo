@@ -454,7 +454,6 @@ export default function SectionOurWork() {
                     }}
                     onMouseEnter={() => isCenter && setIsHoveringCard(true)}
                     onMouseLeave={() => isCenter && setIsHoveringCard(false)}
-                    data-cursor={isCenter ? (isPlaying ? 'PAUSE' : 'PLAY') : 'SELECT'}
                     style={{
                       transform: `translate3d(${translateX}px, 0px, ${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
                       zIndex,
@@ -507,7 +506,6 @@ export default function SectionOurWork() {
                             toggleFullScreen();
                           }}
                           aria-label="Open Fullscreen Theater"
-                          data-cursor="FULLSCREEN"
                           className="pointer-events-auto w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all hover:scale-110"
                           title="Full Screen Cinema View (F)"
                         >
@@ -604,7 +602,6 @@ export default function SectionOurWork() {
               <button
                 onClick={handlePrev}
                 aria-label="Previous reel"
-                data-cursor="PREV"
                 className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-neutral-300 hover:text-white transition-colors cursor-pointer active:scale-90"
                 title="Previous Video (Left Arrow)"
               >
@@ -614,7 +611,6 @@ export default function SectionOurWork() {
               <button
                 onClick={() => setIsPlaying((prev) => !prev)}
                 aria-label={isPlaying ? 'Pause playback' : 'Play video'}
-                data-cursor={isPlaying ? 'PAUSE' : 'PLAY'}
                 className="w-12 h-12 rounded-full bg-white text-black hover:bg-neutral-200 flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.4)] transition-all cursor-pointer active:scale-95"
                 title="Play / Pause (Space)"
               >
@@ -628,7 +624,6 @@ export default function SectionOurWork() {
               <button
                 onClick={handleNext}
                 aria-label="Next reel"
-                data-cursor="NEXT"
                 className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-neutral-300 hover:text-white transition-colors cursor-pointer active:scale-90"
                 title="Next Video (Right Arrow)"
               >
@@ -685,7 +680,6 @@ export default function SectionOurWork() {
               <button
                 onClick={() => setShowSpecsModal(true)}
                 aria-label="View editing specs"
-                data-cursor="SPECS"
                 className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center hover:text-white transition-colors cursor-pointer"
                 title="View Technical Specs"
               >
@@ -695,7 +689,6 @@ export default function SectionOurWork() {
               <button
                 onClick={toggleFullScreen}
                 aria-label="Toggle Fullscreen Theater"
-                data-cursor="FULLSCREEN"
                 className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center hover:text-white transition-colors cursor-pointer text-amber-400"
                 title="Full Screen Cinema (F)"
               >
@@ -705,7 +698,6 @@ export default function SectionOurWork() {
               <button
                 onClick={() => setIsMuted((prev) => !prev)}
                 aria-label={isMuted ? 'Unmute' : 'Mute'}
-                data-cursor={isMuted ? 'UNMUTE' : 'MUTE'}
                 className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center hover:text-white transition-colors cursor-pointer"
                 title="Mute / Unmute"
               >
@@ -728,7 +720,6 @@ export default function SectionOurWork() {
           <div className="flex items-center justify-center gap-6 pt-2">
             <a
               href="#contact"
-              data-cursor="EDIT"
               className="px-9 py-4 bg-white text-black font-bold text-xs sm:text-sm rounded-full hover:bg-neutral-200 transition-all flex items-center gap-2.5 shadow-[0_0_30px_rgba(255,255,255,0.25)] hover:scale-105 active:scale-95"
             >
               <span>Request an Edit in This Style</span>

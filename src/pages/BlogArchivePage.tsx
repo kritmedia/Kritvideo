@@ -57,7 +57,12 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
 
       {/* Ambient background glow */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-amber-500/10 via-amber-900/5 to-transparent blur-[140px] rounded-full" />
+        <div 
+          className="absolute inset-0" 
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% 0%, rgba(245, 158, 11, 0.08), transparent 70%)'
+          }} 
+        />
       </div>
 
       <main className="relative z-10 pt-28 sm:pt-36 pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">

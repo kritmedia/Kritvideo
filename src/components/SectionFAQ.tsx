@@ -108,18 +108,6 @@ const FAQ_DATA: FAQItem[] = [
 export default function SectionFAQ() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [openId, setOpenId] = useState<string>('service-include');
-  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  }, []);
 
   const filteredFAQs = activeCategory === 'all' 
     ? FAQ_DATA 
@@ -134,10 +122,6 @@ export default function SectionFAQ() {
   return (
     <section
       id="faq"
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className="relative pt-16 pb-20 sm:pt-20 sm:pb-24 px-4 sm:px-8 md:px-12 lg:px-20 bg-black text-white select-none overflow-hidden"
     >
       {/* 1. ARCHITECTURAL FILM RIBBON / MESH WAVE IN BACKGROUND (Matching reference aesthetic) */}
@@ -172,23 +156,17 @@ export default function SectionFAQ() {
         </svg>
       </div>
 
-      {/* 2. DYNAMIC MOUSE-TRACKING SPOTLIGHT CONE */}
-      <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0"
-        style={{
-          opacity: isHovered ? 1 : 0,
-          background: `radial-gradient(700px circle at ${mousePos.x}px ${mousePos.y}px, rgba(245, 158, 11, 0.07), transparent 60%)`,
-        }}
-      />
-
-      {/* 3. SUBTLE TECH DOT MATRIX GRID TEXTURE */}
+      {/* 2. SUBTLE TECH DOT MATRIX GRID TEXTURE */}
       <div 
         className="absolute inset-0 pointer-events-none opacity-20 z-0 bg-[radial-gradient(#ffffff0f_1px,transparent_1px)] [background-size:28px_28px]" 
       />
 
-      {/* 4. DYNAMIC AMBIENT AURORA GLOW TIED TO SELECTED CATEGORY */}
+      {/* 3. DYNAMIC AMBIENT AURORA GLOW TIED TO SELECTED CATEGORY */}
       <div 
-        className={`absolute top-1/4 left-1/2 -translate-x-1/2 w-[950px] h-[550px] bg-gradient-to-r ${activeCategoryObj.color} to-transparent blur-[160px] pointer-events-none transition-all duration-1000 z-0`} 
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[950px] h-[550px] pointer-events-none transition-all duration-1000 z-0" 
+        style={{
+          background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(245, 158, 11, 0.08), transparent 70%)'
+        }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">

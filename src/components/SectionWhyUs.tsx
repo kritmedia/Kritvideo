@@ -97,8 +97,12 @@ export default function SectionWhyUs() {
       <div className="relative lg:sticky lg:top-0 min-h-screen flex flex-col justify-between px-4 sm:px-8 md:px-12 lg:px-20 pt-16 lg:pt-24 pb-8 overflow-visible lg:overflow-hidden">
         
         {/* Ambient Warm Golden Underglows */}
-        <div className="absolute top-1/3 left-1/4 w-[700px] h-[500px] bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-transparent blur-[160px] pointer-events-none z-0" />
-        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-gradient-to-l from-orange-600/10 via-amber-400/5 to-transparent blur-[160px] pointer-events-none z-0" />
+        <div 
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            background: 'radial-gradient(ellipse 60% 40% at 30% 30%, rgba(245, 158, 11, 0.08), transparent 70%), radial-gradient(ellipse 50% 40% at 75% 75%, rgba(234, 88, 12, 0.05), transparent 70%)'
+          }}
+        />
 
         {/* MAIN STAGE: Left Side Fixed Typography & Right Side Cards */}
         <div className="relative w-full max-w-7xl mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto z-10">

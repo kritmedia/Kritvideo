@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowUpRight, 
   Mail, 
@@ -9,9 +9,7 @@ import {
   Clock, 
   Film,
   Compass,
-  Calendar,
-  Globe2,
-  FileQuestion
+  Calendar
 } from 'lucide-react';
 import Header from '../components/Header';
 import SectionFinalCTAAndFooter from '../components/SectionFinalCTAAndFooter';
@@ -103,17 +101,6 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  // Hero interactive spotlight
-  const heroRef = useRef<HTMLDivElement>(null);
-  const [heroMousePos, setHeroMousePos] = useState({ x: 0, y: 0 });
-  const [isHeroHovered, setIsHeroHovered] = useState(false);
-
-  const handleHeroMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    setHeroMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
@@ -134,35 +121,26 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
 
-      {/* Ambient background grain & lighting */}
+      {/* Ambient background lighting */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-amber-500/[0.07] via-orange-500/[0.03] to-transparent blur-[160px]" />
-        <div className="absolute bottom-[20%] right-[-10%] w-[600px] h-[600px] bg-amber-600/[0.03] blur-[180px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-40" />
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% -10%, rgba(245, 158, 11, 0.08), transparent 70%), radial-gradient(ellipse 50% 40% at 90% 80%, rgba(217, 119, 6, 0.04), transparent 60%)'
+          }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-30" />
       </div>
 
       {/* 01. HEADER / NAVIGATION */}
       <Header currentPath="/contact" onNavigate={onNavigate} />
 
       {/* ========================================================================= */}
-      {/* 01. HERO SECTION: "TELL US WHAT YOU'RE MAKING." (Services Aesthetic)       */}
+      {/* 01. HERO SECTION: "TELL US WHAT YOU'RE MAKING."                           */}
       {/* ========================================================================= */}
       <section 
-        ref={heroRef}
-        onMouseMove={handleHeroMouseMove}
-        onMouseEnter={() => setIsHeroHovered(true)}
-        onMouseLeave={() => setIsHeroHovered(false)}
         className="relative pt-32 sm:pt-40 pb-16 sm:pb-24 px-4 sm:px-8 md:px-12 lg:px-16 overflow-hidden bg-gradient-to-b from-[#100b05] via-[#090704] to-black"
       >
-        {/* Dynamic Mouse Spotlight */}
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0"
-          style={{
-            opacity: isHeroHovered ? 1 : 0,
-            background: `radial-gradient(750px circle at ${heroMousePos.x}px ${heroMousePos.y}px, rgba(245, 158, 11, 0.08), transparent 60%)`,
-          }}
-        />
-
         {/* Ambient Sunburst Glow */}
         <div 
           className="absolute top-0 inset-x-0 h-[650px] pointer-events-none z-0"
@@ -170,7 +148,6 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
             background: 'radial-gradient(ellipse 60% 55% at 50% 0%, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.08) 35%, rgba(0, 0, 0, 0) 70%)',
           }}
         />
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[420px] pointer-events-none z-0 rounded-full blur-[140px] bg-gradient-to-b from-amber-500/20 via-orange-500/8 to-transparent" />
 
         <div className="max-w-4xl mx-auto relative z-10 pt-4 text-center space-y-7 sm:space-y-8">
           
@@ -199,7 +176,6 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
           <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
             <a
               href={EMAIL_MAILTO}
-              data-cursor="EMAIL"
               className="px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all flex items-center gap-3 cursor-pointer shadow-[0_0_30px_rgba(245,158,11,0.35)] hover:scale-105 active:scale-95"
             >
               <span>EMAIL US</span>
@@ -210,7 +186,6 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              data-cursor="WHATSAPP"
               className="px-7 py-4 rounded-full bg-neutral-900/80 border border-white/15 hover:border-white text-neutral-300 hover:text-white text-xs sm:text-sm font-mono-tech uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer active:scale-95 shadow-lg"
             >
               <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
@@ -251,9 +226,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           
           {/* 01 / EMAIL CARD */}
-          <div className="relative group rounded-3xl sm:rounded-[32px] bg-neutral-950/70 border border-white/10 hover:border-white/25 p-8 sm:p-10 transition-all duration-300 backdrop-blur-2xl flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
-            <div className="absolute top-0 right-0 w-36 h-36 bg-amber-500/[0.04] rounded-full blur-2xl pointer-events-none" />
-
+          <div className="relative group rounded-3xl sm:rounded-[32px] bg-neutral-950/90 border border-white/10 hover:border-white/25 p-8 sm:p-10 transition-all duration-300 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono-tech uppercase tracking-[0.2em] text-neutral-400 font-bold px-3 py-1 rounded-full bg-white/[0.06] border border-white/10">
@@ -325,9 +298,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
           </div>
 
           {/* 02 / WHATSAPP CARD */}
-          <div className="relative group rounded-3xl sm:rounded-[32px] bg-neutral-950/70 border border-white/10 hover:border-white/25 p-8 sm:p-10 transition-all duration-300 backdrop-blur-2xl flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
-            <div className="absolute top-0 right-0 w-36 h-36 bg-emerald-500/[0.04] rounded-full blur-2xl pointer-events-none" />
-
+          <div className="relative group rounded-3xl sm:rounded-[32px] bg-neutral-950/90 border border-white/10 hover:border-white/25 p-8 sm:p-10 transition-all duration-300 flex flex-col justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono-tech uppercase tracking-[0.2em] text-neutral-400 font-bold px-3 py-1 rounded-full bg-white/[0.06] border border-white/10">
@@ -392,7 +363,12 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
       {/* ========================================================================= */}
       <section className="relative py-20 sm:py-28 px-5 sm:px-8 max-w-6xl mx-auto z-10 border-t border-white/[0.08] overflow-hidden">
         {/* Subtle Ambient Radial Lighting */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-amber-500/[0.05] blur-[160px] pointer-events-none" />
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 40% at 50% 30%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
+        />
         
         <div className="max-w-2xl mx-auto text-center space-y-3 mb-12 relative z-10">
           <div className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-[0.25em] text-amber-400 font-semibold">
@@ -413,7 +389,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
             return (
               <div 
                 key={item.number}
-                className="p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-neutral-950/70 border border-white/[0.08] hover:border-amber-400/40 transition-all group backdrop-blur-xl flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-xl"
+                className="p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-neutral-950/90 border border-white/[0.08] hover:border-amber-400/40 transition-all group flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-xl"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -436,7 +412,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
         </div>
 
         {/* Reassuring Context Note (Without redundant CTA button) */}
-        <div className="mt-10 p-5 sm:p-6 rounded-2xl bg-neutral-950/70 border border-white/[0.08] text-center max-w-2xl mx-auto backdrop-blur-md relative z-10">
+        <div className="mt-10 p-5 sm:p-6 rounded-2xl bg-neutral-950/90 border border-white/[0.08] text-center max-w-2xl mx-auto relative z-10">
           <p className="text-xs sm:text-sm font-mono-tech text-neutral-400">
             Don't have all of these details figured out yet? That's completely fine. Just share what you know and we'll help scope the rest.
           </p>
@@ -448,13 +424,12 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
       {/* 04. WHAT HAPPENS AFTER YOU CONTACT US                                     */}
       {/* ========================================================================= */}
       <section className="relative py-20 sm:py-28 px-5 sm:px-8 max-w-6xl mx-auto z-10 border-t border-white/[0.08] overflow-hidden">
-        {/* Subtle Studio Backdrop Texture */}
         <div 
-          className="absolute inset-0 opacity-10 pointer-events-none bg-cover bg-center filter grayscale mix-blend-screen"
-          style={{ backgroundImage: "url('/second_animation_frames/ezgif-frame-030.jpg')" }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(245, 158, 11, 0.04), transparent 70%)'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[350px] bg-amber-500/[0.05] blur-[150px] pointer-events-none" />
 
         <div className="max-w-2xl mx-auto text-center space-y-3 mb-14 sm:mb-16 relative z-10">
           <div className="inline-flex items-center gap-2 text-xs font-mono-tech uppercase tracking-[0.25em] text-amber-400 font-semibold">
@@ -470,7 +445,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
           {STEPS.map((step) => (
             <div
               key={step.step}
-              className="p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-neutral-950/70 border border-white/[0.08] hover:border-amber-400/40 transition-all flex flex-col justify-between space-y-4 backdrop-blur-xl hover:-translate-y-1 shadow-xl group"
+              className="p-6 sm:p-7 rounded-2xl sm:rounded-3xl bg-neutral-950/90 border border-white/[0.08] hover:border-amber-400/40 transition-all flex flex-col justify-between space-y-4 hover:-translate-y-1 shadow-xl group"
             >
               <div className="space-y-3">
                 <span className="inline-block text-xs font-mono-tech px-2.5 py-1 rounded bg-amber-400/10 text-amber-400 font-bold border border-amber-400/20">
@@ -511,7 +486,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
             return (
               <div
                 key={index}
-                className="rounded-2xl bg-neutral-950/70 border border-white/[0.08] hover:border-white/20 transition-all overflow-hidden backdrop-blur-xl"
+                className="rounded-2xl bg-neutral-950/90 border border-white/[0.08] hover:border-white/20 transition-all overflow-hidden"
               >
                 <button
                   onClick={() => setOpenFaq(isOpen ? null : index)}

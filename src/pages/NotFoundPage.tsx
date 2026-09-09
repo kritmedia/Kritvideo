@@ -28,8 +28,12 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
       {/* Main 404 Hero Container with Ambient Glow */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 sm:px-12 pt-36 pb-20 text-center">
         {/* Ambient Amber Glow Background */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-amber-500/10 rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-amber-400/5 rounded-full blur-[90px] pointer-events-none" />
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(245, 158, 11, 0.08), transparent 70%)'
+          }}
+        />
 
         {/* Status Pill / Cinematic Timecode */}
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-neutral-900/80 border border-amber-500/30 text-[11px] font-mono-tech tracking-[0.25em] text-amber-400 uppercase shadow-lg shadow-amber-500/10 mb-8 backdrop-blur-md">

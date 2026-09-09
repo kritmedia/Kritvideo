@@ -243,19 +243,9 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
   const [activeServiceIndex, setActiveServiceIndex] = useState<number>(0);
   const serviceCardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // SECTION 2 (Hero) Mouse Spotlight
-  const [heroMousePos, setHeroMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isHeroHovered, setIsHeroHovered] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
-
-
-
   // FAQ State
   const [activeFaqCategory, setActiveFaqCategory] = useState<string>('all');
   const [openFaqId, setOpenFaqId] = useState<string>('raw-footage');
-  const [faqMousePos, setFaqMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isFaqHovered, setIsFaqHovered] = useState(false);
-  const faqContainerRef = useRef<HTMLDivElement>(null);
 
   // IntersectionObserver to highlight tabs as user scrolls through services
   useEffect(() => {
@@ -306,21 +296,6 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
     if (target) scrollToServiceCard(target.id, newIdx);
   };
 
-  const handleHeroMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    setHeroMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }, []);
-
-
-
-  const handleFaqMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!faqContainerRef.current) return;
-    const rect = faqContainerRef.current.getBoundingClientRect();
-    setFaqMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  }, []);
-
-
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -349,24 +324,11 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
       <Header currentPath="/services" onNavigate={onNavigate} />
 
       {/* ========================================================================= */}
-      {/* 02. HERO SECTION: "Editing for what's next." (Inspired by reference image) */}
+      {/* 02. HERO SECTION: "Editing for what's next."                              */}
       {/* ========================================================================= */}
       <section 
-        ref={heroRef}
-        onMouseMove={handleHeroMouseMove}
-        onMouseEnter={() => setIsHeroHovered(true)}
-        onMouseLeave={() => setIsHeroHovered(false)}
         className="relative pt-32 sm:pt-40 pb-16 sm:pb-24 px-4 sm:px-8 md:px-12 lg:px-16 overflow-hidden bg-gradient-to-b from-[#100b05] via-[#090704] to-black"
       >
-        {/* Dynamic Mouse Spotlight */}
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0"
-          style={{
-            opacity: isHeroHovered ? 1 : 0,
-            background: `radial-gradient(750px circle at ${heroMousePos.x}px ${heroMousePos.y}px, rgba(245, 158, 11, 0.08), transparent 60%)`,
-          }}
-        />
-
         {/* Ambient Sunburst Glow */}
         <div 
           className="absolute top-0 inset-x-0 h-[650px] pointer-events-none z-0"
@@ -374,7 +336,6 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
             background: 'radial-gradient(ellipse 60% 55% at 50% 0%, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.08) 35%, rgba(0, 0, 0, 0) 70%)',
           }}
         />
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[420px] pointer-events-none z-0 rounded-full blur-[140px] bg-gradient-to-b from-amber-500/20 via-orange-500/8 to-transparent" />
 
         <div className="max-w-4xl mx-auto relative z-10 pt-4 text-center space-y-7 sm:space-y-8">
           
@@ -440,7 +401,12 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
         className="relative py-14 sm:py-20 px-4 sm:px-8 md:px-12 lg:px-16 bg-gradient-to-b from-black via-[#0a0704] to-black scroll-mt-28 sm:scroll-mt-32"
       >
         {/* Subtle Ambient Radial Lighting */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-amber-500/[0.06] blur-[160px] pointer-events-none" />
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 40% at 50% 25%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
+        />
 
         <div className="max-w-7xl mx-auto relative z-10 space-y-8">
           
@@ -688,20 +654,8 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
       {/* ========================================================================= */}
       <section
         id="faq"
-        ref={faqContainerRef}
-        onMouseMove={handleFaqMouseMove}
-        onMouseEnter={() => setIsFaqHovered(true)}
-        onMouseLeave={() => setIsFaqHovered(false)}
         className="relative pt-16 pb-20 sm:pt-20 sm:pb-24 px-4 sm:px-8 md:px-12 lg:px-20 bg-black text-white select-none overflow-hidden border-t border-white/[0.08] scroll-mt-28 sm:scroll-mt-32"
       >
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0"
-          style={{
-            opacity: isFaqHovered ? 1 : 0,
-            background: `radial-gradient(700px circle at ${faqMousePos.x}px ${faqMousePos.y}px, rgba(245, 158, 11, 0.07), transparent 60%)`,
-          }}
-        />
-
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center max-w-3xl mx-auto space-y-3.5 mb-14 sm:mb-18">
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-neutral-900/80 border border-white/10 backdrop-blur-md text-xs font-mono-tech uppercase tracking-[0.25em] text-neutral-400 font-semibold shadow-inner">

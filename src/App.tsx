@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback, Suspense } from 'react';
 import { ArrowUpRight, Play } from 'lucide-react';
 import Header from './components/Header';
-import VideoCursor from './components/VideoCursor';
 import ScrollProgressIndicator from './components/ScrollProgressIndicator';
 import SEOHead from './components/SEOHead';
 
@@ -334,8 +333,9 @@ export default function App() {
     }
   }, [getLoadedImageFrom]);
 
-  // Progressive, non-blocking frame preloading strategy
+  // Progressive, non-blocking frame preloading strategy (Homepage only)
   useEffect(() => {
+    if (currentPath !== '/') return;
     let isMounted = true;
 
     // 1. Instantly request Frame 1 with high priority for immediate above-the-fold render
@@ -359,7 +359,7 @@ export default function App() {
     return () => {
       isMounted = false;
     };
-  }, [drawCompositeFrame, loadHeroFrame, prefetchHeroRange]);
+  }, [currentPath, drawCompositeFrame, loadHeroFrame, prefetchHeroRange]);
 
   // Handle window resizing and Retina/4K DPR synchronization
   const resizeCanvas = useCallback(() => {
@@ -383,8 +383,10 @@ export default function App() {
     }
   }, [drawCompositeFrame]);
 
-  // Scroll listener & smooth inertial RAF loop for Sections 1, 2, 3, and 4
+  // Scroll listener & smooth inertial RAF loop for Sections 1, 2, 3, and 4 (Homepage only)
   useEffect(() => {
+    if (currentPath !== '/') return;
+
     resizeCanvas();
 
     const handleScroll = () => {
@@ -452,7 +454,7 @@ export default function App() {
         cancelAnimationFrame(animationFrameIdRef.current);
       }
     };
-  }, [drawCompositeFrame, resizeCanvas, prefetchHeroRange, prefetchSecondRange]);
+  }, [currentPath, drawCompositeFrame, resizeCanvas, prefetchHeroRange, prefetchSecondRange]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -465,7 +467,6 @@ export default function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
-          <VideoCursor />
           <ServicesPage onNavigate={navigateTo} />
         </div>
       </Suspense>
@@ -476,7 +477,6 @@ export default function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
-          <VideoCursor />
           <WorkPage onNavigate={navigateTo} />
         </div>
       </Suspense>
@@ -487,7 +487,6 @@ export default function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
-          <VideoCursor />
           <AboutPage onNavigate={navigateTo} />
         </div>
       </Suspense>
@@ -498,7 +497,6 @@ export default function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
-          <VideoCursor />
           <ContactPage onNavigate={navigateTo} />
         </div>
       </Suspense>
@@ -509,7 +507,6 @@ export default function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
-          <VideoCursor />
           <BlogArchivePage onNavigate={navigateTo} />
         </div>
       </Suspense>
@@ -521,7 +518,6 @@ export default function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
-          <VideoCursor />
           <BlogPostPage slug={slug} onNavigate={navigateTo} />
         </div>
       </Suspense>
@@ -532,7 +528,6 @@ export default function App() {
     return (
       <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
-          <VideoCursor />
           <NotFoundPage onNavigate={navigateTo} />
         </div>
       </Suspense>
@@ -546,7 +541,6 @@ export default function App() {
         description="Scale your YouTube channel with dedicated lead video editors. We cut high-retention long-form videos, viral Shorts, and commercial ads with guaranteed 48-hour delivery."
         canonical="https://kritvideo.com/"
       />
-      <VideoCursor />
       
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
@@ -609,7 +603,6 @@ export default function App() {
                 <div className="flex flex-wrap items-center gap-3">
                   <button
                     onClick={() => navigateTo('/contact')}
-                    data-cursor="START"
                     className="group pl-6 pr-2 py-2 bg-white text-black font-bold text-xs sm:text-sm rounded-full hover:bg-neutral-100 transition-all flex items-center gap-4 shadow-[0_0_35px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_rgba(255,255,255,0.5)] active:scale-95 cursor-pointer"
                   >
                     <span className="tracking-wider uppercase font-mono-tech font-extrabold text-xs">
@@ -622,7 +615,6 @@ export default function App() {
 
                   <button
                     onClick={() => scrollToSection('work')}
-                    data-cursor="PLAY"
                     className="px-5 py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/15 hover:border-white text-neutral-300 hover:text-white text-xs font-mono-tech uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <Play className="w-3 h-3 fill-current text-amber-400" />

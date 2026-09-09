@@ -116,15 +116,25 @@ export default function SectionTestimonials() {
       className="relative pt-10 pb-12 sm:pt-14 sm:pb-16 px-4 sm:px-6 md:px-10 lg:px-16 bg-black text-white select-none overflow-hidden"
     >
       {/* Soft Ambient Radial Glow behind the stage */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-gradient-to-b from-amber-500/10 via-orange-500/5 to-transparent blur-[170px] pointer-events-none" />
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(245, 158, 11, 0.06), transparent 70%)'
+        }}
+      />
 
       <div className="max-w-7xl mx-auto relative z-10 flex flex-col items-center">
         
         {/* GIANT BACKDROP STAGE PANEL (Exact match to reference image floating container) */}
-        <div className="w-full rounded-[36px] sm:rounded-[44px] bg-neutral-950/90 border border-white/[0.12] backdrop-blur-2xl shadow-[0_30px_100px_rgba(0,0,0,0.95),inset_0_1px_1px_rgba(255,255,255,0.15)] relative pt-12 sm:pt-16 pb-48 sm:pb-56 px-6 sm:px-12 overflow-hidden flex flex-col items-center text-center">
+        <div className="w-full rounded-[36px] sm:rounded-[44px] bg-neutral-950/90 border border-white/[0.12] shadow-[0_30px_100px_rgba(0,0,0,0.95),inset_0_1px_1px_rgba(255,255,255,0.15)] relative pt-12 sm:pt-16 pb-48 sm:pb-56 px-6 sm:px-12 overflow-hidden flex flex-col items-center text-center">
           
           {/* Subtle Ambient Radial Glow Inside the Panel */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[260px] bg-amber-500/[0.06] blur-[90px] pointer-events-none" />
+          <div 
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[260px] pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(245, 158, 11, 0.06), transparent 70%)'
+            }}
+          />
 
           {/* Huge Decorative Watermark Quotation Mark on Top-Left (Exact Reference Match) */}
           <div className="absolute top-4 left-6 sm:top-8 sm:left-12 select-none pointer-events-none text-white/[0.06] font-serif text-[110px] sm:text-[140px] leading-none">

@@ -98,10 +98,7 @@ function AppleScrollParagraph({
 }
 
 export default function AboutPage({ onNavigate }: AboutPageProps) {
-  const heroRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isHeroHovered, setIsHeroHovered] = useState(false);
 
   // AEO Accordion State
   const [openAeoIndex, setOpenAeoIndex] = useState<number | null>(0);
@@ -137,12 +134,6 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
   const node3Active = useTransform(timelineProgress, [0.48, 0.70], [0.55, 1]);
   const node4Active = useTransform(timelineProgress, [0.72, 0.94], [0.55, 1]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
-
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -164,24 +155,11 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
       <Header currentPath="/about" onNavigate={onNavigate} />
 
       {/* ========================================================================= */}
-      {/* 01. HERO SECTION: OUR LOVE FOR VIDEO (Exact Services Page Aesthetic)       */}
+      {/* 01. HERO SECTION: OUR LOVE FOR VIDEO                                      */}
       {/* ========================================================================= */}
       <section 
-        ref={heroRef}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHeroHovered(true)}
-        onMouseLeave={() => setIsHeroHovered(false)}
         className="relative pt-32 sm:pt-40 pb-16 sm:pb-24 px-4 sm:px-8 md:px-12 lg:px-16 overflow-hidden bg-gradient-to-b from-[#100b05] via-[#090704] to-black"
       >
-        {/* Dynamic Mouse Spotlight */}
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0"
-          style={{
-            opacity: isHeroHovered ? 1 : 0,
-            background: `radial-gradient(750px circle at ${mousePos.x}px ${mousePos.y}px, rgba(245, 158, 11, 0.08), transparent 60%)`,
-          }}
-        />
-
         {/* Ambient Sunburst Glow */}
         <div 
           className="absolute top-0 inset-x-0 h-[650px] pointer-events-none z-0"
@@ -189,7 +167,6 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
             background: 'radial-gradient(ellipse 60% 55% at 50% 0%, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.08) 35%, rgba(0, 0, 0, 0) 70%)',
           }}
         />
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[420px] pointer-events-none z-0 rounded-full blur-[140px] bg-gradient-to-b from-amber-500/20 via-orange-500/8 to-transparent" />
 
         <div className="max-w-5xl mx-auto relative z-10 text-center space-y-7 sm:space-y-8">
           
@@ -236,16 +213,15 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 02. STUDIO STATEMENT & SIMPLE APPLE-STYLE HIGHLIGHT (NO JARGON)            */}
+      {/* 02. WHAT WE STAND FOR (Apple Text Highlights on Scroll)                   */}
       {/* ========================================================================= */}
       <section className="relative pt-20 pb-24 px-4 sm:px-8 border-t border-white/[0.08] bg-[#050403] overflow-hidden">
-        {/* Cinematic Studio Production Frame Overlay */}
         <div 
-          className="absolute inset-0 opacity-10 pointer-events-none bg-cover bg-center filter grayscale mix-blend-screen"
-          style={{ backgroundImage: "url('/photographer_frames/ezgif-frame-020.jpg')" }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% 50%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-[#050403] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[450px] bg-amber-500/[0.06] blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-30 pointer-events-none" />
 
         <div className="max-w-4xl mx-auto relative z-10">
@@ -291,13 +267,12 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
         ref={timelineRef}
         className="relative py-28 px-4 sm:px-8 border-t border-white/[0.08] bg-[#050403] overflow-hidden"
       >
-        {/* Subtle Timeline Suite Background Texture */}
         <div 
-          className="absolute inset-0 opacity-10 pointer-events-none bg-cover bg-center filter grayscale mix-blend-screen"
-          style={{ backgroundImage: "url('/second_animation_frames/ezgif-frame-040.jpg')" }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% 25%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050403] via-[#080604]/90 to-[#050403] pointer-events-none" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[950px] h-[600px] bg-amber-500/[0.05] blur-[180px] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-30 pointer-events-none" />
         <div className="max-w-5xl mx-auto relative">
           
@@ -580,13 +555,12 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
       {/* 04. FOUR THINGS WE GIVE YOU (Rich Obsidian Cards + Studio Backdrop)        */}
       {/* ========================================================================= */}
       <section className="relative py-24 sm:py-32 px-4 sm:px-8 md:px-12 lg:px-16 border-t border-white/[0.08] bg-black overflow-hidden">
-        {/* Cinematic Studio Backdrop Texture */}
         <div 
-          className="absolute inset-0 opacity-15 pointer-events-none bg-cover bg-center filter grayscale mix-blend-screen"
-          style={{ backgroundImage: "url('/photographer_frames/ezgif-frame-060.jpg')" }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% 50%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] bg-amber-500/[0.06] blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-30 pointer-events-none" />
 
         <div className="max-w-6xl mx-auto space-y-12 relative z-10">
@@ -682,13 +656,12 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
       {/* 05. MANIFESTO: CINEMATIC LETTERBOX MARQUEE                                */}
       {/* ========================================================================= */}
       <section className="relative py-28 sm:py-36 px-4 sm:px-8 border-t border-white/[0.08] bg-[#060403] text-center overflow-hidden">
-        {/* Cinematic Widescreen Production Frame Overlay */}
         <div 
-          className="absolute inset-0 opacity-15 pointer-events-none bg-cover bg-center filter contrast-125 mix-blend-screen"
-          style={{ backgroundImage: "url('/photographer_frames/ezgif-frame-140.jpg')" }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% 50%, rgba(245, 158, 11, 0.06), transparent 70%)'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#060403] via-black/80 to-[#060403] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[350px] bg-amber-500/[0.08] blur-[150px] pointer-events-none" />
 
         {/* Anamorphic Letterbox Framing Bars */}
         <div className="absolute top-0 inset-x-0 h-10 bg-black border-b border-white/[0.08] flex items-center justify-between px-6 text-[9px] font-mono-tech uppercase tracking-widest text-neutral-500 pointer-events-none">
@@ -734,7 +707,12 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
       {/* 06. QUICK QUESTIONS (SIMPLE, DIRECT ANSWERS)                              */}
       {/* ========================================================================= */}
       <section className="relative py-24 sm:py-28 px-4 sm:px-8 border-t border-white/[0.08] bg-black overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-500/[0.05] blur-[160px] pointer-events-none" />
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 40% at 50% 30%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
+        />
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-25 pointer-events-none" />
 
         <div className="max-w-4xl mx-auto space-y-8 relative z-10">
@@ -793,7 +771,12 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
       {/* 07. FINAL CTA: THE OBSIDIAN STAGE (Harmonized with Services Page)         */}
       {/* ========================================================================= */}
       <section className="relative py-24 sm:py-32 px-4 sm:px-8 border-t border-white/[0.08] bg-gradient-to-b from-[#080604] via-black to-black overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[400px] bg-amber-500/[0.08] blur-[160px] pointer-events-none" />
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(245, 158, 11, 0.06), transparent 70%)'
+          }}
+        />
 
         <div className="max-w-4xl mx-auto text-center space-y-7 relative z-10">
           

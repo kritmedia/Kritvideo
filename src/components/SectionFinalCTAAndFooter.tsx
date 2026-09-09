@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import Logo from './Logo';
 
@@ -8,19 +8,6 @@ interface SectionFinalCTAAndFooterProps {
 }
 
 export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }: SectionFinalCTAAndFooterProps = {}) {
-  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  }, []);
-
   return (
     <div className="relative bg-black text-white selection:bg-white selection:text-black select-none">
       {/* SECTION 6 — FINAL CTA (Minimalistic, Premium Obsidian Glass Stage) */}
@@ -28,27 +15,24 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
         <section id="contact" className="relative pt-12 pb-16 sm:pt-16 sm:pb-20 px-4 sm:px-8 md:px-12 lg:px-16 bg-black overflow-hidden">
           
           {/* Soft Ambient Radial Underglow behind card */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[450px] bg-gradient-to-b from-amber-500/10 via-orange-500/5 to-transparent blur-[160px] pointer-events-none" />
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(245, 158, 11, 0.06), transparent 70%)'
+            }}
+          />
 
           <div className="max-w-5xl mx-auto relative z-10">
             
             {/* MINIMALISTIC LUXURY STAGE CARD */}
             <div
-              ref={cardRef}
-              onMouseMove={handleMouseMove}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              className="relative rounded-[36px] sm:rounded-[44px] bg-neutral-950/80 border border-white/[0.10] backdrop-blur-3xl shadow-[0_30px_100px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.12)] p-8 sm:p-14 md:p-16 lg:p-20 overflow-hidden text-center"
+              className="relative rounded-[36px] sm:rounded-[44px] bg-neutral-950/90 border border-white/[0.10] shadow-[0_30px_100px_rgba(0,0,0,0.9),inset_0_1px_1px_rgba(255,255,255,0.12)] p-8 sm:p-14 md:p-16 lg:p-20 overflow-hidden text-center"
             >
               {/* Ambient Top Subtle Glow */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[220px] bg-amber-500/[0.05] blur-[80px] pointer-events-none" />
-
-              {/* Interactive Cursor Spotlight */}
-              <div
-                className="absolute inset-0 pointer-events-none transition-opacity duration-500 ease-out z-0"
+              <div 
+                className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[220px] pointer-events-none"
                 style={{
-                  opacity: isHovered ? 1 : 0,
-                  background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(245, 158, 11, 0.08), transparent 65%)`,
+                  background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(245, 158, 11, 0.05), transparent 70%)'
                 }}
               />
 
@@ -79,7 +63,6 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                     <button
                       onClick={() => onNavigate ? onNavigate('/contact') : (window.location.href = '/contact')}
-                      data-cursor="START"
                       className="w-full sm:w-auto px-9 py-4 bg-white hover:bg-neutral-200 text-black font-extrabold text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_25px_rgba(255,255,255,0.25)] hover:scale-105 active:scale-95 shrink-0"
                     >
                       <span>LET'S GET STARTED</span>
@@ -106,7 +89,12 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
       {/* 2026 ULTRA-MODERN EDITORIAL FOOTER */}
       <footer className="relative pt-12 pb-14 sm:pt-16 sm:pb-16 px-6 sm:px-12 md:px-16 lg:px-20 bg-black overflow-hidden select-none">
         {/* Soft Ambient Underglow */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-gradient-to-t from-orange-500/10 via-amber-500/5 to-transparent blur-[140px] pointer-events-none" />
+        <div 
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 50% at 50% 100%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
+        />
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* TOP TELEMETRY BAR (Live Studio Status & Global Time) */}
@@ -140,7 +128,6 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
               {/* Direct Scroll to Top Button */}
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                data-cursor="TOP"
                 className="px-4 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 hover:border-white text-xs font-mono-tech text-neutral-300 hover:text-white transition-all cursor-pointer active:scale-95 ml-auto md:ml-0"
               >
                 BACK TO TOP ↗

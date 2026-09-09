@@ -222,7 +222,12 @@ export default function SectionServices() {
       </svg>
 
       {/* Ambient Warm Underglow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-transparent blur-[140px] pointer-events-none" />
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(245, 158, 11, 0.06), transparent 70%)'
+        }}
+      />
 
       {/* MOBILE / TABLET VIEW (< 1024px): 100% Visible, No Clipping, High Contrast */}
       <div className="lg:hidden relative z-10 px-4 sm:px-8 py-16 flex flex-col gap-8 max-w-lg mx-auto">

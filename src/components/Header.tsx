@@ -66,7 +66,6 @@ export default function Header({ currentPath, onNavigate, onPrefetch }: HeaderPr
           {/* Brand Logo */}
           <div 
             onClick={handleLogoClick}
-            data-cursor="HOME"
             className="flex items-center gap-2.5 cursor-pointer pl-1 pr-2 py-1 rounded-full hover:bg-white/10 transition-colors shrink-0"
           >
             <Logo size="md" />
@@ -82,7 +81,6 @@ export default function Header({ currentPath, onNavigate, onPrefetch }: HeaderPr
                   onClick={() => onNavigate(item.path)}
                   onMouseEnter={() => onPrefetch?.(item.path)}
                   onTouchStart={() => onPrefetch?.(item.path)}
-                  data-cursor={item.label}
                   className={`text-[11px] sm:text-xs font-mono-tech tracking-[0.14em] uppercase transition-all duration-150 cursor-pointer relative py-1 px-1.5 ${
                     isActive 
                       ? 'text-white font-bold' 
@@ -104,7 +102,6 @@ export default function Header({ currentPath, onNavigate, onPrefetch }: HeaderPr
               onClick={() => onNavigate('/contact')}
               onMouseEnter={() => onPrefetch?.('/contact')}
               onTouchStart={() => onPrefetch?.('/contact')}
-              data-cursor="CONTACT"
               className="px-4 sm:px-6 py-2 bg-white text-black font-bold text-[11px] sm:text-xs rounded-full hover:bg-neutral-200 transition-all duration-200 shadow-[0_0_20px_rgba(255,255,255,0.25)] hover:shadow-[0_0_30px_rgba(255,255,255,0.45)] active:scale-95 flex items-center gap-1.5 cursor-pointer tracking-wide"
             >
               <span>LET'S TALK</span>

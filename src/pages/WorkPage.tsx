@@ -159,17 +159,6 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
   // Category Filter for Grid Section
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
-  // Mouse spotlight coordinates
-  const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [isHeroHovered, setIsHeroHovered] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
-
   const handlePrev = useCallback(() => {
     setActiveCenterIndex((prev) => (prev - 1 + SHOWCASE_VIDEOS.length) % SHOWCASE_VIDEOS.length);
   }, []);
@@ -271,11 +260,15 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
 
-      {/* Ambient background grain & lighting */}
+      {/* Ambient background lighting */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-amber-500/[0.07] via-orange-500/[0.03] to-transparent blur-[160px]" />
-        <div className="absolute bottom-[20%] right-[-10%] w-[600px] h-[600px] bg-amber-600/[0.03] blur-[180px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-40" />
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% -10%, rgba(245, 158, 11, 0.08), transparent 70%), radial-gradient(ellipse 50% 40% at 90% 80%, rgba(217, 119, 6, 0.04), transparent 60%)'
+          }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-30" />
       </div>
 
       {/* 01. HEADER / NAVIGATION */}
@@ -285,21 +278,8 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
       {/* 02. HERO SECTION WITH 3D CURVED PANORAMIC VIDEO ARC                       */}
       {/* ========================================================================= */}
       <section 
-        ref={heroRef}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHeroHovered(true)}
-        onMouseLeave={() => setIsHeroHovered(false)}
         className="relative pt-32 sm:pt-40 pb-20 px-3 sm:px-6 md:px-8 overflow-hidden bg-gradient-to-b from-[#100b05] via-[#090704] to-black"
       >
-        {/* Dynamic Mouse Spotlight */}
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-700 ease-out z-0"
-          style={{
-            opacity: isHeroHovered ? 1 : 0,
-            background: `radial-gradient(750px circle at ${mousePos.x}px ${mousePos.y}px, rgba(245, 158, 11, 0.08), transparent 60%)`,
-          }}
-        />
-
         {/* Ambient Sunburst Glow */}
         <div 
           className="absolute top-0 inset-x-0 h-[650px] pointer-events-none z-0"
@@ -307,7 +287,6 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
             background: 'radial-gradient(ellipse 60% 55% at 50% 0%, rgba(245, 158, 11, 0.22) 0%, rgba(217, 119, 6, 0.08) 35%, rgba(0, 0, 0, 0) 70%)',
           }}
         />
-        <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[420px] pointer-events-none z-0 rounded-full blur-[140px] bg-gradient-to-b from-amber-500/20 via-orange-500/8 to-transparent" />
 
         {/* Hero Copy Block */}
         <div className="max-w-4xl mx-auto relative z-10 text-center space-y-7 sm:space-y-8">
@@ -658,7 +637,12 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
         className="relative py-20 sm:py-28 px-4 sm:px-8 md:px-12 lg:px-16 bg-gradient-to-b from-[#070504] via-black to-[#0a0704] border-t border-white/[0.08] overflow-hidden"
       >
         {/* Subtle Ambient Radial Lighting & Dot Grid */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[900px] h-[550px] bg-amber-500/[0.05] blur-[170px] pointer-events-none" />
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 60% 40% at 50% 30%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
+        />
         <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] opacity-30 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto space-y-12 relative z-10">
@@ -776,16 +760,15 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
       </section>
 
       {/* ========================================================================= */}
-      {/* 06. PRODUCTION STANDARDS STRIP WITH CINEMATIC BACKDROP                     */}
+      {/* 06. PRODUCTION STANDARDS STRIP                                             */}
       {/* ========================================================================= */}
       <section className="relative py-16 px-4 sm:px-8 border-y border-white/[0.08] bg-black/90 overflow-hidden">
-        {/* Subtle Cinematic Studio Production Frame Overlay */}
         <div 
-          className="absolute inset-0 opacity-15 pointer-events-none bg-cover bg-center filter grayscale mix-blend-screen"
-          style={{ backgroundImage: "url('/photographer_frames/ezgif-frame-080.jpg')" }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse 70% 50% at 50% 50%, rgba(245, 158, 11, 0.05), transparent 70%)'
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[200px] bg-amber-500/[0.08] blur-[120px] pointer-events-none" />
 
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center relative z-10">
           <div className="space-y-1.5 p-4 rounded-2xl bg-neutral-950/60 border border-white/[0.06] backdrop-blur-md hover:border-amber-400/30 transition-all">
