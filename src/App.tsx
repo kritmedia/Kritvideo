@@ -87,6 +87,20 @@ export default function App() {
     };
   }, []);
 
+  // Google Tag Manager SPA Virtual Pageview Tracker
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const win = window as any;
+      win.dataLayer = win.dataLayer || [];
+      win.dataLayer.push({
+        event: 'page_view',
+        page_path: currentPath,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
+  }, [currentPath]);
+
   const navigateTo = (path: string) => {
     const hashIndex = path.indexOf('#');
     const hash = hashIndex !== -1 ? path.substring(hashIndex) : '';
