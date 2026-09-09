@@ -14,7 +14,8 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
-  ExternalLink
+  ExternalLink,
+  X
 } from 'lucide-react';
 
 interface PortfolioItem {
@@ -204,7 +205,11 @@ export default function SectionOurWork() {
 
   // Fullscreen trigger
   const toggleFullScreen = () => {
-    setIsFullScreen((prev) => !prev);
+    setIsFullScreen((prev) => {
+      const next = !prev;
+      if (next) setIsPlaying(true);
+      return next;
+    });
   };
 
   // Keyboard navigation
@@ -223,14 +228,18 @@ export default function SectionOurWork() {
         e.preventDefault();
         toggleFullScreen();
       } else if (e.key === 'Escape') {
-        if (isFullScreen) setIsFullScreen(false);
+        if (isFullScreen) {
+          setIsFullScreen(false);
+        } else if (isPlaying) {
+          setIsPlaying(false);
+        }
         if (showSpecsModal) setShowSpecsModal(false);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleNext, handlePrev, isFullScreen, showSpecsModal]);
+  }, [handleNext, handlePrev, isFullScreen, isPlaying, showSpecsModal]);
 
   // Lock body scroll when theater mode or specs modal is open
   useEffect(() => {
@@ -392,7 +401,9 @@ export default function SectionOurWork() {
                   key={item.id}
                   onClick={() => {
                     if (isCenter) {
-                      toggleFullScreen();
+                      if (!isPlaying) {
+                        setIsPlaying(true);
+                      }
                     } else {
                       setCurrentIndex(index);
                       setCurrentTime(0);
@@ -416,75 +427,119 @@ export default function SectionOurWork() {
                       : 'border-white/10 filter brightness-75 hover:brightness-95'
                   }`}
                 >
-                  {/* Artwork Image Frame */}
-                  <img
-                    src={item.thumbnail}
-                    alt={item.title}
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover transition-transform duration-700 select-none"
-                    style={{
-                      transform: isCenter && isHoveringCard ? 'scale(1.06)' : 'scale(1)',
-                    }}
-                  />
-
-                  {/* Top Artwork Gradient & Format Badges */}
-                  <div className="absolute top-0 inset-x-0 p-5 sm:p-6 flex items-center justify-between pointer-events-none bg-gradient-to-b from-black/85 via-black/35 to-transparent">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono-tech text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white border border-white/15 shadow-sm">
-                        {item.categoryLabel}
-                      </span>
-                      <span
-                        className={`font-mono-tech text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                          item.format === '16:9'
-                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                            : 'bg-red-500/20 text-red-300 border border-red-500/30'
-                        }`}
-                      >
-                        {item.format}
-                      </span>
+                  {/* Media Content: Real YouTube Player when playing, Artwork Thumbnail when idle */}
+                  {isCenter && isPlaying ? (
+                    <div className="w-full h-full relative bg-black">
+                      <iframe
+                        src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                        title={item.title}
+                        className="w-full h-full border-0 rounded-[32px]"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
                     </div>
+                  ) : (
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      loading="lazy"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover transition-transform duration-700 select-none"
+                      style={{
+                        transform: isCenter && isHoveringCard ? 'scale(1.06)' : 'scale(1)',
+                      }}
+                    />
+                  )}
 
-                    {/* Fullscreen Trigger Button on Active Card */}
-                    {isCenter ? (
+                  {/* Top Artwork Gradient & Format Badges (Visible when not playing) */}
+                  {(!isCenter || !isPlaying) && (
+                    <div className="absolute top-0 inset-x-0 p-5 sm:p-6 flex items-center justify-between pointer-events-none bg-gradient-to-b from-black/85 via-black/35 to-transparent">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono-tech text-[11px] font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-black/70 backdrop-blur-md text-white border border-white/15 shadow-sm">
+                          {item.categoryLabel}
+                        </span>
+                        <span
+                          className={`font-mono-tech text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                            item.format === '16:9'
+                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                              : 'bg-red-500/20 text-red-300 border border-red-500/30'
+                          }`}
+                        >
+                          {item.format}
+                        </span>
+                      </div>
+
+                      {/* Fullscreen Trigger Button on Active Card */}
+                      {isCenter ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFullScreen();
+                          }}
+                          aria-label="Open Fullscreen Theater"
+                          className="pointer-events-auto w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all hover:scale-110 cursor-pointer"
+                          title="Full Screen Cinema View (F)"
+                        >
+                          <Maximize2 className="w-3.5 h-3.5" />
+                        </button>
+                      ) : (
+                        <span className="font-mono-tech text-[11px] px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-neutral-300 border border-white/15">
+                          {item.duration}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Quick Floating Actions When Video is Playing Inline */}
+                  {isCenter && isPlaying && (
+                    <div className="absolute top-3.5 right-3.5 z-30 flex items-center gap-2 pointer-events-auto">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           toggleFullScreen();
                         }}
-                        aria-label="Open Fullscreen Theater"
-                        className="pointer-events-auto w-8 h-8 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white hover:text-black transition-all hover:scale-110 cursor-pointer"
-                        title="Full Screen Cinema View (F)"
+                        aria-label="Expand to Fullscreen Theater"
+                        className="w-8 h-8 rounded-full bg-black/80 hover:bg-white hover:text-black text-white border border-white/25 backdrop-blur-md flex items-center justify-center transition-all cursor-pointer shadow-lg hover:scale-105 active:scale-95"
+                        title="Fullscreen Theater (F)"
                       >
                         <Maximize2 className="w-3.5 h-3.5" />
                       </button>
-                    ) : (
-                      <span className="font-mono-tech text-[11px] px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-neutral-300 border border-white/15">
-                        {item.duration}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Central Play/Pause Liquid Button */}
-                  {isCenter && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div
-                        className={`w-18 h-18 rounded-full bg-black/50 backdrop-blur-xl border border-white/30 text-white flex items-center justify-center shadow-[0_0_40px_rgba(0,0,0,0.8)] transition-all duration-300 ${
-                          isHoveringCard || !isPlaying ? 'scale-100 opacity-100' : 'scale-90 opacity-0'
-                        }`}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsPlaying(false);
+                        }}
+                        aria-label="Stop playback"
+                        className="w-8 h-8 rounded-full bg-black/80 hover:bg-white hover:text-black text-white border border-white/25 backdrop-blur-md flex items-center justify-center transition-all cursor-pointer shadow-lg hover:scale-105 active:scale-95"
+                        title="Stop playback (ESC)"
                       >
-                        {isPlaying ? (
-                          <Pause className="w-7 h-7 fill-white" />
-                        ) : (
-                          <Play className="w-7 h-7 fill-white ml-1" />
-                        )}
-                      </div>
+                        <X className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   )}
 
-                  {/* Frosted Glass Bottom Banner */}
-                  <div className="absolute bottom-0 inset-x-0 p-5 sm:p-7 bg-gradient-to-t from-black/95 via-black/80 to-transparent backdrop-blur-md border-t border-white/10 flex flex-col justify-end">
+                  {/* Central Play Liquid Button on Active Card */}
+                  {isCenter && !isPlaying && (
+                    <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsPlaying(true);
+                        }}
+                        aria-label="Play video"
+                        className="pointer-events-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-black/60 hover:bg-white hover:text-black text-white backdrop-blur-xl border border-white/30 flex items-center justify-center shadow-[0_0_40px_rgba(0,0,0,0.8)] transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group"
+                        title="Play Video"
+                      >
+                        <Play className="w-7 h-7 sm:w-9 sm:h-9 fill-current ml-1 transition-transform group-hover:scale-110" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Frosted Glass Bottom Banner (Hidden during inline playback to give 100% unobstructed view) */}
+                  <div className={`absolute bottom-0 inset-x-0 p-5 sm:p-7 bg-gradient-to-t from-black/95 via-black/80 to-transparent backdrop-blur-md border-t border-white/10 flex flex-col justify-end transition-opacity duration-300 ${
+                    isCenter && isPlaying ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                  }`}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-mono-tech uppercase tracking-wider text-neutral-400 font-semibold truncate pr-2">
                         {item.client}
