@@ -196,6 +196,15 @@ export default function App() {
     }
   };
 
+  // Smart intent-based subpage prefetcher (hover/touch on navigation links)
+  const handlePrefetch = useCallback((path: string) => {
+    if (path.startsWith('/services')) import('./pages/ServicesPage');
+    else if (path.startsWith('/work')) import('./pages/WorkPage');
+    else if (path.startsWith('/about')) import('./pages/AboutPage');
+    else if (path.startsWith('/contact')) import('./pages/ContactPage');
+    else if (path.startsWith('/blog')) import('./pages/BlogArchivePage');
+  }, []);
+
   // Helper to load an individual hero frame on demand
   const loadHeroFrame = useCallback((frameNumber: number, highPriority = false) => {
     const idx = frameNumber - 1;
@@ -347,33 +356,8 @@ export default function App() {
       }
     }
 
-    // 2. Idle prefetch subpages (Services, Work, About, Contact, Blog)
-    // so navigating to any route renders INSTANTLY (0ms delay) without blocking initial render
-    let idleTimer: any = null;
-    const prefetchSubpages = () => {
-      if (!isMounted) return;
-      import('./pages/ServicesPage');
-      import('./pages/WorkPage');
-      import('./pages/AboutPage');
-      import('./pages/ContactPage');
-      import('./pages/BlogArchivePage');
-    };
-
-    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      idleTimer = (window as any).requestIdleCallback(prefetchSubpages, { timeout: 3500 });
-    } else {
-      idleTimer = setTimeout(prefetchSubpages, 2000);
-    }
-
     return () => {
       isMounted = false;
-      if (idleTimer) {
-        if (typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
-          (window as any).cancelIdleCallback(idleTimer);
-        } else {
-          clearTimeout(idleTimer);
-        }
-      }
     };
   }, [drawCompositeFrame, loadHeroFrame, prefetchHeroRange]);
 
@@ -567,8 +551,8 @@ export default function App() {
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
 
-      {/* Unified 2026 Responsive Floating Header */}
-      <Header currentPath={currentPath} onNavigate={navigateTo} />
+      {/* Unified 2026 Responsive Floating Header with Intent Prefetching */}
+      <Header currentPath={currentPath} onNavigate={navigateTo} onPrefetch={handlePrefetch} />
 
       <canvas
         ref={canvasRef}
@@ -678,7 +662,7 @@ export default function App() {
         </section>
 
         {/* SECTION 2: The Undulating Wave Pipeline (Interactive on Scroll) */}
-        <section id="process" className="relative lg:h-[220vh] select-none py-10 lg:py-0">
+        <section id="process" className="relative lg:h-[220vh] select-none py-10 lg:py-0" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 900px' }}>
           <div className="lg:sticky lg:top-0 lg:min-h-screen flex items-center px-4 sm:px-12 md:px-16 lg:px-20 py-8 lg:py-16 overflow-hidden">
             <div className="max-w-7xl mx-auto w-full">
               <Suspense fallback={<div className="min-h-[40vh] bg-black" />}>
@@ -688,14 +672,18 @@ export default function App() {
           </div>
         </section>
 
-        <Suspense fallback={<div className="min-h-[60vh] bg-black" />}>
-          <SectionServices />
-        </Suspense>
+        <div style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 700px' }}>
+          <Suspense fallback={<div className="min-h-[60vh] bg-black" />}>
+            <SectionServices />
+          </Suspense>
+        </div>
 
         {/* SECTION 4 — WHY KRITVIDEO (Vertical Cards Interactive on Scroll) */}
-        <Suspense fallback={<div className="min-h-[60vh] bg-black" />}>
-          <SectionWhyUs />
-        </Suspense>
+        <div style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 700px' }}>
+          <Suspense fallback={<div className="min-h-[60vh] bg-black" />}>
+            <SectionWhyUs />
+          </Suspense>
+        </div>
       </div>
 
       {/* SUBSEQUENT SECTIONS (Seamlessly flow directly into Section 5) */}

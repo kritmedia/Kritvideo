@@ -64,86 +64,33 @@ const AEO_DATA: AeoItem[] = [
 ];
 
 // =========================================================================
-// APPLE-STYLE SCROLL TEXT HIGHLIGHT COMPONENTS
+// HIGH-PERFORMANCE STREAMLINED TEXT HIGHLIGHT COMPONENT
 // =========================================================================
-interface AppleScrollWordProps {
-  key?: React.Key;
-  word: string; 
-  progress: any; 
-  range: [number, number];
-  isAccent?: boolean;
-}
-
-function AppleScrollWord({ 
-  word, 
-  progress, 
-  range,
-  isAccent = false 
-}: AppleScrollWordProps) {
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    return typeof window !== 'undefined' ? window.innerWidth < 768 : false;
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const opacity = useTransform(progress, range, [0.45, 1]);
-  const color = useTransform(
-    progress, 
-    range, 
-    isAccent 
-      ? ["rgba(245, 158, 11, 0.6)", "#fde047"] 
-      : ["rgba(255, 255, 255, 0.45)", "rgba(255, 255, 255, 1)"]
-  );
-
-  return (
-    <motion.span 
-      style={isMobile ? { opacity: 1, color: isAccent ? '#fde047' : '#ffffff' } : { opacity, color }} 
-      className={`inline-block mr-[0.26em] transition-colors ${isAccent ? 'font-medium' : ''}`}
-    >
-      {word}
-    </motion.span>
-  );
-}
-
 function AppleScrollParagraph({ 
   text, 
   className,
   accentWords = [],
-  offset = ["start 0.85", "start 0.30"]
 }: { 
   text: string; 
   className?: string; 
   accentWords?: string[];
   offset?: [string, string];
 }) {
-  const containerRef = useRef<HTMLParagraphElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: offset as any
-  });
-
   const words = text.split(/\s+/);
   return (
-    <p ref={containerRef} className={className}>
+    <p className={className}>
       {words.map((word, i) => {
-        const start = i / words.length;
-        const end = Math.min(1, start + 1.2 / words.length);
         const cleanWord = word.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
         const isAccent = accentWords.some(acc => cleanWord.includes(acc.toLowerCase()));
         return (
-          <AppleScrollWord 
+          <span 
             key={i} 
-            word={word} 
-            progress={scrollYProgress} 
-            range={[start, end]} 
-            isAccent={isAccent}
-          />
+            className={`inline-block mr-[0.26em] transition-colors ${
+              isAccent ? 'text-amber-300 font-semibold' : 'text-neutral-200 font-normal'
+            }`}
+          >
+            {word}
+          </span>
         );
       })}
     </p>

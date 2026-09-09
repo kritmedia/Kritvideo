@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'motion/react';
 
 const WHATSAPP_PRESALES_LINK = 'https://wa.me/917002983079?text=Hi%20KritVideo%2C%20I%20have%20a%20presales%20query%20%2F%20would%20like%20to%20get%20a%20quote%20for%20a%20video%20project.';
 
@@ -17,11 +16,8 @@ function WhatsAppIcon({ className = "w-5 h-5" }: { className?: string }) {
 
 export default function FloatingWhatsAppButton() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 25, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.4, delay: 0.5, ease: [0.23, 1, 0.32, 1] }}
-      className="fixed bottom-5 sm:bottom-6 right-5 sm:right-6 z-50 pointer-events-auto select-none"
+    <div
+      className="fixed bottom-5 sm:bottom-6 right-5 sm:right-6 z-50 pointer-events-auto select-none transition-all duration-500 ease-out"
     >
       <a
         href={WHATSAPP_PRESALES_LINK}
@@ -56,6 +52,6 @@ export default function FloatingWhatsAppButton() {
           </span>
         </div>
       </a>
-    </motion.div>
+    </div>
   );
 }

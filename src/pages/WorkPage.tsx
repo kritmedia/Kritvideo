@@ -52,7 +52,7 @@ const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
     duration: '02:15',
     views: 'Cinematography',
     format: '16:9',
-    thumbnail: 'https://i.ytimg.com/vi/OWRKm1ZpbDA/maxresdefault.jpg',
+    thumbnail: 'https://i.ytimg.com/vi/OWRKm1ZpbDA/hqdefault.jpg',
     badge: '4K DCI',
     tagline: 'High-energy pacing and kinetic visual cuts',
     highlights: ['Multi-layer sound design', 'Dynamic speed ramps', 'Commercial color grade']
@@ -67,7 +67,7 @@ const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
     duration: '01:05',
     views: 'Viral Retention',
     format: '9:16',
-    thumbnail: 'https://i.ytimg.com/vi/QUx1anKHYuI/maxresdefault.jpg',
+    thumbnail: 'https://i.ytimg.com/vi/QUx1anKHYuI/hqdefault.jpg',
     badge: 'APPLE LOG 4K',
     tagline: 'Viral vertical framing with punchy motion',
     highlights: ['First 3s hook design', 'Kinetic captions', 'Punchy audio SFX']
@@ -82,7 +82,7 @@ const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
     duration: '01:45',
     views: 'Sony A7SIII',
     format: '16:9',
-    thumbnail: 'https://i.ytimg.com/vi/xuas_Yc7VNQ/maxresdefault.jpg',
+    thumbnail: 'https://i.ytimg.com/vi/xuas_Yc7VNQ/hqdefault.jpg',
     badge: 'SONY A7SIII',
     tagline: 'Broadcast commercial pacing and sound design',
     highlights: ['Atmospheric foley', 'Film print emulation', 'Dynamic beat match']
@@ -97,7 +97,7 @@ const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
     duration: '01:30',
     views: 'Commercial Master',
     format: '16:9',
-    thumbnail: 'https://i.ytimg.com/vi/IJsVs6Nw6ls/maxresdefault.jpg',
+    thumbnail: 'https://i.ytimg.com/vi/IJsVs6Nw6ls/hqdefault.jpg',
     badge: 'COMMERCIAL',
     tagline: 'Product-focused commercial storytelling',
     highlights: ['Focal zoom framing', 'Heavy bass soundscape', 'ACES color workflow']
@@ -112,7 +112,7 @@ const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
     duration: '03:40',
     views: 'Sony FX3 4K',
     format: '16:9',
-    thumbnail: 'https://i.ytimg.com/vi/OsP0icRA4Hc/maxresdefault.jpg',
+    thumbnail: 'https://i.ytimg.com/vi/OsP0icRA4Hc/hqdefault.jpg',
     badge: 'SONY FX3',
     tagline: 'Emotional documentary storytelling and grading',
     highlights: ['Dialogue cleanup', 'Orchestral audio mix', 'Cinema letterbox export']
@@ -127,7 +127,7 @@ const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
     duration: '45:10',
     views: 'Multi-Cam Master',
     format: '16:9',
-    thumbnail: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1200&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=600&q=75',
     badge: 'MULTI-CAM',
     tagline: 'Multi-camera switching and dead-air removal',
     highlights: ['Speech audio leveling', 'Lower-third graphics', 'Shorts extract pack']
@@ -142,7 +142,7 @@ const SHOWCASE_VIDEOS: ShowcaseVideo[] = [
     duration: '00:55',
     views: '1.8M Views',
     format: '9:16',
-    thumbnail: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=75',
     badge: 'VIRAL HOOK',
     tagline: 'Engineered for 85%+ retention and algorithmic reach',
     highlights: ['Custom subtitle animations', 'Sound fx punch-ins', '9:16 optimized']
@@ -427,6 +427,8 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
                   <img 
                     src={video.thumbnail} 
                     alt={video.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter contrast-105 brightness-95"
                   />
 
@@ -719,6 +721,8 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
                   <img 
                     src={video.thumbnail} 
                     alt={video.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/30" />
