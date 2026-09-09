@@ -4,12 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WSS5M89X');</script>
+    <!-- Google Tag Manager (Deferred to idle for zero main-thread contention) -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function loadGTM() {
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WSS5M89X');
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGTM, { timeout: 2500 });
+      } else {
+        window.addEventListener('load', loadGTM, { once: true });
+      }
+    </script>
     <!-- End Google Tag Manager -->
 
     <title>KritVideo — High-Retention Video Editing Studio for Creators & Brands</title>
@@ -36,9 +46,9 @@
     <meta name="twitter:description" content="Scale your channel with dedicated lead video editors. We cut high-retention YouTube videos, viral Shorts, and commercial ads with guaranteed 48-hour delivery." />
     <meta name="twitter:image" content="https://kritvideo.com/kritvideo-logo.png" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/webp" href="/kritvideo-logo.webp" />
-    <link rel="apple-touch-icon" href="/kritvideo-logo.webp" />
+    <!-- Favicon (Optimized lightweight asset) -->
+    <link rel="icon" type="image/webp" href="/kritvideo-logo-sm.webp" />
+    <link rel="apple-touch-icon" href="/kritvideo-logo-sm.webp" />
 
     <!-- Schema.org JSON-LD (AEO & GEO: Organization, ProfessionalService, WebSite, FAQPage) -->
     <script type="application/ld+json">
@@ -166,7 +176,7 @@
     <div id="root">
       <div id="initial-brand-loader" style="position:fixed;inset:0;background:#000000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99999;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-          <img src="/kritvideo-logo.webp" width="46" height="46" alt="KritVideo Logo" style="border-radius:12px;border:1px solid rgba(255,255,255,0.18);box-shadow:0 8px 32px rgba(0,0,0,0.9);" />
+          <img src="/kritvideo-logo-sm.webp" width="46" height="46" alt="KritVideo Logo" style="border-radius:12px;border:1px solid rgba(255,255,255,0.18);box-shadow:0 8px 32px rgba(0,0,0,0.9);" />
           <span style="font-size:24px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;line-height:1;">Krit<span style="color:#d4d4d4;font-weight:600;">Video</span></span>
         </div>
         <div style="width:130px;height:2.5px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;position:relative;">

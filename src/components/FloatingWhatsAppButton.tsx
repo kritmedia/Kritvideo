@@ -23,7 +23,6 @@ export default function FloatingWhatsAppButton() {
         href={WHATSAPP_PRESALES_LINK}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Chat on WhatsApp for presales query or quotes"
         className="group relative flex items-center gap-2.5 sm:gap-3 bg-neutral-950/85 hover:bg-neutral-900/95 backdrop-blur-2xl border border-emerald-500/30 hover:border-emerald-400/80 p-2 sm:py-2.5 sm:pl-3 sm:pr-4.5 rounded-full shadow-[0_12px_40px_rgba(0,0,0,0.85),0_0_20px_rgba(16,185,129,0.2)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.95),0_0_35px_rgba(16,185,129,0.45)] transition-all duration-300 hover:scale-105 active:scale-95"
       >
         {/* WhatsApp Icon Circle with Pulsing Live Status Dot */}

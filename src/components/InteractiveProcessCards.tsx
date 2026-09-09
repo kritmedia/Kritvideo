@@ -421,9 +421,9 @@ export default function InteractiveProcessCards() {
                     </span>
                   </div>
 
-                  <h4 className="text-sm font-bold text-white">
+                  <h3 className="text-sm font-bold text-white">
                     {stage.title}
-                  </h4>
+                  </h3>
 
                   <p className="text-xs text-neutral-300 leading-relaxed">
                     {stage.description}

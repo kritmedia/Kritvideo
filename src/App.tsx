@@ -27,7 +27,7 @@ function PageLoadingFallback() {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center select-none" role="status" aria-label="Loading page">
       <div className="flex items-center gap-3 mb-6">
-        <img src="/kritvideo-logo.webp" width="44" height="44" alt="KritVideo" className="rounded-xl border border-white/20 shadow-2xl" />
+        <img src="/kritvideo-logo-sm.webp" width="44" height="44" alt="KritVideo" className="rounded-xl border border-white/20 shadow-2xl" />
         <span className="text-xl font-extrabold text-white tracking-tight">Krit<span className="text-neutral-400 font-semibold">Video</span></span>
       </div>
       <div className="w-28 h-0.5 bg-white/10 rounded-full overflow-hidden relative">
@@ -389,28 +389,12 @@ export default function App() {
 
     resizeCanvas();
 
-    const handleScroll = () => {
-      const container = heroContainerRef.current;
-      if (container) {
-        const totalDistance = container.offsetHeight - window.innerHeight;
-        const scrollY = window.scrollY || window.pageYOffset || 0;
-        const progress = totalDistance > 0 ? scrollY / totalDistance : 0;
-        targetProgressRef.current = Math.min(1, Math.max(0, progress));
-      }
-    };
+    // Event-driven inertial smoothing animation frame loop (CPU/GPU idle when stationary)
+    let isLooping = false;
+    let isMounted = true;
 
-    const handleResize = () => {
-      resizeCanvas();
-      handleScroll();
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize);
-
-    // Inertial smoothing animation frame loop
-    let isRunning = true;
     const renderLoop = () => {
-      if (!isRunning) return;
+      if (!isMounted) return;
 
       const diff = targetProgressRef.current - currentProgressRef.current;
       if (Math.abs(diff) > 0.0001) {
@@ -436,18 +420,47 @@ export default function App() {
           );
           prefetchSecondRange(secondFrame - 1, secondFrame + 4);
         }
+
+        animationFrameIdRef.current = requestAnimationFrame(renderLoop);
       } else {
         currentProgressRef.current = targetProgressRef.current;
+        drawCompositeFrame(currentProgressRef.current);
+        isLooping = false;
       }
-
-      animationFrameIdRef.current = requestAnimationFrame(renderLoop);
     };
 
+    const startLoop = () => {
+      if (!isLooping && isMounted) {
+        isLooping = true;
+        animationFrameIdRef.current = requestAnimationFrame(renderLoop);
+      }
+    };
+
+    const handleScroll = () => {
+      const container = heroContainerRef.current;
+      if (container) {
+        const totalDistance = container.offsetHeight - window.innerHeight;
+        const scrollY = window.scrollY || window.pageYOffset || 0;
+        const progress = totalDistance > 0 ? scrollY / totalDistance : 0;
+        targetProgressRef.current = Math.min(1, Math.max(0, progress));
+        startLoop();
+      }
+    };
+
+    const handleResize = () => {
+      resizeCanvas();
+      handleScroll();
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize);
+
+    // Initial draw to establish first frame
     handleScroll();
-    animationFrameIdRef.current = requestAnimationFrame(renderLoop);
 
     return () => {
-      isRunning = false;
+      isMounted = false;
+      isLooping = false;
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
       if (animationFrameIdRef.current) {

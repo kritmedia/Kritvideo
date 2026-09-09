@@ -336,18 +336,22 @@ export default function SectionServices() {
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {EDIT_FORMATS.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => goToCard(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
-                className={`transition-all rounded-full ${
-                  activeIdx === idx
-                    ? 'w-6 h-2 bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]'
-                    : 'w-2 h-2 bg-white/30'
-                }`}
-              />
+                className="w-7 h-7 flex items-center justify-center cursor-pointer group"
+              >
+                <span
+                  className={`transition-all rounded-full block ${
+                    activeIdx === idx
+                      ? 'w-6 h-2 bg-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.8)]'
+                      : 'w-2 h-2 bg-white/30 group-hover:bg-white/60'
+                  }`}
+                />
+              </button>
             ))}
           </div>
 
@@ -500,18 +504,22 @@ export default function SectionServices() {
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {EDIT_FORMATS.map((f, idx) => (
               <button
                 key={f.id}
                 onClick={() => goToCard(idx)}
                 aria-label={`Go to ${f.title}`}
-                className={`transition-all rounded-full cursor-pointer ${
-                  activeIdx === idx
-                    ? 'w-6 h-2 bg-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.8)]'
-                    : 'w-2 h-2 bg-white/20 hover:bg-white/50'
-                }`}
-              />
+                className="w-7 h-7 flex items-center justify-center cursor-pointer group"
+              >
+                <span
+                  className={`transition-all rounded-full block ${
+                    activeIdx === idx
+                      ? 'w-6 h-2 bg-amber-400 shadow-[0_0_10px_rgba(245,158,11,0.8)]'
+                      : 'w-2 h-2 bg-white/20 group-hover:bg-white/50'
+                  }`}
+                />
+              </button>
             ))}
           </div>
 
