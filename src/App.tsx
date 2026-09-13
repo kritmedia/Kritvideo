@@ -151,73 +151,23 @@ export default function App() {
     const basePath = hashIndex !== -1 ? path.substring(0, hashIndex) : path;
     const targetRoute = normalizePath(basePath, hash);
 
-    if (targetRoute === '/services') {
-      window.history.pushState({}, '', '/services' + hash);
-      setCurrentPath('/services');
-      if (hash) {
-        setTimeout(() => {
-          const targetId = hash.replace('#', '');
-          const el = document.getElementById(targetId);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }
-    } else if (targetRoute === '/work') {
-      window.history.pushState({}, '', '/work' + hash);
-      setCurrentPath('/work');
-      if (hash) {
-        setTimeout(() => {
-          const targetId = hash.replace('#', '');
-          const el = document.getElementById(targetId);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }
-    } else if (targetRoute === '/about') {
-      window.history.pushState({}, '', '/about' + hash);
-      setCurrentPath('/about');
-      if (hash) {
-        setTimeout(() => {
-          const targetId = hash.replace('#', '');
-          const el = document.getElementById(targetId);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }
-    } else if (targetRoute === '/contact') {
-      window.history.pushState({}, '', '/contact' + hash);
-      setCurrentPath('/contact');
-      if (hash) {
-        setTimeout(() => {
-          const targetId = hash.replace('#', '');
-          const el = document.getElementById(targetId);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }
-    } else if (targetRoute === '/blog' || targetRoute.startsWith('/blog/')) {
-      window.history.pushState({}, '', targetRoute + hash);
-      setCurrentPath(targetRoute);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    } else if (targetRoute === '/') {
-      window.history.pushState({}, '', '/' + hash);
-      setCurrentPath('/');
-      if (hash) {
-        setTimeout(() => {
-          const targetId = hash.replace('#', '');
-          const el = document.getElementById(targetId);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      }
-    } else {
+    if (targetRoute === '/404') {
       window.history.pushState({}, '', path);
       setCurrentPath('/404');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+
+    window.history.pushState({}, '', targetRoute + hash);
+    setCurrentPath(targetRoute);
+
+    if (hash) {
+      setTimeout(() => {
+        const targetId = hash.replace('#', '');
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
   };
@@ -229,6 +179,12 @@ export default function App() {
     else if (path.startsWith('/about')) import('./pages/AboutPage');
     else if (path.startsWith('/contact')) import('./pages/ContactPage');
     else if (path.startsWith('/blog')) import('./pages/BlogArchivePage');
+    else if (
+      path.startsWith('/terms') ||
+      path.startsWith('/refund-policy') ||
+      path.startsWith('/privacy') ||
+      path.startsWith('/delivery-policy')
+    ) import('./pages/PolicyPage');
   }, []);
 
   // Helper to load an individual hero frame on demand
