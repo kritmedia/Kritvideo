@@ -16,7 +16,6 @@ import {
 import Header from '../components/Header';
 import SectionFinalCTAAndFooter from '../components/SectionFinalCTAAndFooter';
 import ScrollProgressIndicator from '../components/ScrollProgressIndicator';
-import FloatingWhatsAppButton from '../components/FloatingWhatsAppButton';
 import SEOHead from '../components/SEOHead';
 import NotFoundPage from './NotFoundPage';
 import { getBlogPostBySlug, getRelatedPosts } from '../data/blogPosts';

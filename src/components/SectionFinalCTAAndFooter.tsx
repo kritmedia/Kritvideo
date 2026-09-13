@@ -86,7 +86,7 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
       )}
 
       {/* 2026 ULTRA-MODERN EDITORIAL FOOTER */}
-      <footer className="relative pt-12 pb-14 sm:pt-16 sm:pb-16 px-6 sm:px-12 md:px-16 lg:px-20 bg-black overflow-hidden select-none">
+      <footer className="relative pt-12 pb-28 sm:pt-16 sm:pb-32 lg:pb-36 px-6 sm:px-12 md:px-16 lg:px-20 bg-black overflow-hidden select-none">
         {/* Soft Ambient Underglow */}
         <div 
           className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] pointer-events-none"
@@ -337,7 +337,7 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
               <span>© 2026 KritVideo Studio. Made for creators who value their sleep.</span>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-4 sm:gap-x-6 gap-y-2">
+            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-4 sm:gap-x-6 gap-y-2 sm:pr-24 lg:pr-32 xl:pr-36">
               <button 
                 onClick={() => onNavigate ? onNavigate('/privacy') : (window.location.href = '/privacy')} 
                 className="hover:text-amber-400 transition-colors cursor-pointer"
