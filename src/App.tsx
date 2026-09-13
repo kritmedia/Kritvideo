@@ -21,6 +21,7 @@ const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const BlogArchivePage = React.lazy(() => import('./pages/BlogArchivePage'));
 const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
+const PolicyPage = React.lazy(() => import('./pages/PolicyPage'));
 
 // Eagerly initiate fetching of the active route component immediately on script evaluation to eliminate network waterfall
 if (typeof window !== 'undefined') {
@@ -32,6 +33,12 @@ if (typeof window !== 'undefined') {
   else if (p === '/contact' || h.startsWith('#/contact')) import('./pages/ContactPage');
   else if (p === '/blog' || h.startsWith('#/blog')) import('./pages/BlogArchivePage');
   else if (p.startsWith('/blog/')) import('./pages/BlogPostPage');
+  else if (
+    p === '/terms' || h.startsWith('#/terms') ||
+    p === '/refund-policy' || h.startsWith('#/refund-policy') ||
+    p === '/privacy' || h.startsWith('#/privacy') ||
+    p === '/delivery-policy' || h.startsWith('#/delivery-policy')
+  ) import('./pages/PolicyPage');
 }
 
 // Sleek luxury branded loader fallback for subpages
@@ -67,12 +74,16 @@ const normalizePath = (pathname: string, hash: string): string => {
   const p = (pathname || '').toLowerCase().replace(/\/+$/, '') || '/';
   const h = (hash || '').toLowerCase();
 
-  // Hash-based overrides (e.g. #/services, #/work, #/blog)
+  // Hash-based overrides (e.g. #/services, #/work, #/blog, #/terms, etc.)
   if (h.startsWith('#/services')) return '/services';
   if (h.startsWith('#/work')) return '/work';
   if (h.startsWith('#/about')) return '/about';
   if (h.startsWith('#/contact')) return '/contact';
   if (h.startsWith('#/blog')) return h.replace('#', '');
+  if (h.startsWith('#/terms')) return '/terms';
+  if (h.startsWith('#/refund-policy')) return '/refund-policy';
+  if (h.startsWith('#/privacy')) return '/privacy';
+  if (h.startsWith('#/delivery-policy')) return '/delivery-policy';
 
   // Primary path routing
   if (p === '/' || p === '') return '/';
@@ -82,6 +93,10 @@ const normalizePath = (pathname: string, hash: string): string => {
   if (p === '/contact') return '/contact';
   if (p === '/blog') return '/blog';
   if (p.startsWith('/blog/')) return p;
+  if (p === '/terms') return '/terms';
+  if (p === '/refund-policy') return '/refund-policy';
+  if (p === '/privacy') return '/privacy';
+  if (p === '/delivery-policy') return '/delivery-policy';
 
   // Any other path is 404
   return '/404';
@@ -544,6 +559,46 @@ export default function App() {
       <Suspense fallback={<PageLoadingFallback />}>
         <div className="relative bg-black text-white selection:bg-white selection:text-black">
           <BlogPostPage slug={slug} onNavigate={navigateTo} />
+        </div>
+      </Suspense>
+    );
+  }
+
+  if (currentPath === '/terms') {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <PolicyPage policyType="terms" onNavigate={navigateTo} />
+        </div>
+      </Suspense>
+    );
+  }
+
+  if (currentPath === '/refund-policy') {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <PolicyPage policyType="refund" onNavigate={navigateTo} />
+        </div>
+      </Suspense>
+    );
+  }
+
+  if (currentPath === '/privacy') {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <PolicyPage policyType="privacy" onNavigate={navigateTo} />
+        </div>
+      </Suspense>
+    );
+  }
+
+  if (currentPath === '/delivery-policy') {
+    return (
+      <Suspense fallback={<PageLoadingFallback />}>
+        <div className="relative bg-black text-white selection:bg-white selection:text-black">
+          <PolicyPage policyType="delivery" onNavigate={navigateTo} />
         </div>
       </Suspense>
     );

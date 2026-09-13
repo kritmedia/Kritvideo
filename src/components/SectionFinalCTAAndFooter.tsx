@@ -337,12 +337,34 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
               <span>© 2026 KritVideo Studio. Made for creators who value their sleep.</span>
             </div>
 
-            <div className="flex items-center gap-6">
-              <a href="#privacy" className="hover:text-white transition-colors">PRIVACY PROTOCOL</a>
+            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-4 sm:gap-x-6 gap-y-2">
+              <button 
+                onClick={() => onNavigate ? onNavigate('/privacy') : (window.location.href = '/privacy')} 
+                className="hover:text-amber-400 transition-colors cursor-pointer"
+              >
+                PRIVACY PROTOCOL
+              </button>
               <span className="text-neutral-700">/</span>
-              <a href="#terms" className="hover:text-white transition-colors">TERMS OF SERVICE</a>
+              <button 
+                onClick={() => onNavigate ? onNavigate('/terms') : (window.location.href = '/terms')} 
+                className="hover:text-amber-400 transition-colors cursor-pointer"
+              >
+                TERMS OF SERVICE
+              </button>
               <span className="text-neutral-700">/</span>
-              <a href="#sla" className="hover:text-white transition-colors">48H SLA</a>
+              <button 
+                onClick={() => onNavigate ? onNavigate('/refund-policy') : (window.location.href = '/refund-policy')} 
+                className="hover:text-amber-400 transition-colors cursor-pointer"
+              >
+                REFUND POLICY
+              </button>
+              <span className="text-neutral-700">/</span>
+              <button 
+                onClick={() => onNavigate ? onNavigate('/delivery-policy') : (window.location.href = '/delivery-policy')} 
+                className="hover:text-amber-400 transition-colors cursor-pointer"
+              >
+                48H SLA & DELIVERY
+              </button>
             </div>
           </div>
         </div>
