@@ -105,7 +105,6 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
 
       <ScrollProgressIndicator />
       <Header currentPath={`/blog/${post.slug}`} onNavigate={onNavigate} />
-      <FloatingWhatsAppButton />
 
       {/* Ambient background glow */}
       <div className="fixed inset-0 pointer-events-none z-0">

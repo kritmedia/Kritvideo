@@ -52,7 +52,6 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
 
       <ScrollProgressIndicator />
       <Header currentPath="/blog" onNavigate={onNavigate} />
-      <FloatingWhatsAppButton />
 
       {/* Ambient background glow */}
       <div className="fixed inset-0 pointer-events-none z-0">
