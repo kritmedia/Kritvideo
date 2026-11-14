@@ -303,10 +303,10 @@ export default function SectionFAQ() {
                     Speak directly with a post-production coordinator in under 15 minutes.
                   </p>
                   <a
-                    href="mailto:divyajeet.singha@gmail.com"
+                    href="mailto:hello@kritsite.com"
                     className="inline-flex items-center gap-2 text-xs font-mono-tech text-amber-400 hover:text-amber-300 font-bold pt-1 transition-colors group"
                   >
-                    <span>divyajeet.singha@gmail.com</span>
+                    <span>hello@kritsite.com</span>
                     <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </a>
                 </div>
@@ -414,10 +414,10 @@ export default function SectionFAQ() {
                   Speak directly with a post-production coordinator in under 15 minutes.
                 </p>
                 <a
-                  href="mailto:divyajeet.singha@gmail.com"
+                  href="mailto:hello@kritsite.com"
                   className="inline-flex items-center gap-2 text-xs font-mono-tech text-amber-400 hover:text-amber-300 font-bold pt-1 transition-colors group"
                 >
-                  <span>divyajeet.singha@gmail.com</span>
+                  <span>hello@kritsite.com</span>
                   <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
               </div>

@@ -20,9 +20,9 @@ interface ContactPageProps {
   onNavigate: (path: string) => void;
 }
 
-const EMAIL_ADDRESS = 'divyajeet.singha@gmail.com';
+const EMAIL_ADDRESS = 'hello@kritsite.com';
 const WHATSAPP_LINK = 'https://wa.me/917002983079?text=Hi%20KritVideo%2C%20I%20have%20a%20video%20project%20I%27d%20like%20to%20discuss.';
-const EMAIL_MAILTO = 'mailto:divyajeet.singha@gmail.com?subject=Project%20Enquiry%20-%20KritVideo&body=Hi%20KritVideo%20team%2C%0A%0AI%20have%20a%20video%20project%20I%27d%20like%20to%20discuss.%0A%0AWhat%20I%27m%20making%3A%20%0AFootage%20details%3A%20%0AExpected%20duration%3A%20%0ATarget%20deadline%3A%20';
+const EMAIL_MAILTO = 'mailto:hello@kritsite.com?subject=Project%20Enquiry%20-%20KritVideo&body=Hi%20KritVideo%20team%2C%0A%0AI%20have%20a%20video%20project%20I%27d%20like%20to%20discuss.%0A%0AWhat%20I%27m%20making%3A%20%0AFootage%20details%3A%20%0AExpected%20duration%3A%20%0ATarget%20deadline%3A%20';
 
 const FAQ_ITEMS = [
   {
@@ -115,7 +115,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
     <div className="relative bg-black text-white selection:bg-amber-400 selection:text-black min-h-screen overflow-x-hidden font-sans">
       <SEOHead
         title="Book a Project & Get a Video Quote — 48h Turnaround | KritVideo"
-        description="Start your next video project with KritVideo. Direct WhatsApp chat (+91 7002983079), instant quote estimation, or email divyajeet.singha@gmail.com. Fast 48-hour first cut guarantee."
+        description="Start your next video project with KritVideo. Direct WhatsApp chat (+91 7002983079), instant quote estimation, or email hello@kritsite.com. Fast 48-hour first cut guarantee."
         canonical="https://kritvideo.com/contact"
       />
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}

@@ -216,7 +216,7 @@ export default function PolicyLayout({ currentPolicyKey, onNavigate }: PolicyLay
                 <div className="pt-2 space-y-1.5 font-mono-tech text-[11px] text-neutral-400 border-t border-white/[0.06]">
                   <div className="flex items-center gap-2">
                     <Mail className="w-3 h-3 text-amber-400" />
-                    <a href="mailto:divyajeet.singha@gmail.com" className="hover:text-amber-300 transition-colors">
+                    <a href="mailto:hello@kritsite.com" className="hover:text-amber-300 transition-colors">
                       {LEGAL_COMPANY_INFO.legalEmail}
                     </a>
                   </div>
