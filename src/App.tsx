@@ -60,14 +60,21 @@ function PageLoadingFallback() {
 const TOTAL_HERO_FRAMES = 240;
 const TOTAL_SECOND_FRAMES = 239;
 
-const getHeroFramePath = (index: number) => {
+// Frames are cover-fitted to the viewport, so on portrait screens only the
+// centre of each 16:9 frame is ever visible. Those viewports get frames that
+// are pre-cropped to 3:4 (same pixel density, ~45% fewer bytes).
+type FrameVariant = '' | 'portrait/';
+const getFrameVariant = (): FrameVariant =>
+  typeof window !== 'undefined' && window.innerWidth / window.innerHeight <= 0.75 ? 'portrait/' : '';
+
+const getHeroFramePath = (index: number, variant: FrameVariant) => {
   const paddedIndex = String(index).padStart(3, '0');
-  return `/photographer_frames/ezgif-frame-${paddedIndex}.jpg`;
+  return `/photographer_frames/${variant}ezgif-frame-${paddedIndex}.webp`;
 };
 
-const getSecondAnimationPath = (index: number) => {
+const getSecondAnimationPath = (index: number, variant: FrameVariant) => {
   const paddedIndex = String(index).padStart(3, '0');
-  return `/second_animation_frames/ezgif-frame-${paddedIndex}.jpg`;
+  return `/second_animation_frames/${variant}ezgif-frame-${paddedIndex}.webp`;
 };
 
 const normalizePath = (pathname: string, hash: string): string => {
@@ -107,6 +114,7 @@ export default function App() {
   const heroContainerRef = useRef<HTMLDivElement | null>(null);
   const heroImagesRef = useRef<(HTMLImageElement | null)[]>(new Array(TOTAL_HERO_FRAMES).fill(null));
   const secondImagesRef = useRef<(HTMLImageElement | null)[]>(new Array(TOTAL_SECOND_FRAMES).fill(null));
+  const frameVariantRef = useRef<FrameVariant>(getFrameVariant());
 
   const targetProgressRef = useRef<number>(0);
   const currentProgressRef = useRef<number>(0);
@@ -196,7 +204,7 @@ export default function App() {
       if (highPriority) {
         (img as any).fetchPriority = 'high';
       }
-      img.src = getHeroFramePath(frameNumber);
+      img.src = getHeroFramePath(frameNumber, frameVariantRef.current);
       heroImagesRef.current[idx] = img;
     }
   }, []);
@@ -207,7 +215,7 @@ export default function App() {
     if (idx < 0 || idx >= TOTAL_SECOND_FRAMES) return;
     if (!secondImagesRef.current[idx]) {
       const img = new Image();
-      img.src = getSecondAnimationPath(frameNumber);
+      img.src = getSecondAnimationPath(frameNumber, frameVariantRef.current);
       secondImagesRef.current[idx] = img;
     }
   }, []);
@@ -356,6 +364,27 @@ export default function App() {
     const targetWidth = Math.round(displayWidth * dpr);
     const targetHeight = Math.round(displayHeight * dpr);
 
+    // Orientation change (e.g. phone rotated): switch frame set and reload the
+    // frame currently on screen, redrawing as soon as it arrives.
+    const variant = getFrameVariant();
+    if (variant !== frameVariantRef.current) {
+      frameVariantRef.current = variant;
+      heroImagesRef.current = new Array(TOTAL_HERO_FRAMES).fill(null);
+      secondImagesRef.current = new Array(TOTAL_SECOND_FRAMES).fill(null);
+      const progress = currentProgressRef.current;
+      let img: HTMLImageElement | null;
+      if (progress < 0.5) {
+        const frame = Math.min(TOTAL_HERO_FRAMES, Math.max(1, Math.round((Math.min(progress, 0.48) / 0.48) * (TOTAL_HERO_FRAMES - 1)) + 1));
+        loadHeroFrame(frame, true);
+        img = heroImagesRef.current[frame - 1];
+      } else {
+        const frame = Math.min(TOTAL_SECOND_FRAMES, Math.max(1, Math.round(((progress - 0.52) / 0.48) * (TOTAL_SECOND_FRAMES - 1)) + 1));
+        loadSecondFrame(frame);
+        img = secondImagesRef.current[frame - 1];
+      }
+      if (img) img.addEventListener('load', () => drawCompositeFrame(currentProgressRef.current), { once: true });
+    }
+
     if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
       canvas.width = targetWidth;
       canvas.height = targetHeight;
@@ -364,7 +393,7 @@ export default function App() {
 
       drawCompositeFrame(currentProgressRef.current);
     }
-  }, [drawCompositeFrame]);
+  }, [drawCompositeFrame, loadHeroFrame, loadSecondFrame]);
 
   // Scroll listener & smooth inertial RAF loop for Sections 1, 2, 3, and 4 (Homepage only)
   useEffect(() => {

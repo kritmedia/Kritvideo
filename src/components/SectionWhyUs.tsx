@@ -190,7 +190,7 @@ export default function SectionWhyUs() {
                     </div>
                   </div>
                   <div className="w-[200px] h-[150px] rounded-2xl overflow-hidden relative border border-white/10 shadow-inner bg-black shrink-0">
-                    <img src="/editor_frames/editor-frame-030.jpg" alt="Custom Style Cut" loading="lazy" decoding="async" className="w-full h-full object-cover filter contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-500" />
+                    <img src="/editor_frames/editor-frame-030.webp" alt="Custom Style Cut" loading="lazy" decoding="async" className="w-full h-full object-cover filter contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     <div className="absolute bottom-2 left-2 text-[9px] font-mono-tech text-amber-400 font-bold bg-black/60 px-1.5 py-0.5 rounded">CUSTOM VIBE</div>
                   </div>
@@ -241,7 +241,7 @@ export default function SectionWhyUs() {
                     </div>
                   </div>
                   <div className="w-[200px] h-[150px] rounded-2xl overflow-hidden relative border border-white/10 shadow-inner bg-black shrink-0">
-                    <img src="/photographer_frames/ezgif-frame-090.jpg" alt="Creator Rest" loading="lazy" decoding="async" className="w-full h-full object-cover filter contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-500" />
+                    <img src="/photographer_frames/ezgif-frame-090.webp" alt="Creator Rest" loading="lazy" decoding="async" className="w-full h-full object-cover filter contrast-110 brightness-95 group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     <div className="absolute bottom-2 left-2 text-[9px] font-mono-tech text-amber-400 font-bold bg-black/60 px-1.5 py-0.5 rounded">WEEKENDS BACK</div>
                   </div>

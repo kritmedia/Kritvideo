@@ -178,7 +178,8 @@
           var l = document.createElement('link');
           l.rel = 'preload';
           l.as = 'image';
-          l.href = '/photographer_frames/ezgif-frame-001.jpg';
+          l.href = '/photographer_frames/' + (window.innerWidth / window.innerHeight <= 0.75 ? 'portrait/' : '') + 'ezgif-frame-001.webp';
+          l.type = 'image/webp';
           l.fetchPriority = 'high';
           document.head.appendChild(l);
         }
