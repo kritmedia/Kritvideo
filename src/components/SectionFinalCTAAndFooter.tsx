@@ -162,9 +162,9 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
               {/* Direct Contact & Location */}
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-neutral-900/80 border border-neutral-800 text-xs font-mono-tech text-neutral-300">
-                  <span>hello@kritvideo.com</span>
+                  <span>divyajeet.singha@gmail.com</span>
                   <button
-                    onClick={() => navigator.clipboard.writeText('hello@kritvideo.com')}
+                    onClick={() => navigator.clipboard.writeText('divyajeet.singha@gmail.com')}
                     className="px-2.5 py-0.5 rounded-full bg-neutral-800 hover:bg-neutral-700 text-[10px] text-white transition-colors cursor-pointer"
                   >
                     COPY

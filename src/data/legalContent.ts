@@ -24,8 +24,8 @@ export const LEGAL_COMPANY_INFO = {
   name: 'KritVideo Studio',
   registeredEntity: 'KritVideo Studio (operating under KritMedia)',
   website: 'https://kritvideo.com',
-  contactEmail: 'hello@kritvideo.com',
-  legalEmail: 'legal@kritvideo.com',
+  contactEmail: 'divyajeet.singha@gmail.com',
+  legalEmail: 'divyajeet.singha@gmail.com',
   jurisdiction: 'India (governed under the Arbitration and Conciliation Act and applicable commercial laws)',
   slaStandardHours: '48 Hours',
   rawAssetRetentionDays: 60,
@@ -156,7 +156,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         title: '11. Contact Information',
         content: [
           `If you have any questions, legal notices, or clarifications regarding these Terms of Service, please contact our studio legal desk:`,
-          `Email: legal@kritvideo.com (cc: hello@kritvideo.com)`,
+          `Email: divyajeet.singha@gmail.com`,
           `Studio Website: https://kritvideo.com`,
           `Business Entity: KritVideo Studio`
         ]
@@ -191,7 +191,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         content: [
           `If you book an edit or pay an upfront project deposit but need to cancel before any work has commenced:`,
           `You are eligible for a 100% full refund (minus direct third-party payment processing fees levied by Stripe/PayPal/Razorpay, typically 2.9% + $0.30) provided you notify us in writing within forty-eight (48) hours of payment and before our creative lead has initiated project file setup, footage ingestion, or cutting.`,
-          `To initiate a cancellation, email hello@kritvideo.com with your project invoice number.`
+          `To initiate a cancellation, email divyajeet.singha@gmail.com with your project invoice number.`
         ]
       },
       {
@@ -235,7 +235,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         id: 'disputes-chargebacks',
         title: '6. Chargebacks & Friendly Fraud',
         content: [
-          `We are committed to resolving any dissatisfaction directly, swiftly, and amicably. Filing an unauthorized credit card chargeback or PayPal dispute without first contacting our management team at hello@kritvideo.com constitutes a material breach of these Terms.`,
+          `We are committed to resolving any dissatisfaction directly, swiftly, and amicably. Filing an unauthorized credit card chargeback or PayPal dispute without first contacting our management team at divyajeet.singha@gmail.com constitutes a material breach of these Terms.`,
           `In the event of an unjustified chargeback for services rendered, Client's commercial licenses to all soundtrack tracks and exported video masters will be immediately revoked, and the footage will be subject to DMCA takedown notices on YouTube, Meta, and TikTok.`
         ]
       },
@@ -244,7 +244,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         title: '7. How to Request a Refund',
         content: [
           `To request an eligible pre-production refund or discuss project adjustments:`,
-          `1. Email hello@kritvideo.com with the subject line "Refund Request — [Invoice Number]".`,
+          `1. Email divyajeet.singha@gmail.com with the subject line "Refund Request — [Invoice Number]".`,
           `2. Detail your project name, payment date, and the specific rationale for your request.`,
           `3. Our studio management will review and respond within two (2) business days. Approved refunds are credited back to the original payment method within 5 to 10 banking business days.`
         ]
@@ -296,7 +296,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         ],
         callout: {
           type: 'note',
-          text: 'Need a custom Enterprise NDA signed before sending raw footage? We are happy to review and sign your organization’s NDA. Email legal@kritvideo.com prior to uploading assets.'
+          text: 'Need a custom Enterprise NDA signed before sending raw footage? We are happy to review and sign your organization’s NDA. Email divyajeet.singha@gmail.com prior to uploading assets.'
         }
       },
       {
@@ -362,7 +362,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         title: '9. Contact Our Data Protection Desk',
         content: [
           `To exercise any privacy rights, request asset purging, or report a data concern, please reach out to our dedicated privacy contact:`,
-          `Email: hello@kritvideo.com (Subject: "Data Privacy Request")`,
+          `Email: divyajeet.singha@gmail.com (Subject: "Data Privacy Request")`,
           `Response SLA: We acknowledge all data requests within forty-eight (48) business hours.`
         ]
       }
@@ -436,7 +436,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         title: '5. Client Download Window & File Safeguards',
         content: [
           `Final master download links remain active for thirty (30) days from delivery. We strongly advise clients to immediately download and store their master video files across their own local and cloud storage systems.`,
-          `If you ever lose your master files within ninety (90) days of project completion, contact hello@kritvideo.com with your project ID, and our team will re-generate fresh download links at no additional cost.`
+          `If you ever lose your master files within ninety (90) days of project completion, contact divyajeet.singha@gmail.com with your project ID, and our team will re-generate fresh download links at no additional cost.`
         ]
       }
     ]
