@@ -48,19 +48,19 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
       "author": {
         "@type": "Organization",
         "name": post.author.name,
-        "url": "https://kritvideo.com"
+        "url": "https://www.kritvideo.com"
       },
       "publisher": {
         "@type": "Organization",
         "name": "KritVideo",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://kritvideo.com/kritvideo-logo.png"
+          "url": "https://www.kritvideo.com/kritvideo-logo.png"
         }
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": `https://kritvideo.com/blog/${post.slug}`
+        "@id": `https://www.kritvideo.com/blog/${post.slug}`
       }
     };
 
@@ -95,9 +95,9 @@ export default function BlogPostPage({ slug, onNavigate }: BlogPostPageProps) {
   return (
     <div className="relative min-h-screen bg-black text-white selection:bg-amber-400 selection:text-black">
       <SEOHead
-        title={`${post.title} — KritVideo`}
+        title={`${post.seoTitle ?? post.title} — KritVideo`}
         description={post.metaDescription}
-        canonical={`https://kritvideo.com/blog/${post.slug}`}
+        canonical={`https://www.kritvideo.com/blog/${post.slug}`}
         keywords={post.keywords}
         ogType="article"
         ogImage={post.coverImage}

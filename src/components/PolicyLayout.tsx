@@ -73,7 +73,7 @@ export default function PolicyLayout({ currentPolicyKey, onNavigate }: PolicyLay
       <SEOHead 
         title={`${policy.title} — KritVideo Studio`}
         description={policy.description}
-        canonicalUrl={`https://kritvideo.com/${policy.slug}`}
+        canonical={`https://www.kritvideo.com/${policy.slug}`}
       />
 
       <ScrollProgressIndicator />

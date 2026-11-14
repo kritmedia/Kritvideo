@@ -23,7 +23,7 @@ export interface PolicyDocument {
 export const LEGAL_COMPANY_INFO = {
   name: 'KritVideo Studio',
   registeredEntity: 'KritVideo Studio (operating under KritMedia)',
-  website: 'https://kritvideo.com',
+  website: 'https://www.kritvideo.com',
   contactEmail: 'hello@kritsite.com',
   legalEmail: 'hello@kritsite.com',
   jurisdiction: 'India (governed under the Arbitration and Conciliation Act and applicable commercial laws)',
@@ -38,7 +38,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
     slug: 'terms',
     title: 'Terms and Conditions',
     badge: 'LEGAL AGREEMENT',
-    description: 'These Terms of Service govern your access to and use of video editing, sound design, color grading, motion graphics, and creative post-production services provided by KritVideo Studio.',
+    description: "The terms that govern KritVideo Studio's video editing, sound design, color grading, motion graphics, and post-production services.",
     effectiveDate: 'January 1, 2026',
     lastUpdated: 'September 10, 2026',
     sections: [
@@ -157,7 +157,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         content: [
           `If you have any questions, legal notices, or clarifications regarding these Terms of Service, please contact our studio legal desk:`,
           `Email: hello@kritsite.com`,
-          `Studio Website: https://kritvideo.com`,
+          `Studio Website: https://www.kritvideo.com`,
           `Business Entity: KritVideo Studio`
         ]
       }
@@ -257,7 +257,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
     slug: 'privacy',
     title: 'Privacy Policy & Data Security',
     badge: 'DATA PROTECTION PROTOCOL',
-    description: 'How KritVideo Studio protects your personal information, client raw footage, confidential intellectual property, and studio assets in compliance with international privacy laws.',
+    description: "How KritVideo Studio protects your personal information, raw footage, and confidential intellectual property, and the privacy rights you have.",
     effectiveDate: 'January 1, 2026',
     lastUpdated: 'September 10, 2026',
     sections: [
@@ -265,7 +265,7 @@ export const POLICIES: Record<string, PolicyDocument> = {
         id: 'overview',
         title: '1. Overview & Commitment',
         content: [
-          `KritVideo Studio ("KritVideo," "we," "our") values the trust you place in us when sharing your personal information, business communications, and proprietary video footage. This Privacy Policy details how we collect, process, safeguard, and delete your data when you interact with https://kritvideo.com (the "Website") or use our post-production services.`,
+          `KritVideo Studio ("KritVideo," "we," "our") values the trust you place in us when sharing your personal information, business communications, and proprietary video footage. This Privacy Policy details how we collect, process, safeguard, and delete your data when you interact with https://www.kritvideo.com (the "Website") or use our post-production services.`,
           `We adhere strictly to global data protection principles, including the General Data Protection Regulation (GDPR), the California Consumer Privacy Act (CCPA), and the Digital Personal Data Protection (DPDP) Act.`
         ]
       },

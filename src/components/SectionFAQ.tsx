@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { 
   ChevronDown, 
   Sparkles, 
@@ -78,6 +78,26 @@ const FAQ_DATA: FAQItem[] = [
 ];
 
 export default function SectionFAQ() {
+  // FAQ structured data for search engines, built from the questions shown here
+  // so it only appears on pages that display this FAQ.
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.id = 'schema-faq';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: FAQ_DATA.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    });
+    document.getElementById('schema-faq')?.remove();
+    document.head.appendChild(script);
+    return () => script.remove();
+  }, []);
+
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [openId, setOpenId] = useState<string>('typical-edit');
 

@@ -163,7 +163,7 @@ const SERVICES_LIST: ServiceItem[] = [
     included: [
       { icon: Scissors, text: 'Key moment extraction' },
       { icon: Film, text: 'Vertical 9:16 reframing' },
-      { icon: Type, text: 'Autonomous captioning' },
+      { icon: Type, text: 'Animated captions' },
       { icon: Palette, text: 'Platform hook design' },
       { icon: Volume2, text: 'Shorts sound mastering' },
       { icon: CheckCircle2, text: 'Batch exports pack' },
@@ -325,14 +325,16 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
     <div className="relative min-h-screen bg-black text-white selection:bg-white selection:text-black overflow-x-hidden font-sans">
       <SEOHead
         title="Video Editing Services & Retainer Pricing — KritVideo Studio"
-        description="Transparent pricing and dedicated post-production teams. Single cuts from $490, monthly retainers from $1,850/mo. DaVinci color grading, spatial sound design, and 24-48h turnaround."
-        canonical="https://kritvideo.com/services"
+        description="Single cuts from $490, retainers from $1,850/mo. Dedicated editors, DaVinci color grading, sound design, and 24-48h turnaround for creators and brands."
+        canonical="https://www.kritvideo.com/services"
       />
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
 
       {/* 01. HEADER / NAVIGATION */}
       <Header currentPath="/services" onNavigate={onNavigate} />
+
+      <main>
 
       {/* ========================================================================= */}
       {/* 02. HERO SECTION: "Editing for what's next."                              */}
@@ -891,6 +893,8 @@ export default function ServicesPage({ onNavigate }: ServicesPageProps) {
           </div>
         </div>
       </section>
+
+      </main>
 
       {/* ========================================================================= */}
       {/* 08. FINAL CTA & FOOTER: 100% IDENTICAL TO HOMEPAGE */}

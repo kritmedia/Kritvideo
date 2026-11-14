@@ -61,6 +61,8 @@ export interface BlogPost {
   coverImage: string;
   metaTitle: string;
   metaDescription: string;
+  /** Shorter title for search results; the full title stays on the page. */
+  seoTitle?: string;
   keywords: string;
   keyTakeaways: string[];
   content: BlogSection[];
@@ -86,6 +88,7 @@ export const BLOG_POSTS: BlogPost[] = [
   // =========================================================================
   {
     slug: 'youtube-video-editing-cost-guide',
+    seoTitle: 'YouTube Video Editing Cost in 2026',
     title: 'How Much Does YouTube Video Editing Cost in 2026? (The Honest Breakdown)',
     subtitle: 'A simple, clear guide to what you should pay for YouTube video editing, how freelancers and studios charge, and how to avoid wasting money.',
     excerpt: 'Planning to hire a video editor for your YouTube channel? We break down real 2026 market rates, from $25 Upwork gigs to dedicated studios, with no hidden surprises.',
@@ -239,6 +242,7 @@ export const BLOG_POSTS: BlogPost[] = [
   // =========================================================================
   {
     slug: 'youtube-retention-rate-benchmarks-guide',
+    seoTitle: 'YouTube Retention Benchmarks for 2026',
     title: 'The 2026 YouTube Retention Rate Benchmark: What Is a Good Average Percentage Viewed?',
     subtitle: 'Learn what real YouTube channels get for watch time, why the first 30 seconds matter most, and simple editing tricks to keep viewers watching longer.',
     excerpt: 'Wondering if your YouTube retention rate is good or bad? Here are real industry benchmarks for 5-minute, 10-minute, and 20-minute videos, plus how to fix early drop-off.',
@@ -419,6 +423,7 @@ export const BLOG_POSTS: BlogPost[] = [
   // =========================================================================
   {
     slug: 'b2b-founder-video-repurposing-playbook',
+    seoTitle: 'Founder Video: 1 Recording, 30 Days of Posts',
     title: 'The Founder-Led Video Playbook: How to Turn 1 Hour of Raw Recording into a 30-Day Video Engine',
     subtitle: 'How busy founders and business owners make 1 video a month and turn it into 20+ short clips, LinkedIn posts, and YouTube videos without spending all day on camera.',
     excerpt: 'Too busy to film content every day? Discover the exact 1-hour recording framework tech founders and executives use to dominate LinkedIn and YouTube on autopilot.',
@@ -605,6 +610,7 @@ export const BLOG_POSTS: BlogPost[] = [
   // =========================================================================
   {
     slug: 'freelance-vs-agency-video-editor-guide',
+    seoTitle: 'Freelance Editor vs Agency vs Dedicated Studio',
     title: 'Freelance Editor vs. Video Editing Agency vs. Dedicated Lead Editor: Which Model Scales in 2026?',
     subtitle: 'We break down the pros, cons, hidden costs, and stress levels of hiring a freelancer, an agency, or a dedicated studio team in simple terms.',
     excerpt: 'Tired of missed deadlines and bad edits? Compare freelance video editors, traditional agencies, and dedicated lead editors to find the best fit for your channel.',
@@ -778,6 +784,7 @@ export const BLOG_POSTS: BlogPost[] = [
   // =========================================================================
   {
     slug: 'youtube-audio-mastering-14-lufs-guide',
+    seoTitle: 'YouTube Audio Mastering: Fix Quiet Videos',
     title: 'The Simple YouTube Audio Mastering Guide: Why Your Videos Sound Quiet and How to Fix It',
     subtitle: 'Why people leave videos with bad sound, what -14 LUFS really means in plain English, and step-by-step tricks to make your voice crystal clear.',
     excerpt: 'Is your YouTube video much quieter than other channels? Learn what -14 LUFS means, why YouTube turns down loud audio, and how to master sound in simple steps.',

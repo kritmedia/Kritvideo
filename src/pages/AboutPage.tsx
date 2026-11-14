@@ -71,14 +71,16 @@ function AppleScrollParagraph({
         const cleanWord = word.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
         const isAccent = accentWords.some(acc => cleanWord.includes(acc.toLowerCase()));
         return (
-          <span 
-            key={i} 
-            className={`inline-block mr-[0.26em] transition-colors ${
+          <React.Fragment key={i}>
+          <span
+            className={`inline-block transition-colors ${
               isAccent ? 'text-amber-300 font-semibold' : 'text-neutral-200 font-normal'
             }`}
           >
             {word}
           </span>
+          {i < words.length - 1 ? ' ' : null}
+          </React.Fragment>
         );
       })}
     </p>
@@ -132,15 +134,17 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
   return (
     <div className="relative bg-black text-white selection:bg-amber-400 selection:text-black select-none min-h-screen font-sans overflow-x-hidden">
       <SEOHead
-        title="About Us — Story-Driven Video Post-Production Studio | KritVideo"
-        description="Meet the editors, colorists, and sound designers behind KritVideo. Human craft, DaVinci Resolve precision, and retention-focused storytelling for creators and global brands."
-        canonical="https://kritvideo.com/about"
+        title="About KritVideo — Story-Driven Video Editing Studio"
+        description="Meet the editors, colorists, and sound designers behind KritVideo: human craft and retention-focused storytelling for creators and brands."
+        canonical="https://www.kritvideo.com/about"
       />
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
 
       {/* 01. HEADER / NAVIGATION */}
       <Header currentPath="/about" onNavigate={onNavigate} />
+
+      <main>
 
       {/* ========================================================================= */}
       {/* 01. HERO SECTION: OUR LOVE FOR VIDEO                                      */}
@@ -811,6 +815,8 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
 
         </div>
       </section>
+
+      </main>
 
       {/* ========================================================================= */}
       {/* 08. UNIFIED FOOTER (With hideCta to eliminate duplicate footer CTA)       */}

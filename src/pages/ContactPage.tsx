@@ -114,9 +114,9 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
   return (
     <div className="relative bg-black text-white selection:bg-amber-400 selection:text-black min-h-screen overflow-x-hidden font-sans">
       <SEOHead
-        title="Book a Project & Get a Video Quote — 48h Turnaround | KritVideo"
-        description="Start your next video project with KritVideo. Direct WhatsApp chat (+91 7002983079), instant quote estimation, or email hello@kritsite.com. Fast 48-hour first cut guarantee."
-        canonical="https://kritvideo.com/contact"
+        title="Get a Video Editing Quote | KritVideo"
+        description="Start your video project with KritVideo. Chat on WhatsApp (+91 7002983079) or email hello@kritsite.com for a quote. First cut in 48 hours."
+        canonical="https://www.kritvideo.com/contact"
       />
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
@@ -134,6 +134,8 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
 
       {/* 01. HEADER / NAVIGATION */}
       <Header currentPath="/contact" onNavigate={onNavigate} />
+
+      <main>
 
       {/* ========================================================================= */}
       {/* 01. HERO SECTION: "TELL US WHAT YOU'RE MAKING."                           */}
@@ -561,6 +563,8 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
           </div>
         </div>
       </section>
+
+      </main>
 
       {/* Reusable Editorial Footer (with CTA hidden since ContactPage has its own dedicated 07 Final CTA) */}
       <SectionFinalCTAAndFooter onNavigate={onNavigate} hideCta={true} />

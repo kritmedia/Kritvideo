@@ -13,10 +13,10 @@ interface SEOHeadProps {
 export const SEOHead: React.FC<SEOHeadProps> = ({
   title,
   description,
-  canonical = 'https://kritvideo.com/',
+  canonical = 'https://www.kritvideo.com/',
   keywords = 'video editing agency, youtube video editor, video editing service, short form video editing, high retention video editing, b2b video production, davinci resolve color grading',
   ogType = 'website',
-  ogImage = 'https://kritvideo.com/kritvideo-logo.png',
+  ogImage = 'https://www.kritvideo.com/kritvideo-logo.png',
   noindex = false,
 }) => {
   useEffect(() => {

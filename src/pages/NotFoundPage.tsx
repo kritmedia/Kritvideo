@@ -19,7 +19,7 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({ onNavigate }) => {
       <SEOHead
         title="404: Scene Not Found — KritVideo"
         description="The page or video you are looking for has been trimmed from our timeline. Return to KritVideo homepage."
-        canonical="https://kritvideo.com/404"
+        canonical="https://www.kritvideo.com/404"
         noindex={true}
       />
       {/* Header */}

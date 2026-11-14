@@ -73,9 +73,9 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
   return (
     <div className="relative bg-black text-white selection:bg-amber-400 selection:text-black select-none min-h-screen font-sans overflow-x-hidden">
       <SEOHead
-        title="Our Work & Case Studies — High-Retention Video Edits | KritVideo"
+        title="Our Work: High-Retention Video Edits | KritVideo"
         description="Explore our showcase of viral YouTube documentaries, commercial reels, podcasts, and high-converting short-form videos with verified retention analytics."
-        canonical="https://kritvideo.com/work"
+        canonical="https://www.kritvideo.com/work"
       />
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
       <ScrollProgressIndicator />
@@ -93,6 +93,8 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
 
       {/* 01. HEADER / NAVIGATION */}
       <Header currentPath="/work" onNavigate={onNavigate} />
+
+      <main>
 
       {/* ========================================================================= */}
       {/* 02. HERO SECTION WITH 3D CURVED PANORAMIC VIDEO ARC                       */}
@@ -450,6 +452,8 @@ export default function WorkPage({ onNavigate }: WorkPageProps) {
           </div>
         </div>
       </section>
+
+      </main>
 
       {/* ========================================================================= */}
       {/* 07. FINAL CTA & UNIFIED FOOTER (Exact Parity)                             */}

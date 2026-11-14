@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import Logo from './Logo';
 
@@ -8,6 +8,15 @@ interface SectionFinalCTAAndFooterProps {
 }
 
 export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }: SectionFinalCTAAndFooterProps = {}) {
+  // Live studio clocks: re-render every 30s so the times stay current.
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(new Date()), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
+  const clock = (timeZone: string) =>
+    now.toLocaleTimeString('en-US', { timeZone, hour: '2-digit', minute: '2-digit', hour12: true });
+
   return (
     <div className="relative bg-black text-white selection:bg-white selection:text-black select-none">
       {/* SECTION 6 — FINAL CTA (Minimalistic, Premium Obsidian Glass Stage) */}
@@ -113,15 +122,15 @@ export default function SectionFinalCTAAndFooter({ onNavigate, hideCta = false }
             <div className="md:col-span-8 flex flex-wrap items-center justify-start md:justify-end gap-6 sm:gap-10 text-xs font-mono-tech text-neutral-400">
               <div className="flex items-center gap-2">
                 <span className="text-neutral-500">LA</span>
-                <span className="text-white font-bold">10:42 AM</span>
+                <span className="text-white font-bold tabular-nums">{clock('America/Los_Angeles')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-neutral-500">LON</span>
-                <span className="text-white font-bold">06:42 PM</span>
+                <span className="text-white font-bold tabular-nums">{clock('Europe/London')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-neutral-500">DEL</span>
-                <span className="text-white font-bold">11:12 PM</span>
+                <span className="text-white font-bold tabular-nums">{clock('Asia/Kolkata')}</span>
               </div>
 
               {/* Direct Scroll to Top Button */}

@@ -602,9 +602,9 @@ export default function App() {
   return (
     <div className="relative bg-black text-white selection:bg-white selection:text-black">
       <SEOHead
-        title="KritVideo — High-Retention Video Editing Studio for Creators & Brands"
-        description="Scale your YouTube channel with dedicated lead video editors. We cut high-retention long-form videos, viral Shorts, and commercial ads with guaranteed 48-hour delivery."
-        canonical="https://kritvideo.com/"
+        title="High-Retention Video Editing for Creators | KritVideo"
+        description="Scale your channel with dedicated lead video editors. We cut high-retention YouTube videos, viral Shorts, and commercial ads with guaranteed 48-hour delivery."
+        canonical="https://www.kritvideo.com/"
       />
       
       {/* Scroll Depth Progress Bar & Back to Top Indicator */}
@@ -612,6 +612,8 @@ export default function App() {
 
       {/* Unified 2026 Responsive Floating Header with Intent Prefetching */}
       <Header currentPath={currentPath} onNavigate={navigateTo} onPrefetch={handlePrefetch} />
+
+      <main>
 
       <canvas
         ref={canvasRef}
@@ -749,7 +751,11 @@ export default function App() {
           </Suspense>
         </div>
 
-        {/* SECTION 6 — FINAL CTA & FOOTER */}
+      </div>
+      </main>
+
+      {/* SECTION 6 — FINAL CTA & FOOTER */}
+      <div className="relative z-20 bg-black">
         <div id="contact" style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 600px' }}>
           <Suspense fallback={<div className="min-h-[400px] bg-black" />}>
             <SectionFinalCTAAndFooter onNavigate={navigateTo} />

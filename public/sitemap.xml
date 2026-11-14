@@ -1,69 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kritvideo.com/</loc>
+    <loc>https://www.kritvideo.com/</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/services</loc>
+    <loc>https://www.kritvideo.com/services</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/work</loc>
+    <loc>https://www.kritvideo.com/work</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/about</loc>
+    <loc>https://www.kritvideo.com/about</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/contact</loc>
+    <loc>https://www.kritvideo.com/contact</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/blog</loc>
+    <loc>https://www.kritvideo.com/blog</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/blog/youtube-video-editing-cost-guide</loc>
+    <loc>https://www.kritvideo.com/blog/youtube-video-editing-cost-guide</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/blog/youtube-retention-rate-benchmarks-guide</loc>
+    <loc>https://www.kritvideo.com/blog/youtube-retention-rate-benchmarks-guide</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/blog/b2b-founder-video-repurposing-playbook</loc>
+    <loc>https://www.kritvideo.com/blog/b2b-founder-video-repurposing-playbook</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/blog/freelance-vs-agency-video-editor-guide</loc>
+    <loc>https://www.kritvideo.com/blog/freelance-vs-agency-video-editor-guide</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kritvideo.com/blog/youtube-audio-mastering-14-lufs-guide</loc>
+    <loc>https://www.kritvideo.com/blog/youtube-audio-mastering-14-lufs-guide</loc>
     <lastmod>2026-09-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.kritvideo.com/terms</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.kritvideo.com/refund-policy</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.kritvideo.com/privacy</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.kritvideo.com/delivery-policy</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>

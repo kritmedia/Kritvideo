@@ -45,8 +45,8 @@ export default function BlogArchivePage({ onNavigate }: BlogArchivePageProps) {
     <div className="relative min-h-screen bg-black text-white selection:bg-amber-400 selection:text-black">
       <SEOHead
         title="Video Production & Retention Editing Blog — KritVideo"
-        description="Explore in-depth playbooks on YouTube retention editing, DaVinci Resolve ACES color grading, audio engineering (-14 LUFS), and short-form repurposing from the KritVideo team."
-        canonical="https://kritvideo.com/blog"
+        description="Playbooks on YouTube retention editing, DaVinci Resolve color grading, -14 LUFS audio mastering, and short-form repurposing from the KritVideo team."
+        canonical="https://www.kritvideo.com/blog"
         keywords="video editing blog, youtube retention editing guide, davinci resolve color science, audio mastering lufs, viral shorts repurposing, video editing playbooks"
       />
 
